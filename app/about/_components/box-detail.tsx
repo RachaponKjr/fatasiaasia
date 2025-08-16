@@ -21,7 +21,7 @@ const BoxDetail = ({
           alt=""
           fill
           objectFit="cover"
-          objectPosition="center"
+          objectPosition="bottom"
         />
       </div>
       <div className="max-w-xl flex flex-col gap-6">

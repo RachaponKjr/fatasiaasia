@@ -4,16 +4,62 @@ import LayoutSection from "./layout-section";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ArrowLeft from "@/assets/icons/arrow-left";
 import ArrowRight from "@/assets/icons/arrow-right";
-import TourCard from "@/components/tour-card";
+import TourCard, { TourCardProps } from "@/components/tour-card";
+
+import thai from "@/assets/images/country/thai.png";
+import indo from "@/assets/images/country/indo.png";
+
+import tourthai1 from "@/assets/images/tour/tourthai1.jpg";
+import tourthai2 from "@/assets/images/tour/tourthai2.jpg";
+import tourindo1 from "@/assets/images/tour/tourindo1.jpg";
 
 const Packages = () => {
+  const packagesInfo: TourCardProps[] = [
+    {
+      country: thai.src,
+      countrytitle: "Thailand",
+      image: tourthai1.src,
+      price: 771,
+      title: "Unveiled Bangkok and Northern Thailand",
+      totalday: 10,
+    },
+    {
+      country: indo.src,
+      countrytitle: "Indonesia",
+      image: tourindo1.src,
+      price: 771,
+      title: "Enchanting Indonesia from Ancient Temples to Pristine Islands",
+      totalday: 10,
+    },
+    {
+      country: thai.src,
+      countrytitle: "Thailand",
+      image: tourthai2.src,
+      price: 771,
+      title: "4 island tour by speed boat in krabi",
+      totalday: 10,
+    },
+  ];
   return (
     <LayoutSection link="#" title="Popular Tour Packages">
       <div className="w-full h-max relative">
-        <Swiper slidesPerView={3} spaceBetween={102} className="w-full">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <SwiperSlide key={i} className="p-3">
-              <TourCard />
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={102}
+          // autoHeight={false}
+          className="w-full h-full relative"
+        >
+          {packagesInfo.map((item: TourCardProps, i) => (
+            <SwiperSlide key={i} className="p-3 relative">
+              <TourCard
+                country={item.country}
+                countrytitle={item.countrytitle}
+                image={item.image}
+                price={item.price}
+                title={item.title}
+                totalday={item.totalday}
+                key={i + 1}
+              />
             </SwiperSlide>
           ))}
         </Swiper>

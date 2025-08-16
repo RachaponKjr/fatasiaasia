@@ -7,19 +7,50 @@ import "swiper/css";
 import ArrowLeft from "@/assets/icons/arrow-left";
 import ArrowRight from "@/assets/icons/arrow-right";
 
+import thai from "@/assets/images/trending/thai.jpg";
+import laos from "@/assets/images/trending/laos.jpg";
+import vietnam from "@/assets/images/trending/vietnam.jpg";
+import india from "@/assets/images/trending/india.jpg";
+
 const Trending = () => {
+  const infoTrending = [
+    {
+      name: "Bangkok",
+      detail: "Railway Market & Damnoensaduak Floating Market",
+      image: thai.src,
+    },
+    {
+      name: "Vietnam",
+      detail: "Hill Tribes of Northern Vietnam",
+      image: vietnam.src,
+    },
+    {
+      name: "Laos",
+      detail: "The New & The Ancient Capital",
+      image: laos.src,
+    },
+    {
+      name: "India",
+      detail: "Golden Triangle",
+      image: india.src,
+    },
+  ];
   return (
     <LayoutSection link="#" title="Trending Destinations">
       <div className="w-full h-max relative">
         <Swiper slidesPerView={4} spaceBetween={36} className="w-full">
-          {Array.from({ length: 5 }).map((_, i) => (
+          {infoTrending.map((item, i) => (
             <SwiperSlide key={i}>
-              <div className="bg-gray-200 aspect-[12/16] w-full rounded-2xl p-8 flex items-end">
-                <div className="text-white flex flex-col gap-1">
-                  <h6 className="font-medium text-lg">Bangkok</h6>
-                  <span className="font-light text-xs">
-                    way Market & Damnoensaduak Floating Market
-                  </span>
+              <div
+                className="bg-gray-200 aspect-[12/16] w-full relative overflow-hidden rounded-2xl p-8 flex bg-cover bg-center items-end"
+                style={{
+                  backgroundImage: `url(${item.image})`,
+                }}
+              >
+                <div className="bg-gradient-to-b from-transparent to-black/80 from-60% w-full h-full absolute top-0 left-0" />
+                <div className="text-white flex flex-col gap-1 z-10">
+                  <h6 className="font-medium text-lg">{item.name}</h6>
+                  <span className="font-light text-xs">{item.detail}</span>
                 </div>
               </div>
             </SwiperSlide>

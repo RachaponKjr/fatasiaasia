@@ -3,19 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import React from "react";
-
-// Images
-import calendar2 from "@/assets/images/calendar2.png";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DatePicker } from "@/components/date.picker";
+import FormBooking from "./form-booking";
+
+// Images
+import calendar2 from "@/assets/images/calendar2.png";
 
 const Booking = () => {
   return (
@@ -67,9 +65,7 @@ const Booking = () => {
               Bali on a Shoestring 7 Days 6 nights
             </DialogTitle>
             {/* Form */}
-            <div className="flex flex-col gap-10">
-              <DatePicker label="When you will visit?" />
-            </div>
+            <FormBooking />
             <DialogFooter className="h-14 font-medium [&>button]:rounded-[12px]">
               <Button className="h-full w-[144px] bg-[#EFEFEF] hover:bg-[#ADADAD] text-[#ADADAD] hover:text-[#EFEFEF] cursor-pointer">
                 Cancel

@@ -63,7 +63,7 @@ const InputWithLabel = ({
         disabled={disabled}
         value={value}
         onChange={onChange}
-        className="w-full"
+        className="w-full flex-1"
         {...props}
       />
     </div>
