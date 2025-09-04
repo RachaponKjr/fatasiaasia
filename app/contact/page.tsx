@@ -11,41 +11,51 @@ import { Button } from "@/components/ui/button";
 const page = () => {
   return (
     <div className="overflow-hidden">
-      <div className="py-28 container mx-auto grid grid-cols-2  max-w-7xl gap-14 w-full h-max">
+      <div className="py-10 xl:py-28 container mx-auto grid grid-cols-1 xl:grid-cols-2 px-4 xl:px-0 max-w-7xl gap-14 w-full h-max">
         <div className="text-[#333333] flex">
           <div className="flex flex-col justify-between gap-4 relative">
-            <h2 className="text-4xl font-bold">Let's talk with us</h2>
-            <p className="text-xl font-normal">
+            <h2 className="text-2xl xl:text-4xl font-bold">
+              Let's talk with us
+            </h2>
+            <p className=" text-lg xl:text-xl font-normal">
               Questions, comments, or suggestions? Simply fill in the form and
               we’ll be in touch shortly.
             </p>
-            <div className="flex flex-col gap-4 ">
+            <div className="flex flex-col gap-2 xl:gap-4">
               <div className="flex flex-row gap-3">
                 <LocationIcon size={30} color="#BD3E2B" />
-                <span className="font-bold text-xl">
+                <span className="font-bold text-lg xl:text-xl">
                   164/1 Moo 5, T. Ao Nang, A. Muang Krabi, Krabi 81180 Thailand
                 </span>
               </div>
               <div className="flex flex-row gap-3">
                 <Phone2Icon size={30} color="#BD3E2B" />
-                <span className="font-bold text-xl">+66 62 242 3997</span>
+                <span className="font-bold text-lg xl:text-xl">
+                  +66 62 242 3997
+                </span>
               </div>
               <div className="flex flex-row gap-3">
                 <Mail2Icon size={30} color="#BD3E2B" />
-                <span className="font-bold text-xl">info@fantasiaasia.com</span>
+                <span className="font-bold text-lg xl:text-xl">
+                  info@fantasiaasia.com
+                </span>
               </div>
               <div className="flex flex-row gap-3">
                 <Image src={whatapp} alt="" width={30} height={30} />
-                <span className="font-bold text-xl">+66 62 242 3997</span>
+                <span className="font-bold text-lg xl:text-xl">
+                  +66 62 242 3997
+                </span>
               </div>
             </div>
             <div className="flex flex-col gap-2 grow relative">
-              <h5 className="font-bold text-2xl text-[#333333]">Map</h5>
+              <h5 className="font-bold text-xl xl:text-2xl text-[#333333]">
+                Map
+              </h5>
               <div className="w-full grow rounded-2xl bg-neutral-300" />
             </div>
           </div>
         </div>
-        <div className="bg-white px-12 py-20 shadow-[0px_0px_25px_0px_#000000]/10  border border-[#BDBDBD] rounded-[8px] flex flex-col gap-[50px]">
+        <div className="bg-white px-4 xl:px-12 py-10 xl:py-20 shadow-[0px_0px_25px_0px_#000000]/10  border border-[#BDBDBD] rounded-[8px] flex flex-col gap-[50px]">
           <div className="w-full [&>input]:rounded-xl [&>input]:h-[50px] h-max [&>input]:border [&>input]:border-[#828282] [&>input]:bg-[#F9F9F9] grid grid-cols-2 gap-6">
             <Input placeholder="Firet Name*" size={30} />
             <Input placeholder="Last Name*" />

@@ -46,8 +46,8 @@ const page = () => {
   return (
     <div>
       <HeroLayout image={heroabout.src} title="About us" />
-      <div className="container mx-auto py-20 flex flex-col gap-32 2xl:px-20">
-        <p className="text-center text-2xl text-[#333333] font-normal">
+      <div className="container mx-auto py-10 xl:py-20 px-4 flex flex-col gap-8 xl:gap-32 2xl:px-20">
+        <p className="text-center text-base xl:text-2xl text-[#333333] font-normal">
           Traveling is more than just visiting some attractions; we believe it
           should be a complete, life-changing
           <br /> experience. This is exactly what we offer you at Fantasia Asia,
@@ -62,7 +62,7 @@ const page = () => {
         />
         <div className="flex flex-col items-center justify-center">
           <PolaroidGallery photos={samplePhotos} />
-          <p className="mt-24 text-center max-w-4xl text-2xl text-[#333333]">
+          <p className="mt-8 xl:mt-24 text-center max-w-4xl text-lg xl:text-2xl text-[#333333]">
             We understand your passions, your needs and preferences, and you
             will feel it once you join any of tours. All of of our experience
             and knowledge, at your disposal.
@@ -70,7 +70,7 @@ const page = () => {
         </div>
         <BoxDetail
           image={anywhere.src}
-          className="flex-row-reverse"
+          className="flex-col items-end xl:flex-row-reverse"
           title="Exclusive Tours that You Will Not Find Anywhere Else"
           detail="Since we know the secrets of the countries and cities we bring you to visit, our tours are exdive: they take you in places and make you live experiences that conventional tours don't. Take it for granted.Our mission is to offer you a life-changing experience with every single one of our tours, and that is exactly why you will enjoy them."
         />

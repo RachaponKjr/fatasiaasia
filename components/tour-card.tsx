@@ -3,6 +3,7 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import LocationIcon from "@/assets/icons/location";
 import Image from "next/image";
+import Link from "next/link";
 
 export interface TourCardProps {
   image: string;
@@ -22,40 +23,49 @@ const TourCard = ({
   price,
 }: Partial<TourCardProps>) => {
   return (
-    <div className="bg-white shadow-[0px_4px_20px_-3px_#000000]/25 h-full w-full rounded-3xl flex flex-col items-start overflow-hidden">
+    <Link
+      href={"/tours/1"}
+      className="bg-white shadow-[0px_4px_20px_-3px_#000000]/25 h-full w-full rounded-xl xl:rounded-3xl flex flex-col items-start overflow-hidden"
+    >
       {/* Image */}
-      <div className="bg-neutral-200 w-full aspect-[16/14] rounded-3xl relative">
+      <div className="bg-neutral-200 w-full aspect-[16/14] rounded-xl xl:rounded-3xl relative">
         <Image
           src={image || ""}
           alt={countrytitle || "images"}
           fill
           objectFit="cover"
           objectPosition="center"
-          className="rounded-3xl"
+          className="rounded-xl xl:rounded-3xl"
         />
         <Heart
           className="absolute top-6 right-6 cursor-pointer"
           size={34}
           color="white"
         />
-        <Avatar className="size-18 ring-4 ring-white absolute -bottom-6 left-8 !shadow-lg">
+        <Avatar className="size-12 xl:size-18 ring-4 ring-white absolute -bottom-2 xl:-bottom-6 left-4 xl:left-8 !shadow-lg">
           <AvatarImage src={country} alt={countrytitle} />
           <AvatarFallback>{countrytitle}</AvatarFallback>
         </Avatar>
       </div>
-      <div className="p-10 z-10">
-        <div className="flex flex-col gap-4">
+      <div className="p-4 xl:p-10 z-10">
+        <div className="flex flex-col gap-2 xl:gap-4">
           <div className="flex gap-4">
             <div className="flex items-center gap-1 text-[#7D7D7D]">
               <LocationIcon size={24} />
-              <span className="text-xs font-normal">{countrytitle}</span>
+              <span className="text-[10px] xl:text-xs font-normal">
+                {countrytitle}
+              </span>
             </div>
             <div className="flex items-center gap-1 text-[#7D7D7D]">
               <LocationIcon size={24} />
-              <span className="text-xs font-normal">{totalday} Days</span>
+              <span className="text-[10px] xl:text-xs font-normal">
+                {totalday} Days
+              </span>
             </div>
           </div>
-          <h2 className="font-bold text-[#2F2F2F] line-clamp-2">{title}</h2>
+          <h2 className="font-bold text-[#2F2F2F] text-xs xl:text-base line-clamp-2">
+            {title}
+          </h2>
           <div className="text-[#7D7D7D] font-normal text-[13px] flex gap-2 mt-2">
             <h6>estimate</h6>
             <span className="text-sm font-medium text-[#2F2F2F]">${price}</span>
@@ -63,7 +73,7 @@ const TourCard = ({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

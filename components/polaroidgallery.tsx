@@ -54,9 +54,9 @@ const PolaroidGallery = ({
           onMouseLeave={() => setHoveredPhoto(null)}
         >
           {/* Polaroid Frame */}
-          <div className="bg-white p-5 pb-10 shadow-lg rounded-[20px] border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+          <div className="bg-white p-2 xl:p-5 pb-6 xl:pb-10 shadow-lg rounded-[10px] xl:rounded-[20px] border border-gray-200 hover:shadow-xl transition-shadow duration-300">
             {/* Photo Container */}
-            <div className="w-[265px] aspect-square overflow-hidden bg-gray-100 rounded-sm">
+            <div className="w-[180px] xl:w-[265px] aspect-square overflow-hidden bg-gray-100 rounded-sm">
               <img
                 src={photo.src}
                 alt={photo.alt}

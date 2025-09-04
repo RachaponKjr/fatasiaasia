@@ -1,3 +1,4 @@
+"use client";
 import { Counter } from "@/components/counter";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
@@ -14,8 +15,10 @@ import FormBooking from "./form-booking";
 
 // Images
 import calendar2 from "@/assets/images/calendar2.png";
+import { useRouter } from "next/navigation";
 
 const Booking = () => {
+  const router = useRouter();
   return (
     <div className="p-7 border sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] h-max shadow-[0px_10px_40px_0px_#000000]/5">
       <h6 className="text-sm">
@@ -60,7 +63,7 @@ const Booking = () => {
               Book Now
             </Button>
           </DialogTrigger>
-          <DialogContent className="!max-w-3xl p-[75px] rounded-3xl">
+          <DialogContent className="!max-w-3xl max-h-11/12 p-[75px] overflow-hidden overflow-y-auto rounded-3xl">
             <DialogTitle className="text-3xl text-[#333333] font-bold">
               Bali on a Shoestring 7 Days 6 nights
             </DialogTitle>
@@ -70,7 +73,10 @@ const Booking = () => {
               <Button className="h-full w-[144px] bg-[#EFEFEF] hover:bg-[#ADADAD] text-[#ADADAD] hover:text-[#EFEFEF] cursor-pointer">
                 Cancel
               </Button>
-              <Button className="h-full w-[200px] bg-[#BD3E2B] hover:bg-[#BD3E2B] text-white cursor-pointer">
+              <Button
+                onClick={() => router.push("/tours/1/booking")}
+                className="h-full w-[200px] bg-[#BD3E2B] hover:bg-[#BD3E2B] text-white cursor-pointer"
+              >
                 Book Now
               </Button>
             </DialogFooter>

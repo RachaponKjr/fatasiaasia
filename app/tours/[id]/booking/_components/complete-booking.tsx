@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const CompleteBooking = () => {
+  const router = useRouter();
   return (
     <div className="col-span-2 flex flex-col gap-8 items-center">
       <svg
@@ -26,7 +28,10 @@ const CompleteBooking = () => {
           You will be receiving a confirmation email with order details.
         </span>
       </div>
-      <Button className="font-semibold cursor-pointer text-[#BD3E2B] text-xl border border-[#BD3E2B] rounded-full bg-transparent hover:bg-transparent h-[60px] w-[280px]">
+      <Button
+        onClick={() => router.push("/profile/tour")}
+        className="font-semibold cursor-pointer text-[#BD3E2B] text-xl border border-[#BD3E2B] rounded-full bg-transparent hover:bg-transparent h-[60px] w-[280px]"
+      >
         Go to Your Tours
       </Button>
     </div>

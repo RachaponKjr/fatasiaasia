@@ -5,13 +5,13 @@ const BoxFollowVideo = () => {
     <div className="w-full flex gap-4">
       <div className="bg-neutral-300 w-2/5  aspect-video" />
       <div className="flex flex-col gap-1.5 leading-none">
-        <h6 className="font-semibold text-sm">Lorem ipsum dolor sit.</h6>
-        <span className="text-[#777777] text-xs font-medium">5/15/2024</span>
-        <p className="text-xs">
+        <h6 className="font-semibold text-xs xl:text-sm">Lorem ipsum dolor sit.</h6>
+        <span className="text-[#777777] text-[10px] xl:text-xs font-medium">5/15/2024</span>
+        <p className="text-[10px] xl:text-xs">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit.
         </p>
         {/* view like comments */}
-        <span className="text-[#777777] text-xs font-medium">
+        <span className="text-[#777777] text-[10px] xl:text-xs font-medium">
           1.9K Views • 9 Likes • 0 Comments
         </span>
       </div>

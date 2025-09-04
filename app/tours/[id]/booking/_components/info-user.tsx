@@ -1,8 +1,12 @@
 import InputWithLabel from "@/components/input-with-lable";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
-const InfoUser = () => {
+type Props = {
+  setStep?: Dispatch<SetStateAction<number>>;
+};
+
+const InfoUser = ({ setStep }: Props) => {
   return (
     <div className="flex flex-col justify-around">
       <div className="flex flex-col gap-4">
@@ -42,7 +46,12 @@ const InfoUser = () => {
           />
         </div>
       </div>
-      <Button className="bg-[#EFEFEF] hover:bg-[#EFEFEF] text-xl font-bold cursor-pointer w-[160px] h-[60px] rounded-full text-[#333333]">
+      <Button
+        onClick={() => {
+          setStep?.(1);
+        }}
+        className="bg-[#EFEFEF] hover:bg-[#EFEFEF] text-xl font-bold cursor-pointer w-[160px] h-[60px] rounded-full text-[#333333]"
+      >
         Back
       </Button>
     </div>

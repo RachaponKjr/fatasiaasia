@@ -21,25 +21,27 @@ import AlsoLike from "./_components/also-like";
 import map from "@/assets/images/map.png";
 import Booking from "./_components/booking";
 
+import imagetest from "@/assets/imagetest.jpg";
+
 const page = () => {
   return (
     <>
-      <div className="container mx-auto py-20 flex gap-8 flex-col 2xl:px-20">
+      <div className="container mx-auto px-4 xl:px-0 py-10 xl:py-20 flex gap-4 xl:gap-8 flex-col 2xl:px-20">
         <Backstep />
-        <div className="flex flex-row gap-16">
+        <div className="flex flex-col xl:flex-row gap-8 xl:gap-16">
           {/* ข้อมูล booking */}
-          <div className="w-full max-w-4xl flex flex-col items-start gap-5">
-            <h1 className="font-bold text-4xl text-[#333333]">
+          <div className="w-full max-w-4xl flex flex-col items-start gap-2 xl:gap-5">
+            <h1 className="font-bold text-xl xl:text-4xl text-[#333333]">
               Bali on a Shoestring 7 Days 6 nights
             </h1>
-            <div className="grid grid-cols-5">
+            <div className="grid grid-cols-3 gap-x-4 gap-y-2 xl:gap-0 xl:grid-cols-5">
               <div className="flex gap-2 items-center">
                 <Image src={duration} alt="" width={59} height={59} />
                 <div>
-                  <h6 className="text-[#333333] font-normal text-sm">
+                  <h6 className="text-[#333333] font-normal text-xs xl:text-xs">
                     Duration
                   </h6>
-                  <span className="text-sm font-normal text-[#717171]">
+                  <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
                     7 days
                   </span>
                 </div>
@@ -47,10 +49,10 @@ const page = () => {
               <div className="flex gap-2 items-center">
                 <Image src={group} alt="" width={45} height={45} />
                 <div>
-                  <h6 className="text-[#333333] font-normal text-sm">
+                  <h6 className="text-[#333333] font-normal text-xs xl:text-sm text-nowrap">
                     Group Size
                   </h6>
-                  <span className="text-sm font-normal text-[#717171]">
+                  <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
                     Max 10 people
                   </span>
                 </div>
@@ -58,8 +60,10 @@ const page = () => {
               <div className="flex gap-2 items-center">
                 <Image src={ages} alt="" width={40} height={40} />
                 <div>
-                  <h6 className="text-[#333333] font-normal text-sm">Ages</h6>
-                  <span className="text-sm font-normal text-[#717171]">
+                  <h6 className="text-[#333333] font-normal text-xs xl:text-sm text-nowrap">
+                    Ages
+                  </h6>
+                  <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
                     18-99 yrs
                   </span>
                 </div>
@@ -67,10 +71,10 @@ const page = () => {
               <div className="flex gap-2 items-center">
                 <Image src={languages} alt="" width={35} height={35} />
                 <div>
-                  <h6 className="text-[#333333] font-normal text-sm">
+                  <h6 className="text-[#333333] font-normal text-xs xl:text-sm text-nowrap">
                     Languages
                   </h6>
-                  <span className="text-sm font-normal text-[#717171]">
+                  <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
                     English,Italiano
                   </span>
                 </div>
@@ -78,29 +82,61 @@ const page = () => {
               <div className="flex gap-2 items-center">
                 <Image src={tour} alt="" width={50} height={50} />
                 <div>
-                  <h6 className="text-[#333333] font-normal text-sm">
+                  <h6 className="text-[#333333] font-normal text-xs xl:text-sm text-nowrap">
                     Tour Category
                   </h6>
-                  <span className="text-sm font-normal text-[#717171]">
+                  <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
                     Adventure
                   </span>
                 </div>
               </div>
             </div>
             {/* Images */}
-            <div className="w-full flex flex-col gap-4">
-              <div className="w-full aspect-[16/12] bg-neutral-100 rounded-[12px]" />
-              <div className="grid grid-cols-3 gap-4">
-                <div className="w-full aspect-[16/10] bg-neutral-100 rounded-[12px]" />
-                <div className="w-full aspect-[16/10] bg-neutral-100 rounded-[12px]" />
-                <div className="w-full aspect-[16/10] bg-neutral-100 rounded-[12px]" />
+            <div className="w-full flex flex-col gap-2 xl:gap-4">
+              <div className="w-full aspect-[16/12] overflow-hidden rounded-[12px] relative">
+                <Image
+                  src={imagetest}
+                  alt=""
+                  fill
+                  objectFit="cover"
+                  objectPosition="center"
+                />
+              </div>
+              <div className="grid grid-cols-3 gap-2 xl:gap-4">
+                <div className="w-full aspect-[16/10] rounded-[12px] relative overflow-hidden">
+                  <Image
+                    src={imagetest}
+                    alt=""
+                    fill
+                    objectFit="cover"
+                    objectPosition="center"
+                  />
+                </div>
+                <div className="w-full aspect-[16/10] rounded-[12px] relative overflow-hidden">
+                  <Image
+                    src={imagetest}
+                    alt=""
+                    fill
+                    objectFit="cover"
+                    objectPosition="center"
+                  />
+                </div>
+                <div className="w-full aspect-[16/10] rounded-[12px] relative overflow-hidden">
+                  <Image
+                    src={imagetest}
+                    alt=""
+                    fill
+                    objectFit="cover"
+                    objectPosition="center"
+                  />
+                </div>
               </div>
             </div>
-            <div className="flex flex-col gap-14 my-14">
+            <div className="flex flex-col gap-4 xl:gap-14 xl:my-14">
               {/* Tour Overview */}
-              <div className="flex flex-col gap-6 text-[#333333]">
-                <h4 className="font-bold text-3xl">Tour Overview</h4>
-                <p className="font-normal text-sm leading-loose">
+              <div className="flex flex-col gap-2 xl:gap-6 text-[#333333]">
+                <h4 className="font-bold text-xl xl:text-3xl">Tour Overview</h4>
+                <p className="font-normal text-xs xl:text-sm leading-loose">
                   Experience the essence of Bali in this 7-day cultural journey.
                   From ancient temples and traditional villages to stunning
                   landscapes and vibrant performances, immerse yourself in the
@@ -108,9 +144,11 @@ const page = () => {
                 </p>
               </div>
               {/* Tour Highlights */}
-              <div className="flex flex-col gap-4 text-[#333333]">
-                <h4 className="font-bold text-3xl">Tour Highlights</h4>
-                <p className="font-normal text-sm leading-loose">
+              <div className="flex flex-col gap-2 xl:gap-6 text-[#333333]">
+                <h4 className="font-bold text-xl xl:text-3xl">
+                  Tour Highlights
+                </h4>
+                <p className="font-normal text-xs xl:text-sm leading-loose">
                   Experience the thrill of a speedboat to the stunning Phi Phi
                   Islands <br />
                   Be amazed by the variety of marine life in the archepelago
@@ -125,8 +163,8 @@ const page = () => {
               </div>
             </div>
             {/* ltinerary */}
-            <div className="flex flex-col gap-6 text-[#333333] w-full">
-              <h4 className="font-bold text-3xl">Itinerary</h4>
+            <div className="flex flex-col gap-2 xl:gap-6 text-[#333333] w-full">
+              <h4 className="font-bold text-xl xl:text-3xl">Itinerary</h4>
               <div className="w-full ">
                 <Accordion
                   type="multiple"
@@ -180,12 +218,12 @@ const page = () => {
               </div>
             </div>
             {/* Download BTN */}
-            <Button className=" rounded-full bg-[#BD3E2B] hover:bg-[#BD3E2B] h-14 font-semibold px-8 cursor-pointer my-14">
+            <Button className=" rounded-full bg-[#BD3E2B] hover:bg-[#BD3E2B] h-14 font-semibold px-8 cursor-pointer my-4 xl:my-14">
               Download Brochure
             </Button>
             {/* Tour Map */}
             <div className="flex flex-col gap-6 text-[#333333] w-full">
-              <h4 className="font-bold text-3xl">Tour Map</h4>
+              <h4 className="font-bold text-2xl xl:text-3xl">Tour Map</h4>
               <div className="w-full aspect-[16/10] bg-neutral-100 rounded-3xl relative overflow-hidden">
                 <Image
                   src={map}
@@ -200,10 +238,12 @@ const page = () => {
           {/* booking */}
           <Booking />
         </div>
-        <div className="my-[100px]">
+        <div className="my-10 xl:my-[100px]">
           <HereHelp />
         </div>
+        <div className="mb-28">
         <AlsoLike />
+        </div>
       </div>
       <JoinNewSletter />
     </>

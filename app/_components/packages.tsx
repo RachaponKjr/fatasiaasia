@@ -46,7 +46,28 @@ const Packages = () => {
         <Swiper
           slidesPerView={3}
           spaceBetween={102}
-          // autoHeight={false}
+          breakpoints={{
+            320: {
+              slidesPerView: 1.2,
+              spaceBetween: 4,
+            },
+            480: {
+              slidesPerView: 1.5,
+              spaceBetween: 20,
+            },
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 24,
+            },
+            768: {
+              slidesPerView: 2.5,
+              spaceBetween: 28,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 102,
+            },
+          }}
           className="w-full h-full relative"
         >
           {packagesInfo.map((item: TourCardProps, i) => (

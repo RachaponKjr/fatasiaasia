@@ -1,9 +1,13 @@
 import { BookingCounter } from "@/components/booking-counter";
 import { DatePicker } from "@/components/date.picker";
 import { TimePicker } from "@/components/time.picker";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
-const FormBooking = () => {
+type Props = {
+  setStep?: Dispatch<SetStateAction<number>>;
+};
+
+const FormBooking = ({ setStep }: Props) => {
   return (
     <div className="flex flex-col gap-10">
       <DatePicker label="When you will visit?" />

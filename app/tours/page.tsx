@@ -40,13 +40,13 @@ const page = () => {
   ];
   return (
     <>
-      <div className="container mx-auto py-20 flex flex-col items-center gap-[60px] 2xl:px-20">
-        <h2 className="text-[40px] font-medium text-[#333333]">
+      <div className="container mx-auto py-10 xl:py-20 px-4 xl:px-0 flex flex-col items-center gap-6 xl:gap-[60px] 2xl:px-20">
+        <h2 className="text-3xl xl:text-[40px] font-medium text-[#333333]">
           Uncover your next adventure with our tours
         </h2>
         {/* Search */}
         <SearchComponent />
-        <div className="grid grid-cols-3 gap-24 my-10">
+        <div className="grid grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-24 xl:my-10">
           {packagesInfo.map((item, i) => (
             <TourCard
               country={item.country}
@@ -59,7 +59,7 @@ const page = () => {
             />
           ))}
         </div>
-        <div className="my-10">
+        <div className="my-4 xl:my-10">
           <PaginationComponent />
         </div>
       </div>

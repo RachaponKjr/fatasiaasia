@@ -50,7 +50,31 @@ const BeachPackages = () => {
   return (
     <LayoutSection link="#" title="Trending Destinations">
       <div className="w-full h-max relative">
-        <Swiper slidesPerView={3} spaceBetween={100} className="w-full">
+        <Swiper
+          breakpoints={{
+            320: {
+              slidesPerView: 1.2,
+              spaceBetween: 30,
+            },
+            480: {
+              slidesPerView: 1.5,
+              spaceBetween: 20,
+            },
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 24,
+            },
+            768: {
+              slidesPerView: 2.5,
+              spaceBetween: 28,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 102,
+            },
+          }}
+          className="w-full"
+        >
           {packagesInfo.map((item, i) => (
             <SwiperSlide key={i}>
               <div className="bg-white h-max w-full rounded-3xl flex flex-col items-start overflow-hidden">
@@ -82,9 +106,7 @@ const BeachPackages = () => {
                         {item.countrytitle}
                       </span>
                     </div>
-                    <h2 className="font-bold text-[#2F2F2F]">
-                      {item.title}
-                    </h2>
+                    <h2 className="font-bold text-[#2F2F2F]">{item.title}</h2>
                     <div className="text-[#7D7D7D] font-normal text-[13px] flex items-center gap-4 mt-2">
                       <h6>From</h6>
                       <span className="text-sm font-medium text-[#2F2F2F]">

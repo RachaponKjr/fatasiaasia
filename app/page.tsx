@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       <HeroSection />
-      <div className="container mx-auto py-20 flex flex-col gap-32 2xl:px-20">
+      <div className="container mx-auto py-10 xl:py-20 flex flex-col gap-10 xl:gap-32 2xl:px-20">
         <Trending />
         <Adventure />
         <Packages />

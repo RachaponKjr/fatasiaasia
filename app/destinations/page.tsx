@@ -7,8 +7,8 @@ const page = () => {
   return (
     <div>
       <HeroLayout image={destinationhero.src} title="Destination" />
-      <div className="container mx-auto pt-[150px] pb-[200px]">
-        <div className="grid grid-cols-3 gap-16">
+      <div className="container mx-auto xl:pt-[150px] xl:pb-[200px] py-10 px-4 xl:px-0">
+        <div className="grid grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-16">
           <ContryCard />
           <ContryCard />
           <ContryCard />

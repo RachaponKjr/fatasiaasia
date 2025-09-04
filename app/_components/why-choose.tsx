@@ -10,10 +10,10 @@ import super1 from "@/assets/icons/chooseus/super.png";
 
 const WhyChoose = () => {
   return (
-    <div className="flex min-h-max justify-between">
+    <div className="flex flex-col xl:flex-row gap-4 xl:gap-0 px-4 xl:px-0 min-h-max justify-between">
       <div className="flex flex-col gap-4 max-w-md break-words">
-        <h5 className="text-[#333333] font-bold text-4xl">Why Choose Us?</h5>
-        <div className="flex flex-col justify-evenly grow">
+        <h5 className="text-[#333333] font-bold text-3xl xl:text-4xl">Why Choose Us?</h5>
+        <div className="flex flex-col gap-4 xl:gap-0 justify-evenly grow">
           <BoxWhyChoose
             icon={attractions.src}
             background="bg-[#F0BB1F]"
@@ -66,8 +66,8 @@ const BoxWhyChoose = ({
         <Image src={icon} alt="icon" width={40} height={40} />
       </div>
       <div className="flex flex-col gap-1 ">
-        <h6 className="text-[#333333] font-bold text-lg">{title}</h6>
-        <p className="text-lg text-[#7D7D7D] font-normal">{description}</p>
+        <h6 className="text-[#333333] font-bold text-base xl:text-lg">{title}</h6>
+        <p className="text-base xl:text-lg text-[#7D7D7D] font-normal">{description}</p>
       </div>
     </div>
   );

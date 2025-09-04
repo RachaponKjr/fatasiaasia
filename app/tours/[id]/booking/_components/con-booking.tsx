@@ -1,14 +1,28 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import imagetest from "@/assets/imagetest.jpg";
+import Image from "next/image";
 
-const ConBooking = () => {
+type Props = {
+  setStep?: Dispatch<SetStateAction<number>>;
+};
+
+const ConBooking = ({ setStep }: Props) => {
   return (
     <div className="w-full bg-white col-span-2 p-11 rounded-xl border border-[#E7E6E6] flex flex-col gap-9 shadow-[0px_10px_40px_0px_#000000]/5">
       <span className="font-bold text-2xl text-[#333333]">
         Your Tickets Overview
       </span>
       <div className="flex flex-row gap-16">
-        <div className="w-full aspect-[16/14] basis-md rounded-[24px] bg-yellow-300" />
+        <div className="w-full aspect-[16/14] basis-md rounded-[24px] relative overflow-hidden">
+          <Image
+            src={imagetest}
+            alt=""
+            fill
+            objectFit="cover"
+            objectPosition="center"
+          />
+        </div>
         <div className="text-[#333333] text-lg flex flex-col justify-evenly">
           <div className="flex flex-col gap-4">
             <h6 className="text-2xl font-bold text-[#2F2F2F]">
@@ -31,10 +45,16 @@ const ConBooking = () => {
         </div>
       </div>
       <div className="flex justify-between mt-14">
-        <Button className="bg-[#EFEFEF] hover:bg-[#EFEFEF] text-xl font-bold cursor-pointer w-[160px] h-[60px] rounded-full text-[#333333]">
+        <Button
+          onClick={() => setStep?.(2)}
+          className="bg-[#EFEFEF] hover:bg-[#EFEFEF] text-xl font-bold cursor-pointer w-[160px] h-[60px] rounded-full text-[#333333]"
+        >
           Back
         </Button>
-        <Button className="bg-[#BD3E2B] hover:bg-[#BD3E2B] text-xl font-bold cursor-pointer w-[473px] h-[60px] rounded-full text-white">
+        <Button
+          onClick={() => setStep?.(4)}
+          className="bg-[#BD3E2B] hover:bg-[#BD3E2B] text-xl font-bold cursor-pointer w-[473px] h-[60px] rounded-full text-white"
+        >
           submit booking
         </Button>
       </div>

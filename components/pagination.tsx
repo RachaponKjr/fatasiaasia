@@ -20,7 +20,7 @@ const PaginationComponent = () => {
             key={pageNumber}
             onClick={() => handlePageClick(pageNumber)}
             className={`
-              w-[60px] aspect-square rounded-full text-3xl font-medium transition-all duration-200
+              w-[40px] xl:w-[60px] aspect-square rounded-full text-xl xl:text-3xl font-medium transition-all duration-200
               ${
                 isActive
                   ? "bg-[#BD3E2B] text-white border-[#BD3E2B] cursor-pointer"

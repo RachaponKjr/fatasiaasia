@@ -38,7 +38,37 @@ const Trending = () => {
   return (
     <LayoutSection link="#" title="Trending Destinations">
       <div className="w-full h-max relative">
-        <Swiper slidesPerView={4} spaceBetween={36} className="w-full">
+        <Swiper
+          slidesPerView={4}
+          spaceBetween={36}
+          breakpoints={{
+            320: {
+              slidesPerView: 1.5,
+              spaceBetween: 16,
+            },
+            480: {
+              slidesPerView: 1.5,
+              spaceBetween: 20,
+            },
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 24,
+            },
+            768: {
+              slidesPerView: 2.5,
+              spaceBetween: 28,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 32,
+            },
+            1280: {
+              slidesPerView: 4,
+              spaceBetween: 36,
+            },
+          }}
+          className="w-full"
+        >
           {infoTrending.map((item, i) => (
             <SwiperSlide key={i}>
               <div

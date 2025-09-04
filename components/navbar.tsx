@@ -68,22 +68,37 @@ const Navbar = () => {
                 Hello, Your name
               </DropdownMenuLabel>
               <DropdownMenuItem>
-                <Link href={"/profile"}>My Profile</Link>
+                <Link href={"/profile"} className="w-full h-full">
+                  My Profile
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={"/profile/tour"}>Tours</Link>
+                <Link href={"/profile/tour"} className="w-full h-full">
+                  Tours
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={"/profile/pasttour"}>Past Tours</Link>
+                <Link href={"/profile/pasttour"} className="w-full h-full">
+                  Past Tours
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={"/profile/wishlist"}>Wishlist</Link>
+                <Link href={"/profile/wishlist"} className="w-full h-full">
+                  Wishlist
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={"/profile/accountsetting"}>Account Setting</Link>
+                <Link
+                  href={"/profile/accountsetting"}
+                  className="w-full h-full"
+                >
+                  Account Setting
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={"###"}>Logout</Link>
+                <Link href={"###"} className="w-full h-full">
+                  Logout
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
