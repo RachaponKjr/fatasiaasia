@@ -1,6 +1,8 @@
+"use client";
 import BoxFollowVideo from "@/components/box-follow-video";
 import Image from "next/image";
 import React from "react";
+import ReactPlayer from "react-player";
 
 import youtube from "@/assets/images/youtube.png";
 
@@ -23,13 +25,28 @@ const FollowFantasiaasia = () => {
             </h3>
           </div>
           <div className="flex flex-col-reverse xl:flex-row gap-4 xl:gap-14">
-            <div className="grow shrink-0 flex flex-col gap-4 justify-between">
-              <BoxFollowVideo />
-              <BoxFollowVideo />
-              <BoxFollowVideo />
-              <BoxFollowVideo />
+            <div className="flex flex-col gap-2 justify-between">
+              <BoxFollowVideo
+                youtube={"https://www.youtube.com/watch?v=44O14D9pvkg"}
+              />
+              <BoxFollowVideo
+                youtube={"https://www.youtube.com/watch?v=AhneBfQjRg4"}
+              />
+              <BoxFollowVideo
+                youtube={"https://www.youtube.com/watch?v=0wt2oJr3A5Y"}
+              />
+              <BoxFollowVideo
+                youtube={"https://www.youtube.com/watch?v=5iIIE04DDhU"}
+              />
             </div>
-            <div className="w-full xl:w-7/12 aspect-video xl:aspect-[16/9] shrink-0 bg-neutral-100 rounded-[10px] xl:rounded-[20px]"></div>
+            <div className="w-full xl:w-7/12 aspect-video xl:aspect-[16/9] overflow-hidden shrink-0 bg-neutral-100 rounded-[10px] xl:rounded-[20px]">
+              <ReactPlayer
+                width={"100%"}
+                height={"100%"}
+                src={"https://www.youtube.com/watch?v=ISQpEVd0dSY"}
+                controls
+              />
+            </div>
           </div>
         </div>
       </div>

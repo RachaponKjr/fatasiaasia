@@ -12,6 +12,13 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
+import profile from "@/assets/icons/menu/profile.png";
+import logout from "@/assets/icons/menu/logout.png";
+import past from "@/assets/icons/menu/past.png";
+import setting from "@/assets/icons/menu/setting.png";
+import tour from "@/assets/icons/menu/tour.png";
+import wishlist from "@/assets/icons/menu/wishlist.png";
+
 const LinkList = [
   {
     link: "Home",
@@ -68,36 +75,57 @@ const Navbar = () => {
                 Hello, Your name
               </DropdownMenuLabel>
               <DropdownMenuItem>
-                <Link href={"/profile"} className="w-full h-full">
-                  My Profile
+                <Link
+                  href={"/profile"}
+                  className="w-full h-full flex gap-2 items-center"
+                >
+                  <Image src={profile} alt="" width={20} height={20} />
+                  <span>My Profile</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={"/profile/tour"} className="w-full h-full">
-                  Tours
+                <Link
+                  href={"/profile/tour"}
+                  className="w-full h-full flex gap-2 items-center"
+                >
+                  <Image src={tour} alt="" width={20} height={20} />
+                  <span>Tours</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={"/profile/pasttour"} className="w-full h-full">
-                  Past Tours
+                <Link
+                  href={"/profile/pasttour"}
+                  className="w-full h-full flex gap-2 items-center"
+                >
+                  <Image src={past} alt="" width={20} height={20} />
+                  <span>Past Tours</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={"/profile/wishlist"} className="w-full h-full">
-                  Wishlist
+                <Link
+                  href={"/profile/wishlist"}
+                  className="w-full h-full flex gap-2 items-center"
+                >
+                  <Image src={wishlist} alt="" width={20} height={20} />
+                  <span>Wishlist</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link
                   href={"/profile/accountsetting"}
-                  className="w-full h-full"
+                  className="w-full h-full flex gap-2 items-center"
                 >
-                  Account Setting
+                  <Image src={setting} alt="" width={20} height={20} />
+                  <span>Account Setting</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={"###"} className="w-full h-full">
-                  Logout
+                <Link
+                  href={"###"}
+                  className="w-full h-full flex gap-2 items-center"
+                >
+                  <Image src={logout} alt="" width={20} height={20} />
+                  <span>Logout</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>

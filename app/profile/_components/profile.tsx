@@ -1,11 +1,17 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import React from "react";
+
+import profile from "@/assets/icons/menu/profile.png";
 
 const Profile = () => {
   return (
     <div className="flex flex-col gap-10">
-      <h5 className="text-4xl font-bold text-[#333333]">Profile</h5>
+      <div className="flex gap-2 items-center">
+        <Image src={profile} alt="" width={40} height={40} />
+        <h5 className="text-4xl font-bold text-[#333333]">Profile</h5>
+      </div>
       <div className="flex gap-10 items-center">
         <Avatar className=" size-[170px]">
           <AvatarFallback>M</AvatarFallback>
@@ -13,7 +19,10 @@ const Profile = () => {
         <div className="text-[#333333] flex flex-col gap-2">
           <div className="flex items-center gap-10">
             <h6 className="text-4xl font-bold">Hello, Your name</h6>
-            <Button size={"sm"} className="bg-[#EFEFEF] cursor-pointer hover:bg-[#EFEFEF] text-[#333333] rounded-full px-6">
+            <Button
+              size={"sm"}
+              className="bg-[#EFEFEF] cursor-pointer hover:bg-[#EFEFEF] text-[#333333] rounded-full px-6"
+            >
               Edit
             </Button>
           </div>

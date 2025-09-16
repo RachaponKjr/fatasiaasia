@@ -9,7 +9,7 @@ const ItemCardTour = ({ active = false }: { active?: boolean }) => {
   return (
     <div className="bg-white p-10 rounded-[12px] border border-[#E7E6E6] flex gap-14 h-max shadow-[0px_10px_40px_0px_#000000]/5">
       <div className="w-[374px] h-[350px] rounded-[24px] bg-neutral-100 relative overflow-hidden">
-        <Badge className="text-white bg-[#666666] rounded-full font-medium absolute top-4 right-4">
+        <Badge className="text-white bg-[#666666] rounded-full font-medium absolute top-4 right-4 z-10">
           In Progress
         </Badge>
         <Image

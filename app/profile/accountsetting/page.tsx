@@ -11,13 +11,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Image from "next/image";
 import React from "react";
+
+import setting from "@/assets/icons/menu/setting.png";
 
 const page = () => {
   return (
     <div className="container mx-auto max-w-7xl py-[72px] flex flex-col gap-14">
       <div className="flex flex-col gap-10">
-        <h5 className="text-4xl font-bold text-[#333333]">Account Setting</h5>
+        <div className="flex gap-2 items-center">
+          <Image src={setting} alt="" width={40} height={40} />
+          <h5 className="text-4xl font-bold text-[#333333]">Account Setting</h5>
+        </div>
       </div>
       <div className="flex flex-col gap-8 max-w-3xl">
         <div className="flex items-center gap-9">
@@ -136,12 +142,12 @@ const page = () => {
           </div>
           <div className="flex justify-between">
             <div className="flex gap-2">
-            <Button className="text-[#FFFFFF] bg-[#4992E1] cursor-pointer hover:bg-[##4992E1] rounded-full !py-6 px-6 font-bold">
-            Save Changes
-            </Button>
-            <Button className="text-[#1A1A1A] bg-transparent cursor-pointer hover:bg-transparent rounded-full !py-6 px-6 font-normal border border-[#1A1A1A]">
-            Cancel
-            </Button>
+              <Button className="text-[#FFFFFF] bg-[#4992E1] cursor-pointer hover:bg-[##4992E1] rounded-full !py-6 px-6 font-bold">
+                Save Changes
+              </Button>
+              <Button className="text-[#1A1A1A] bg-transparent cursor-pointer hover:bg-transparent rounded-full !py-6 px-6 font-normal border border-[#1A1A1A]">
+                Cancel
+              </Button>
             </div>
             <Button className="text-[#ED021A] bg-[#FEE9EE] cursor-pointer hover:bg-[#FEE9EE] rounded-full !py-6 px-6 font-normal">
               Delete Account

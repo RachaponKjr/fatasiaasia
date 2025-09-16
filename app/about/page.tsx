@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import JoinNewSletter from "@/components/join-newsletter";
 import FollowFantasiaasia from "../_components/follow-fantasiaasia";
 
@@ -44,7 +44,7 @@ const page = () => {
     },
   ];
   return (
-    <div>
+    <Suspense fallback={<div>Loading...</div>}>
       <HeroLayout image={heroabout.src} title="About us" />
       <div className="container mx-auto py-10 xl:py-20 px-4 flex flex-col gap-8 xl:gap-32 2xl:px-20">
         <p className="text-center text-base xl:text-2xl text-[#333333] font-normal">
@@ -82,7 +82,7 @@ const page = () => {
       </div>
       <FollowFantasiaasia />
       <JoinNewSletter />
-    </div>
+    </Suspense>
   );
 };
 
