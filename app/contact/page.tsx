@@ -51,7 +51,17 @@ const page = () => {
               <h5 className="font-bold text-xl xl:text-2xl text-[#333333]">
                 Map
               </h5>
-              <div className="w-full grow rounded-2xl bg-neutral-300" />
+              <div className="w-full grow rounded-2xl max-h-[235px] overflow-hidden">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.425560150691!2d98.81995950000001!3d8.0579998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3051bfb79db8de05%3A0xffa6340c93d265b3!2sFantasia%20Asia%20Service%20Part%20Ltd!5e0!3m2!1sth!2sth!4v1758169216762!5m2!1sth!2sth"
+                  width="600"
+                  height="450"
+                  className="rounded-2xl"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  // referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
             </div>
           </div>
         </div>

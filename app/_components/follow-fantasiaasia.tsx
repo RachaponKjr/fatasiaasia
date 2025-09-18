@@ -24,16 +24,16 @@ const FollowFantasiaasia = () => {
               Follow Fantasiaasia on Youtube
             </h3>
           </div>
-          <div className="flex flex-col-reverse xl:flex-row gap-4 xl:gap-14">
+          <div className="flex flex-col-reverse xl:flex-row gap-4 ">
             <div className="flex flex-col gap-2 justify-between">
               <BoxFollowVideo
-                youtube={"https://www.youtube.com/watch?v=44O14D9pvkg"}
+                youtube={"https://www.youtube.com/watch?v=YC3UtNPVL5Q"}
               />
               <BoxFollowVideo
-                youtube={"https://www.youtube.com/watch?v=AhneBfQjRg4"}
+                youtube={"https://www.youtube.com/watch?v=t0pafVU3EhY"}
               />
               <BoxFollowVideo
-                youtube={"https://www.youtube.com/watch?v=0wt2oJr3A5Y"}
+                youtube={"https://www.youtube.com/watch?v=3-UBBZwjn1M"}
               />
               <BoxFollowVideo
                 youtube={"https://www.youtube.com/watch?v=5iIIE04DDhU"}
@@ -43,7 +43,7 @@ const FollowFantasiaasia = () => {
               <ReactPlayer
                 width={"100%"}
                 height={"100%"}
-                src={"https://www.youtube.com/watch?v=ISQpEVd0dSY"}
+                src={"https://www.youtube.com/watch?v=0wt2oJr3A5Y"}
                 controls
               />
             </div>

@@ -47,14 +47,14 @@ const Footer = () => {
                 <PhoneIcon size={18} />
                 <span className="text-xl font-semibold">More Inquiry</span>
               </div>
-              <span>+999-858 624 984</span>
+              <span>tel: +66 62 242 3997</span>
             </div>
             <div className="flex flex-col gap-3">
               <div className="flex gap-2 items-center">
                 <MailIcon size={18} />
                 <span className="text-xl font-semibold">Send Mail</span>
               </div>
-              <span>info@example.com</span>
+              <span>info@fantasiaasia.com</span>
             </div>
             <div className="flex flex-col gap-3">
               <div className="flex gap-2 items-center">
@@ -62,7 +62,7 @@ const Footer = () => {
                 <span className="text-xl font-semibold">Address</span>
               </div>
               <span>
-                House 168/170, Avenue 01, Mirpur DOHS, Dhaka Bangladesh
+                164/1 Moo 5, T. Ao Nang, A. Muang Krabi, Krabi 81180 Thailand
               </span>
             </div>
           </div>

@@ -24,6 +24,7 @@ const countryImages: Record<string, string> = {
   Uzbekistan: uzbekistan.src,
   Vietnam: vietnam.src,
   Thailand: thailandhero.src,
+  // Cambodia: 
 };
 
 const HeroLayout = ({

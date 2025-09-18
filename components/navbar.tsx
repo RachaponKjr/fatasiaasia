@@ -18,6 +18,7 @@ import past from "@/assets/icons/menu/past.png";
 import setting from "@/assets/icons/menu/setting.png";
 import tour from "@/assets/icons/menu/tour.png";
 import wishlist from "@/assets/icons/menu/wishlist.png";
+import { useRouter } from "next/navigation";
 
 const LinkList = [
   { link: "Home", path: "/" },
@@ -29,12 +30,20 @@ const LinkList = [
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="flex items-center container mx-auto px-4 md:px-0 py-6 z-50 relative">
       {/* Logo */}
       <div className="flex-1">
-        <Image src={"/logo.png"} alt="logo-webside" width={200} height={200} />
+        <Image
+          src={"/logo.png"}
+          alt="logo-webside"
+          width={200}
+          height={200}
+          className="cursor-pointer"
+          onClick={() => router.push("/")}
+        />
       </div>
 
       {/* Desktop Menu */}
