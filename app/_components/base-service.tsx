@@ -10,23 +10,19 @@ import medical from "@/assets/icons/baseservices/medical.png";
 const BaseService = () => {
   const bestservices = [
     {
-      title: "Guided Tours",
-      detail: "sunt qui repellat saepe quo velit aperiam id aliquam placeat.",
+      title: "24/7 Travel Support",
       image: guided.src,
     },
     {
-      title: "Best Flights Options",
-      detail: "sunt qui repellat saepe quo velit aperiam id aliquam placeat.",
+      title: "Handpicked Accommodations",
       image: base.src,
     },
     {
-      title: "Religious Tours",
-      detail: "sunt qui repellat saepe quo velit aperiam id aliquam placeat.",
+      title: "Stress-Free Travel Planning",
       image: religious.src,
     },
     {
-      title: "Medical insurance",
-      detail: "sunt qui repellat saepe quo velit aperiam id aliquam placeat.",
+      title: "Tailor-Made Itineraries",
       image: medical.src,
     },
   ];
@@ -41,13 +37,21 @@ const BaseService = () => {
             key={i + 1}
             className="flex flex-col items-center max-w-[275px] justify-start rounded-4xl  gap-2 xl:gap-6 p-4 xl:p-9 duration-300 hover:shadow-[0px_10px_20px_0px_rgba(0,_0,_0,_0.06)]"
           >
-            <Image src={item.image} alt={item.title} width={80} height={80} />
-            <h4 className="text-[#333333] font-semibold text-sm xl:text-base">
+            <div className="relative w-[200px] aspect-square">
+              <Image
+                src={item.image}
+                alt={item.title}
+                fill
+                objectFit="cover"
+                objectPosition="center"
+              />
+            </div>
+            <h4 className="text-[#333333] font-semibold text-sm xl:text-base text-center">
               {item.title}
             </h4>
-            <p className="text-xs xl:text-sm text-center font-medium text-[#7D7D7D]">
+            {/* <p className="text-xs xl:text-sm text-center font-medium text-[#7D7D7D]">
               {item.detail}
-            </p>
+            </p> */}
           </div>
         ))}
       </div>

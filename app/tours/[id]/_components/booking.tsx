@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 const Booking = () => {
   const router = useRouter();
   return (
-    <div className="p-7 border sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] h-max shadow-[0px_10px_40px_0px_#000000]/5">
+    <div className="p-7 border shrink-0 sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] h-max shadow-[0px_10px_40px_0px_#000000]/5">
       <h6 className="text-sm">
         Estimated cost <strong className="text-lg">$1,200-2,000 </strong>
         /per person

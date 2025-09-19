@@ -43,7 +43,7 @@ const FollowFantasiaasia = () => {
               <ReactPlayer
                 width={"100%"}
                 height={"100%"}
-                src={"https://www.youtube.com/watch?v=0wt2oJr3A5Y"}
+                src={"https://www.youtube.com/watch?v=AhneBfQjRg4"}
                 controls
               />
             </div>
