@@ -49,7 +49,7 @@ const HeroLayout = ({
       style={{ backgroundImage: `url(${banner})` }}
     >
       <div className="w-full h-full bg-gradient-to-b from-white from-5% to-transparent absolute" />
-      <h1 className="font-bold text-5xl xl:text-6xl text-[#333333] z-10">
+      <h1 className="font-bold text-3xl xl:text-6xl text-[#333333] z-10">
         {title ? title : `${country} Tour & Trips`}
       </h1>
     </div>

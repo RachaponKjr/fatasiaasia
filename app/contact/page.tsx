@@ -17,14 +17,14 @@ const page = () => {
             <h2 className="text-2xl xl:text-4xl font-bold">
               Let's talk with us
             </h2>
-            <p className=" text-lg xl:text-xl font-normal">
+            <p className=" text-lg xl:text-xl  max-w-sm md:max-w-full font-normal">
               Questions, comments, or suggestions? Simply fill in the form and
               we’ll be in touch shortly.
             </p>
             <div className="flex flex-col gap-2 xl:gap-4">
               <div className="flex flex-row gap-3">
                 <LocationIcon size={30} color="#BD3E2B" />
-                <span className="font-bold text-lg xl:text-xl">
+                <span className="font-bold max-w-sm md:max-w-full text-lg xl:text-xl">
                   164/1 Moo 5, T. Ao Nang, A. Muang Krabi, Krabi 81180 Thailand
                 </span>
               </div>
@@ -59,7 +59,7 @@ const page = () => {
                   className="rounded-2xl"
                   style={{ border: 0 }}
                   loading="lazy"
-                  // referrerpolicy="no-referrer-when-downgrade"
+                // referrerpolicy="no-referrer-when-downgrade"
                 ></iframe>
               </div>
             </div>

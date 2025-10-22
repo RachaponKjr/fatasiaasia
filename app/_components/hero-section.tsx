@@ -2,8 +2,6 @@ import React from "react";
 import banner from "@/assets/images/banner/herobanner.jpg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Plus } from "lucide-react";
-import LocationIcon from "@/assets/icons/location";
-import { Button } from "@/components/ui/button";
 import SearchComponent from "@/components/search";
 const HeroSection = () => {
   return (
@@ -17,7 +15,7 @@ const HeroSection = () => {
         </h2>
 
         {/* Search */}
-        <SearchComponent />
+        {/* <SearchComponent /> */}
 
         {/* Avatar */}
         <div className="text-white flex flex-col xl:flex-row items-center font-medium gap-6">

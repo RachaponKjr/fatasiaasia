@@ -1,5 +1,5 @@
+export const dynamic = "force-dynamic";
 import JoinNewSletter from "@/components/join-newsletter";
-import Image from "next/image";
 import HeroSection from "./_components/hero-section";
 import Trending from "./_components/trending";
 import Adventure from "./_components/adventure";
@@ -10,7 +10,7 @@ import BaseService from "./_components/base-service";
 import FollowFantasiaasia from "./_components/follow-fantasiaasia";
 import BeachPackages from "./_components/beach-packages";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="overflow-hidden">
       <HeroSection />

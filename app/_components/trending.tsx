@@ -11,6 +11,7 @@ import thai from "@/assets/images/trending/thai.jpg";
 import laos from "@/assets/images/trending/laos.jpg";
 import vietnam from "@/assets/images/trending/vietnam.jpg";
 import india from "@/assets/images/trending/india.jpg";
+import { Tour } from "@/types/tour.type";
 
 const Trending = () => {
   const infoTrending = [
@@ -85,6 +86,23 @@ const Trending = () => {
               </div>
             </SwiperSlide>
           ))}
+
+          {/* {tour.map((item, i) => (
+            <SwiperSlide key={i}>
+              <div
+                className="bg-gray-200 aspect-[12/16] w-full relative overflow-hidden rounded-2xl p-8 flex bg-cover bg-center items-end"
+                style={{
+                  backgroundImage: `url(${item.thumbnail})`,
+                }}
+              >
+                <div className="bg-gradient-to-b from-transparent to-black/80 from-60% w-full h-full absolute top-0 left-0" />
+                <div className="text-white flex flex-col gap-1 z-10">
+                  <h6 className="font-medium text-lg">{item.country}</h6>
+                  <span className="font-light text-xs">{item.title}</span>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))} */}
         </Swiper>
         {/* Prev Button (ซ้าย) */}
         <div className="absolute top-1/2 -translate-y-1/2 -left-12 -translate-x-1/2 w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md">

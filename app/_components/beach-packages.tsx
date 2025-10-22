@@ -17,11 +17,11 @@ import indo from "@/assets/images/country/indo.png";
 import tourthai1 from "@/assets/images/tour/tourthai1.jpg";
 import tourthai2 from "@/assets/images/tour/tourthai2.jpg";
 import tourindo1 from "@/assets/images/tour/tourindo1.jpg";
-import { TourCardProps } from "@/components/tour-card";
+// import { TourCardProps } from "@/components/tour-card";
 import Image from "next/image";
 
 const BeachPackages = () => {
-  const packagesInfo: TourCardProps[] = [
+  const packagesInfo = [
     {
       country: thai.src,
       countrytitle: "Thailand",

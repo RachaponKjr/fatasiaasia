@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "standalone",
+  images: {
+    domains: ["tour-space-bucket.sgp1.digitaloceanspaces.com"],
+  },
 };
 
 export default nextConfig;

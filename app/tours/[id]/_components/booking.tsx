@@ -3,7 +3,7 @@ import { Counter } from "@/components/counter";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -16,9 +16,22 @@ import FormBooking from "./form-booking";
 // Images
 import calendar2 from "@/assets/images/calendar2.png";
 import { useRouter } from "next/navigation";
+import { useBooking } from "@/store/booking-store";
+import { TourDetail } from "@/types/tour.type";
+import { useWishlist } from "@/hooks/useWishlist";
 
-const Booking = () => {
+const Booking = ({ tourdetail }: { tourdetail: TourDetail }) => {
   const router = useRouter();
+  const { addToWishlist, removeFromWishlist } = useWishlist();
+  const [dialogBooking, setDialogBooking] = useState<boolean>(false);
+  const { setBooking, booking } = useBooking();
+
+  if (!tourdetail) {
+    return (
+      <div className="p-7 border grow h-[30rem] shrink-0 sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] shadow-[0px_10px_40px_0px_#000000]/5"></div>
+    );
+  }
+
   return (
     <div className="p-7 border shrink-0 sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] h-max shadow-[0px_10px_40px_0px_#000000]/5">
       <h6 className="text-sm">
@@ -41,23 +54,57 @@ const Booking = () => {
       <div className="flex flex-col gap-4 my-[24px]">
         <div className="flex items-center ">
           <span className="text-sm min-w-[150px]">Adult (18+ years)</span>
-          <Counter />
+          <Counter
+            onChange={(v) =>
+              setBooking((prev) => ({
+                ...prev,
+                adultTickets: Number(v),
+              }))
+            }
+          />
         </div>
         <div className="flex items-center">
           <span className="text-sm min-w-[150px]">Child (6-17 years) </span>
-          <Counter />
+          <Counter
+            onChange={(v) =>
+              setBooking((prev) => ({
+                ...prev,
+                childTickets: Number(v),
+              }))
+            }
+          />
         </div>
         <div className="flex items-center">
           <span className="text-sm min-w-[150px]">Infant (0-5 years)</span>
-          <Counter />
+          <Counter
+            onChange={(v) =>
+              setBooking((prev) => ({
+                ...prev,
+                infantTickets: Number(v),
+              }))
+            }
+          />
         </div>
       </div>
+
       <div className="h-[1px] w-full bg-[#E7E6E6]" />
       <div className="flex items-center gap-6 mt-4">
-        <div className="w-10 aspect-square rounded-full border border-[#E7E6E6] grid place-content-center">
-          <Heart color="#E7E6E6" />
+        <div
+          onClick={() =>
+            tourdetail.isWishlist
+              ? removeFromWishlist(tourdetail.tourId)
+              : addToWishlist(tourdetail.tourId)
+          }
+          className="w-10 aspect-square rounded-full cursor-pointer border border-[#E7E6E6] grid place-content-center"
+        >
+          <Heart
+            fill={tourdetail.isWishlist ? "#E0211D" : "transparent"}
+            color={tourdetail.isWishlist ? "#E0211D" : "#E7E6E6"}
+            size={24}
+          />
         </div>
-        <Dialog>
+
+        <Dialog open={dialogBooking} onOpenChange={setDialogBooking}>
           <DialogTrigger className="flex-1">
             <Button className="h-[60px] rounded-[12px] w-full bg-[#BD3E2B] hover:bg-[#BD3E2B] cursor-pointer">
               Book Now
@@ -68,9 +115,12 @@ const Booking = () => {
               Bali on a Shoestring 7 Days 6 nights
             </DialogTitle>
             {/* Form */}
-            <FormBooking />
+            <FormBooking booking={booking} setBooking={setBooking} />
             <DialogFooter className="h-14 font-medium [&>button]:rounded-[12px]">
-              <Button className="h-full w-[144px] bg-[#EFEFEF] hover:bg-[#ADADAD] text-[#ADADAD] hover:text-[#EFEFEF] cursor-pointer">
+              <Button
+                onClick={() => setDialogBooking(false)}
+                className="h-full w-[144px] bg-[#EFEFEF] hover:bg-[#ADADAD] text-[#ADADAD] hover:text-[#EFEFEF] cursor-pointer"
+              >
                 Cancel
               </Button>
               <Button

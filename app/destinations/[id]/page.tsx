@@ -225,11 +225,11 @@ of a people who never cease to renew themselves.
   return (
     <div>
       <HeroLayout className="!bg-[left_0px_top_-130px]" />
-      <div className="container mx-auto pt-24 pb-32 flex h-max flex-col items-center gap-32">
+      <div className="container mx-auto px-4 py-8 md:px-0 md:pt-24 md:pb-32 flex h-max flex-col items-center gap-32">
         {data ? (
           <>
             <div className="flex flex-col items-center">
-              <h3 className="font-bold text-4xl mb-9">{data.title}</h3>
+              <h3 className="font-bold text-xl md:text-4xl mb-9">{data.title}</h3>
               <p className="font-light text-2xl text-[#585858] leading-relaxed">
                 {data.description}
               </p>

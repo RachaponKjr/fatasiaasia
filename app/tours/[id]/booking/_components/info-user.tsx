@@ -1,5 +1,7 @@
+"use client";
 import InputWithLabel from "@/components/input-with-lable";
 import { Button } from "@/components/ui/button";
+import { useBooking } from "@/store/booking-store";
 import React, { Dispatch, SetStateAction } from "react";
 
 type Props = {
@@ -7,6 +9,8 @@ type Props = {
 };
 
 const InfoUser = ({ setStep }: Props) => {
+  const { booking, setBooking } = useBooking();
+  console.log(booking);
   return (
     <div className="flex flex-col justify-around">
       <div className="flex flex-col gap-4">
@@ -15,34 +19,58 @@ const InfoUser = ({ setStep }: Props) => {
         </h5>
         <div className="grid grid-cols-2 gap-[55px]">
           <InputWithLabel
-            id={"name"}
+            id="name"
+            value={booking.bookingFirstname}
             className="h-[70px]"
-            placeholder="Enter your name "
+            placeholder="Enter your name"
             label="Name"
+            onChange={(e) =>
+              setBooking({ ...booking, bookingFirstname: e.target.value })
+            }
           />
+
           <InputWithLabel
-            id={"surname"}
+            id="surname"
+            value={booking.bookingSurname}
             className="h-[70px]"
             placeholder="Enter your surname"
             label="Surname"
+            onChange={(e) =>
+              setBooking({ ...booking, bookingSurname: e.target.value })
+            }
           />
+
           <InputWithLabel
-            id={"telephone"}
+            id="telephone"
+            value={booking.bookingPhone}
             className="h-[70px]"
             placeholder="Enter your telephone number"
             label="Telephone Number"
+            onChange={(e) =>
+              setBooking({ ...booking, bookingPhone: e.target.value })
+            }
           />
+
           <InputWithLabel
-            id={"email"}
+            id="email"
+            value={booking.bookingEmail}
             className="h-[70px]"
             placeholder="Enter your email address"
             label="Email"
+            onChange={(e) =>
+              setBooking({ ...booking, bookingEmail: e.target.value })
+            }
           />
+
           <InputWithLabel
-            id={"address"}
+            id="address"
+            value={booking.bookingAddress}
             className="col-span-2 h-[70px]"
-            placeholder="Enter your telephone number"
+            placeholder="Enter your address"
             label="Address"
+            onChange={(e) =>
+              setBooking({ ...booking, bookingAddress: e.target.value })
+            }
           />
         </div>
       </div>

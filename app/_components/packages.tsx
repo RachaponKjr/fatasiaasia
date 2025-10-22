@@ -1,10 +1,10 @@
 "use client";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import LayoutSection from "./layout-section";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ArrowLeft from "@/assets/icons/arrow-left";
 import ArrowRight from "@/assets/icons/arrow-right";
-import TourCard, { TourCardProps } from "@/components/tour-card";
+// import TourCard, { TourCardProps } from "@/components/tour-card";
 
 import thai from "@/assets/images/country/thai.png";
 import indo from "@/assets/images/country/indo.png";
@@ -12,34 +12,28 @@ import indo from "@/assets/images/country/indo.png";
 import tourthai1 from "@/assets/images/tour/tourthai1.jpg";
 import tourthai2 from "@/assets/images/tour/tourthai2.jpg";
 import tourindo1 from "@/assets/images/tour/tourindo1.jpg";
+import api from "@/server";
+import TourCard from "@/components/tour-card";
+import { Tour } from "@/types/tour.type";
 
 const Packages = () => {
-  const packagesInfo: TourCardProps[] = [
-    {
-      country: thai.src,
-      countrytitle: "Thailand",
-      image: tourthai1.src,
-      price: 771,
-      title: "Unveiled Bangkok and Northern Thailand",
-      totalday: 10,
-    },
-    {
-      country: indo.src,
-      countrytitle: "Indonesia",
-      image: tourindo1.src,
-      price: 771,
-      title: "Enchanting Indonesia from Ancient Temples to Pristine Islands",
-      totalday: 10,
-    },
-    {
-      country: thai.src,
-      countrytitle: "Thailand",
-      image: tourthai2.src,
-      price: 771,
-      title: "4 island tour by speed boat in krabi",
-      totalday: 10,
-    },
-  ];
+  const [tour, setTour] = useState<Tour[]>()
+
+  const getTours = useCallback(async () => {
+    const res = await api.tour.getTour()
+    if (res.code === 2000) {
+      setTour(res.data)
+      return
+    } else {
+      console.error('can not get tour!')
+      return
+    }
+  }, [])
+
+  useEffect(() => {
+    void getTours()
+  }, [])
+
   return (
     <LayoutSection link="#" title="Popular Tour Packages">
       <div className="w-full h-max relative">
@@ -70,17 +64,10 @@ const Packages = () => {
           }}
           className="w-full h-full relative"
         >
-          {packagesInfo.map((item: TourCardProps, i) => (
+          {tour?.map((item, i) => (
             <SwiperSlide key={i} className="p-3 relative">
-              <TourCard
-                country={item.country}
-                countrytitle={item.countrytitle}
-                image={item.image}
-                price={item.price}
-                title={item.title}
-                totalday={item.totalday}
-                key={i + 1}
-              />
+
+              <TourCard wishlist={item} key={i} />
             </SwiperSlide>
           ))}
         </Swiper>

@@ -15,7 +15,7 @@ import footerBg from "@/assets/images/footer-bg.png";
 const Footer = () => {
   return (
     <div className="relative overflow-hidden">
-      <div className="py-20 container mx-auto flex relative items-start z-10">
+      <div className="py-10 md:py-20 px-4 md:px-0 container mx-auto flex md:flex-row flex-col gap-8 md:gap-0 relative items-start z-10">
         <div className="max-w-xs flex flex-col items-start gap-6">
           <Image
             src={"/logo.png"}
@@ -30,7 +30,7 @@ const Footer = () => {
             Book A Tour
           </Button>
         </div>
-        <div className="flex justify-between flex-1">
+        <div className="flex flex-wrap md:flex-nowrap gap-2 md:gap-0 justify-between flex-1">
           <div className="flex flex-col gap-5">
             <span className="text-xl font-semibold">Quick Link</span>
             <ul className="flex flex-col gap-3 font-normal [&>li]:cursor-pointer">
@@ -41,7 +41,7 @@ const Footer = () => {
               <li>Contact Us</li>
             </ul>
           </div>
-          <div className="max-w-[18rem] flex flex-col gap-7">
+          <div className="max-w-[16rem] md:max-w-[18rem] flex flex-col gap-7">
             <div className="flex flex-col gap-3">
               <div className="flex gap-2 items-center">
                 <PhoneIcon size={18} />
@@ -67,7 +67,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="flex flex-col">
-            <div className="max-w-sm">
+            <div className="mmax-w-sm">
               <div className="flex flex-col gap-5">
                 <span className="text-xl font-semibold">We Are Here</span>
                 <p>

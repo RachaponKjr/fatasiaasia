@@ -11,9 +11,11 @@ import CompleteBooking from "./complete-booking";
 import Image from "next/image";
 
 import imagetest from "@/assets/imagetest.jpg";
+import { useBooking } from "@/store/booking-store";
 
 const BookingPage = () => {
   const [step, setStep] = useState<number>(1);
+  const { booking, setBooking } = useBooking();
   const steps = [
     { id: 1, title: "Booking Details" },
     { id: 2, title: "Your Details" },
@@ -25,7 +27,9 @@ const BookingPage = () => {
         <StepProgress currentStep={step} steps={steps} />
       </div>
       <div className="grid grid-cols-2 gap-[120px]">
-        {step === 1 && <FormBooking />}
+        {step === 1 && (
+          <FormBooking booking={booking} setBooking={setBooking} />
+        )}
         {step === 2 && <InfoUser setStep={setStep} />}
         {step === 3 && <ConBooking setStep={setStep} />}
         {step === 4 && <CompleteBooking />}
