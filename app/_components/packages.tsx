@@ -17,22 +17,6 @@ import TourCard from "@/components/tour-card";
 import { Tour } from "@/types/tour.type";
 
 const Packages = ({tour}:{tour:Tour[]}) => {
-  // const [tour, setTour] = useState<Tour[]>()
-
-  // const getTours = useCallback(async () => {
-  //   const res = await api.tour.getTour()
-  //   if (res.code === 2000) {
-  //     setTour(res.data)
-  //     return
-  //   } else {
-  //     console.error('can not get tour!')
-  //     return
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   void getTours()
-  // }, [])
 
   return (
     <LayoutSection link="#" title="Popular Tour Packages">
