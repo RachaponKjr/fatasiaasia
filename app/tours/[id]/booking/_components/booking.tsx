@@ -12,8 +12,10 @@ import Image from "next/image";
 
 import imagetest from "@/assets/imagetest.jpg";
 import { useBooking } from "@/store/booking-store";
+import { TourDetail } from "@/types/tour.type";
+import { formatDate, formatTime } from "@/utils/format";
 
-const BookingPage = () => {
+const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
   const [step, setStep] = useState<number>(1);
   const { booking, setBooking } = useBooking();
   const steps = [
@@ -31,8 +33,8 @@ const BookingPage = () => {
           <FormBooking booking={booking} setBooking={setBooking} />
         )}
         {step === 2 && <InfoUser setStep={setStep} />}
-        {step === 3 && <ConBooking setStep={setStep} />}
-        {step === 4 && <CompleteBooking />}
+        {step === 3 && <ConBooking tourDetail={tourDetail} setStep={setStep} />}
+        {step === 4 && <CompleteBooking tourDetail={tourDetail} />}
         {step < 3 && (
           <div className="border p-8 rounded-3xl flex flex-col justify-between">
             <h5 className="font-bold text-2xl text-[#333333]">
@@ -42,7 +44,7 @@ const BookingPage = () => {
               <div className="flex flex-row gap-6 border-b border-[#EFEFEF] py-5">
                 <div className="w-[150px] aspect-[16/12] overflow-hidden rounded-[11px] relative">
                   <Image
-                    src={imagetest}
+                    src={tourDetail.galleryUrls[0]}
                     alt=""
                     fill
                     objectFit="cover"
@@ -51,18 +53,18 @@ const BookingPage = () => {
                 </div>
                 <div className="flex-1 flex flex-col gap-4">
                   <h4 className="font-bold text-2xl text-[#333333]">
-                    Bali on a Shoestring 7 Days 6 nights
                   </h4>
+                  {tourDetail.title}
                   <div className="flex items-center gap-[14]">
                     <CalenderIcon opacity={1} color="#BD3E2B" size={24} />
                     <span className="font-semibold text-lg text-[#333333]">
-                      FRI, 05 FEB 2025{" "}
+                      {formatDate(booking.startDate)}
                     </span>
                   </div>
                   <div className="flex items-center gap-4">
                     <Clock color="#BD3E2B" strokeWidth={1} size={24} />
                     <span className="font-semibold text-lg text-[#333333]">
-                      15:00
+                      {formatTime(booking.visitTime)}
                     </span>
                   </div>
                 </div>

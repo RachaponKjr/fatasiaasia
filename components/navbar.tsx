@@ -11,6 +11,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import Cookies from "js-cookie";
 
 import { useRouter } from "next/navigation";
 
@@ -32,10 +33,25 @@ const LinkList = [
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, logout } = useProfile();
+  const [authStatus, setAuthStatus] = useState<string | null>(null)
+  const { logout } = useProfile();
   const router = useRouter();
-  // console.log(user);
 
+  useEffect(() => {
+    // อ่าน cookie ตอน component mount
+    const status = Cookies.get('authStatus');
+    setAuthStatus(status as string);
+
+    // ถ้าต้องการฟังการเปลี่ยนแปลง cookie ก็สามารถใช้ interval หรือ event listener
+    const interval = setInterval(() => {
+      const updatedStatus = Cookies.get('authStatus');
+      if (updatedStatus !== authStatus) {
+        setAuthStatus(updatedStatus as string);
+      }
+    }, 1000); // ตรวจทุก 1 วินาที (สามารถปรับลด)
+
+    return () => clearInterval(interval);
+  }, [authStatus]);
   return (
     <div className="flex items-center container mx-auto px-4 md:px-0 py-6 z-50 relative">
       {/* Logo */}
@@ -76,7 +92,7 @@ const Navbar = () => {
               className="w-72 mt-4 text-[#333333] p-6 flex flex-col"
               align="end"
             >
-              {user ? (
+              {authStatus === 'true' ? (
                 <>
                   <DropdownMenuLabel className="font-bold text-xl">
                     Hello, User
@@ -179,41 +195,35 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {user ? (
+          {authStatus === 'true' ? (
             <div className="flex flex-col gap-3 mt-4 border-t pt-4">
-              <Link href={"/profile"} className="flex items-center gap-2">
-                <Image src={profile} alt="" width={20} height={20} />
-                My Profile
-              </Link>
-              <Link href={"/profile/tour"} className="flex items-center gap-2">
-                <Image src={tour} alt="" width={20} height={20} />
-                Tours
-              </Link>
-              <Link
-                href={"/profile/pasttour"}
-                className="flex items-center gap-2"
-              >
-                <Image src={past} alt="" width={20} height={20} />
-                Past Tours
-              </Link>
-              <Link
-                href={"/profile/wishlist"}
-                className="flex items-center gap-2"
-              >
-                <Image src={wishlist} alt="" width={20} height={20} />
-                Wishlist
-              </Link>
-              <Link
-                href={"/profile/accountsetting"}
-                className="flex items-center gap-2"
-              >
-                <Image src={setting} alt="" width={20} height={20} />
-                Account Setting
-              </Link>
+              {[
+                { href: "/profile", icon: profile, label: "My Profile" },
+                { href: "/profile/tour", icon: tour, label: "Tours" },
+                { href: "/profile/pasttour", icon: past, label: "Past Tours" },
+                { href: "/profile/wishlist", icon: wishlist, label: "Wishlist" },
+                {
+                  href: "/profile/accountsetting",
+                  icon: setting,
+                  label: "Account Setting",
+                },
+              ].map((item, i) => (
+                <Link
+                  key={i}
+                  href={item.href}
+                  className="flex items-center gap-2"
+                  onClick={() => setMobileMenuOpen(false)} // ✅ ปิดเมนูทุกครั้ง
+                >
+                  <Image src={item.icon} alt="" width={20} height={20} />
+                  {item.label}
+                </Link>
+              ))}
 
-              {/* Logout button */}
               <button
-                onClick={logout}
+                onClick={() => {
+                  logout();
+                  setMobileMenuOpen(false); // ✅ ปิดเมนูตอน logout ด้วย
+                }}
                 className="flex items-center gap-2 text-left"
               >
                 <Image src={logouticon} alt="" width={20} height={20} />
@@ -225,12 +235,14 @@ const Navbar = () => {
               <Link
                 href={"/login"}
                 className="bg-[#BD3E2B] hover:bg-[#BD3E2B] text-white flex justify-center items-center h-12 rounded-full shadow-[0px_23px_40px_0_#DF695126]"
+                onClick={() => setMobileMenuOpen(false)} // ✅ ปิดด้วย
               >
                 Log in
               </Link>
               <Link
                 href={"/signup"}
                 className="border-[#BD3E2B] border bg-white text-[#BD3E2B] flex justify-center items-center h-12 rounded-full shadow-[0px_23px_40px_0_#DF695126]"
+                onClick={() => setMobileMenuOpen(false)} // ✅ ปิดด้วย
               >
                 Sign up
               </Link>

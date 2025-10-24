@@ -9,15 +9,17 @@ import Client from "./_components/client";
 import BaseService from "./_components/base-service";
 import FollowFantasiaasia from "./_components/follow-fantasiaasia";
 import BeachPackages from "./_components/beach-packages";
+import api from "@/server";
 
 export default async function Home() {
+  const { data: tour } = await api.tour.getTour();
   return (
     <div className="overflow-hidden">
       <HeroSection />
       <div className="container mx-auto py-10 xl:py-20 flex flex-col gap-10 xl:gap-32 2xl:px-20">
         <Trending />
         <Adventure />
-        <Packages />
+        <Packages tour={tour} />
         <WhyChoose />
         <BaseService />
         <BeachPackages />

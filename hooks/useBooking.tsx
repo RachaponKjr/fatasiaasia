@@ -59,6 +59,24 @@ export const useBooking = () => {
     }
   };
 
+  const resetBooking = () => {
+    setBooking({
+      startDate: 0,
+      visitTime: 0,
+      adultTickets: 0,
+      childTickets: 0,
+      infantTickets: 0,
+      bookingEmail: "",
+      bookingFirstname: "",
+      bookingSurname: "",
+      bookingPhone: "",
+      bookingAddress: "",
+    });
+    setError(null);
+    setSuccess(false);
+    setIsLoading(false);
+  };
+
   return {
     isLoading,
     error,
@@ -67,5 +85,6 @@ export const useBooking = () => {
     createBooking,
     setBooking,
     booking,
+    resetBooking
   };
 };

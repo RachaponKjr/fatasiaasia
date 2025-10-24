@@ -14,7 +14,7 @@ import { useProfile } from "@/hooks/useProfile";
 const FormLogin = () => {
   const router = useRouter();
   const { refresh } = useProfile();
-  const [payload, setPayload] = useState<Omit<Auth, "name">>({
+  const [payload, setPayload] = useState<Omit<Auth, "firstName" | "lastName">>({
     email: "",
     password: "",
   });
@@ -29,11 +29,8 @@ const FormLogin = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       const res = await api.auth.login({ payload });
-
-      console.log("Login response:", res);
 
       if (res.code !== 2000) {
         toast.error("เข้าสู่ระบบไม่สำเร็จ กรุณาลองใหม่อีกครั้ง", {
@@ -46,9 +43,10 @@ const FormLogin = () => {
 
       if (res?.data?.sessionToken) {
         Cookies.set("auth_token", res.data.sessionToken, { expires: 1 });
+        Cookies.set("authStatus", "true", { expires: 1 })
       }
-      router.push("/");
-      // refresh();
+      await refresh();
+      router.push('/')
     } catch (err) {
       console.error("Login error:", err);
       toast.error("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง", {

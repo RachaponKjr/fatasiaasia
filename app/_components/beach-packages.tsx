@@ -48,7 +48,7 @@ const BeachPackages = () => {
     },
   ];
   return (
-    <LayoutSection link="#" title="Trending Destinations">
+    <LayoutSection link="#" title="Beach Tour Packages">
       <div className="w-full h-max relative">
         <Swiper
           breakpoints={{

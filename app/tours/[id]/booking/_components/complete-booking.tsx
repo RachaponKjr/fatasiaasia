@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { TourDetail } from "@/types/tour.type";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const CompleteBooking = () => {
+const CompleteBooking = ({ tourDetail }: { tourDetail: TourDetail }) => {
   const router = useRouter();
   return (
     <div className="col-span-2 flex flex-col gap-8 items-center">

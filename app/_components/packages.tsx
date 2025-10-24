@@ -16,23 +16,23 @@ import api from "@/server";
 import TourCard from "@/components/tour-card";
 import { Tour } from "@/types/tour.type";
 
-const Packages = () => {
-  const [tour, setTour] = useState<Tour[]>()
+const Packages = ({tour}:{tour:Tour[]}) => {
+  // const [tour, setTour] = useState<Tour[]>()
 
-  const getTours = useCallback(async () => {
-    const res = await api.tour.getTour()
-    if (res.code === 2000) {
-      setTour(res.data)
-      return
-    } else {
-      console.error('can not get tour!')
-      return
-    }
-  }, [])
+  // const getTours = useCallback(async () => {
+  //   const res = await api.tour.getTour()
+  //   if (res.code === 2000) {
+  //     setTour(res.data)
+  //     return
+  //   } else {
+  //     console.error('can not get tour!')
+  //     return
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    void getTours()
-  }, [])
+  // useEffect(() => {
+  //   void getTours()
+  // }, [])
 
   return (
     <LayoutSection link="#" title="Popular Tour Packages">
@@ -65,8 +65,7 @@ const Packages = () => {
           className="w-full h-full relative"
         >
           {tour?.map((item, i) => (
-            <SwiperSlide key={i} className="p-3 relative">
-
+            <SwiperSlide key={i} className="p-3 !h-full relative">
               <TourCard wishlist={item} key={i} />
             </SwiperSlide>
           ))}

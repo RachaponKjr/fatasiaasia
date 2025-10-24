@@ -22,14 +22,14 @@ const Profile = () => {
         <Image src={profile} alt="" width={40} height={40} />
         <h5 className="text-4xl font-bold text-[#333333]">Profile</h5>
       </div>
-      <div className="flex gap-10 items-center">
+      <div className="flex flex-col md:flex-row gap-10 items-center">
         <Avatar className=" size-[170px]">
           <AvatarFallback>M</AvatarFallback>
         </Avatar>
         <div className="text-[#333333] flex flex-col gap-2">
           <div className="flex items-center gap-10">
             <h6 className="text-4xl font-bold">
-              Hello, {user ? user?.name: "Your name"}
+              Hello, {user ? user?.name : "Your name"}
             </h6>
             <Link
               href={"/profile/accountsetting"}

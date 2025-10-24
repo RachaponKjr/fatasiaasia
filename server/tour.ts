@@ -1,16 +1,14 @@
 import { BaseApi } from "@/lib/base-api";
 import { Tour, TourDetail } from "@/types/tour.type";
 
-const getTour = async () => {
-  return BaseApi<Tour[]>("/tour", {
-    method: "GET",
-    requiresAuth: true,
-  });
+const getTour = async ({ country }: { country?: string } = {}) => {
+  const url = country ? `/tour?country=${country}` : "/tour";
+  return BaseApi<Tour[]>(url, { method: "GET" });
 };
-
 const getTourDetail = async ({ tourId }: { tourId: number }) => {
   return BaseApi<TourDetail>(`/tour/${tourId}`, {
     method: "GET",
+    requiresAuth: true,
   });
 };
 

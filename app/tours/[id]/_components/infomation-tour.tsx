@@ -29,30 +29,16 @@ import {
 } from "@/components/ui/accordion";
 import Gallery from "./images-show";
 import Booking from "./booking";
-import { useParams } from "next/navigation";
 import api from "@/server";
 import { TourDetail } from "@/types/tour.type";
-const InfomationTour = () => {
-  const { id } = useParams();
-  const [detail, setDetail] = useState<TourDetail>();
-  const getTourDetail = useCallback(async () => {
-    const res = await api.tour.getTourDetail({ tourId: Number(id) });
-    if (res.code != 2000) {
-      console.error(res.message);
-    }
-    setDetail(res.data);
-  }, []);
-
-  useEffect(() => {
-    void getTourDetail();
-  }, [getTourDetail]);
+const InfomationTour = ({ tourId, tourDetail }: { tourId: string, tourDetail: TourDetail }) => {
 
   return (
     <div className="flex flex-col xl:flex-row gap-8 xl:gap-16">
       {/* ข้อมูล booking */}
       <div className="w-full max-w-4xl flex flex-col items-start gap-2 xl:gap-5">
         <h1 className="font-bold text-xl xl:text-4xl text-[#333333]">
-          {detail?.title}
+          {tourDetail?.title}
         </h1>
         <div className="grid grid-cols-3 gap-x-4 gap-y-2 xl:gap-0 xl:grid-cols-5">
           <div className="flex gap-2 items-center">
@@ -112,20 +98,20 @@ const InfomationTour = () => {
           </div>
         </div>
         {/* Images */}
-        {detail && <Gallery galleryUrls={detail?.galleryUrls} />}
+        {tourDetail && <Gallery galleryUrls={tourDetail?.galleryUrls} />}
         <div className="flex flex-col gap-4 xl:gap-14 xl:my-14">
           {/* Tour Overview */}
           <div className="flex flex-col gap-2 xl:gap-6 text-[#333333]">
             <h4 className="font-bold text-xl xl:text-3xl">Tour Overview</h4>
             <p className="font-normal text-xs xl:text-sm leading-loose">
-              {detail?.overview}
+              {tourDetail?.overview}
             </p>
           </div>
           {/* Tour Highlights */}
           <div className="flex flex-col gap-2 xl:gap-6 text-[#333333]">
             <h4 className="font-bold text-xl xl:text-3xl">Tour Highlights</h4>
             <p className="font-normal text-xs xl:text-sm leading-loose">
-              {detail?.highlight}
+              {tourDetail?.highlight}
             </p>
           </div>
         </div>
@@ -134,7 +120,7 @@ const InfomationTour = () => {
           <h4 className="font-bold text-xl xl:text-3xl">Itinerary</h4>
           <div className="w-full ">
             <Accordion type="multiple" className="gap-5 flex flex-col w-full">
-              {detail?.itineraries.map((item, index) => (
+              {tourDetail?.itineraries.map((item, index) => (
                 <AccordionItem
                   value={`itineraries-${index}`}
                   className="cursor-pointer"
@@ -174,7 +160,7 @@ const InfomationTour = () => {
           className="rounded-full bg-[#BD3E2B] hover:bg-[#BD3E2B] h-14 font-semibold px-8 cursor-pointer my-4 xl:my-14"
           asChild
         >
-          <a href={detail?.brochureUrl} download>
+          <a href={tourDetail?.brochureUrl} download>
             Download Brochure
           </a>
         </Button>
@@ -278,7 +264,7 @@ const InfomationTour = () => {
             </div> */}
       </div>
       {/* booking */}
-      <Booking tourdetail={detail as TourDetail} />
+      <Booking tourId={Number(tourId)} tourdetail={tourDetail as TourDetail} />
     </div>
   );
 };

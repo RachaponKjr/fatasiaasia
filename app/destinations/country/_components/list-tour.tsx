@@ -1,12 +1,6 @@
 import TourCard from "@/components/tour-card";
 
 import React, { useCallback, useEffect, useState } from "react";
-import thai from "@/assets/images/country/thai.png";
-import indo from "@/assets/images/country/indo.png";
-
-import tourthai1 from "@/assets/images/tour/tourthai1.jpg";
-import tourthai2 from "@/assets/images/tour/tourthai2.jpg";
-import tourindo1 from "@/assets/images/tour/tourindo1.jpg";
 import { Tour } from "@/types/tour.type";
 import api from "@/server";
 

@@ -6,6 +6,7 @@ interface StoreState {
   setBooking: (
     booking: BookingReq | ((prev: BookingReq) => BookingReq)
   ) => void;
+  resetBooking: () => void;
 }
 
 export const useBooking = create<StoreState>((set) => ({
@@ -25,4 +26,19 @@ export const useBooking = create<StoreState>((set) => ({
     set((state) => ({
       booking: typeof booking === "function" ? booking(state.booking) : booking,
     })),
+  resetBooking: () =>
+    set({
+      booking: {
+        startDate: 0,
+        visitTime: 0,
+        adultTickets: 0,
+        childTickets: 0,
+        infantTickets: 0,
+        bookingEmail: "",
+        bookingFirstname: "",
+        bookingSurname: "",
+        bookingPhone: "",
+        bookingAddress: "",
+      },
+    }),
 }));

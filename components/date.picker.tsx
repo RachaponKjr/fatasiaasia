@@ -71,6 +71,11 @@ export function DatePicker({
         <PopoverContent className="w-auto p-0">
           <Calendar
             mode="single"
+            disabled={(date) => {
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              return date < today;
+            }}
             selected={date}
             onSelect={handleSelect}
             captionLayout="dropdown"

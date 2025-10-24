@@ -1,13 +1,16 @@
 "use client";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import HeroLayout from "../../about/_components/hero-about";
 import JoinNewSletter from "@/components/join-newsletter";
 import ListTour from "./_components/list-tour";
 import { useSearchParams } from "next/navigation";
+import api from "@/server";
+import TourCard from "@/components/tour-card";
+import { Tour } from "@/types/tour.type";
 const page = () => {
   const param = useSearchParams();
   const country = param.get("country");
-
+  const [countryItem, setCountryItem] = useState<Tour[]>()
   const content: Record<string, { title: string; description: string }> = {
     Thailand: {
       title: "Explore Thailand famous places",
@@ -220,7 +223,23 @@ of a people who never cease to renew themselves.
 `,
     },
   };
+  const getCountry = useCallback(async () => {
+    try {
+      if (!country) {
+        return
+      }
+      const countryRes = await api.tour.getTour({ country })
+      if (countryRes.code === 2000) {
+        setCountryItem(countryRes.data)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }, [])
 
+  useEffect(() => {
+    void getCountry()
+  }, [])
   const data = country ? content[country] : null;
   return (
     <div>
@@ -234,7 +253,15 @@ of a people who never cease to renew themselves.
                 {data.description}
               </p>
             </div>
-            <ListTour />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-28">
+              {countryItem && countryItem.length > 0 ? (
+                countryItem.map((item, i) => (
+                  <TourCard wishlist={item} key={i} />
+                ))
+              ) : (
+                <p className="col-span-3">No tours available.</p>
+              )}
+            </div>
           </>
         ) : (
           <div className="flex flex-col items-center">

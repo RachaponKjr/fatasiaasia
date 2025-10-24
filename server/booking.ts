@@ -1,5 +1,5 @@
 import { BaseApi } from "@/lib/base-api";
-import { BookingReq } from "@/types/booking.type";
+import { BookingReq, MyBooking } from "@/types/booking.type";
 
 const booking = async ({
   tourId,
@@ -11,8 +11,15 @@ const booking = async ({
   return BaseApi(`/tour/${tourId}/booking`, {
     method: "POST",
     body: JSON.stringify(payload),
-    requiresAuth:true
+    requiresAuth: true,
   });
 };
 
-export { booking };
+const getMyBooking = async () => {
+  return BaseApi<MyBooking[]>("/tour/booking", {
+    method: "GET",
+    requiresAuth: true,
+  });
+};
+
+export { booking, getMyBooking };

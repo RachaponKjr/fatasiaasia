@@ -3,7 +3,7 @@ import { Counter } from "@/components/counter";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -20,17 +20,36 @@ import { useBooking } from "@/store/booking-store";
 import { TourDetail } from "@/types/tour.type";
 import { useWishlist } from "@/hooks/useWishlist";
 
-const Booking = ({ tourdetail }: { tourdetail: TourDetail }) => {
+const Booking = ({ tourId, tourdetail }: { tourId: number, tourdetail: TourDetail }) => {
   const router = useRouter();
-  const { addToWishlist, removeFromWishlist } = useWishlist();
+  const { addToWishlist, removeFromWishlist, fetchWishlist } = useWishlist();
   const [dialogBooking, setDialogBooking] = useState<boolean>(false);
-  const { setBooking, booking } = useBooking();
+  const { setBooking, booking, resetBooking } = useBooking();
+  const [isWishlisted, setIsWishlisted] = useState(tourdetail.isWishlist);
 
   if (!tourdetail) {
     return (
       <div className="p-7 border grow h-[30rem] shrink-0 sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] shadow-[0px_10px_40px_0px_#000000]/5"></div>
     );
   }
+
+  useEffect(() => {
+    void resetBooking()
+  }, [])
+
+  useEffect(() => {
+    setIsWishlisted(tourdetail.isWishlist);
+  }, [tourdetail.isWishlist]);
+
+  const clickWishlist = () => {
+    if (isWishlisted) {
+      removeFromWishlist(tourdetail.tourId);
+      setIsWishlisted(false);
+    } else {
+      addToWishlist(tourdetail.tourId);
+      setIsWishlisted(true);
+    }
+  };
 
   return (
     <div className="p-7 border shrink-0 sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] h-max shadow-[0px_10px_40px_0px_#000000]/5">
@@ -55,6 +74,7 @@ const Booking = ({ tourdetail }: { tourdetail: TourDetail }) => {
         <div className="flex items-center ">
           <span className="text-sm min-w-[150px]">Adult (18+ years)</span>
           <Counter
+            initialValue={booking.adultTickets}
             onChange={(v) =>
               setBooking((prev) => ({
                 ...prev,
@@ -66,6 +86,7 @@ const Booking = ({ tourdetail }: { tourdetail: TourDetail }) => {
         <div className="flex items-center">
           <span className="text-sm min-w-[150px]">Child (6-17 years) </span>
           <Counter
+            initialValue={booking.childTickets}
             onChange={(v) =>
               setBooking((prev) => ({
                 ...prev,
@@ -77,6 +98,7 @@ const Booking = ({ tourdetail }: { tourdetail: TourDetail }) => {
         <div className="flex items-center">
           <span className="text-sm min-w-[150px]">Infant (0-5 years)</span>
           <Counter
+            initialValue={booking.infantTickets}
             onChange={(v) =>
               setBooking((prev) => ({
                 ...prev,
@@ -90,16 +112,12 @@ const Booking = ({ tourdetail }: { tourdetail: TourDetail }) => {
       <div className="h-[1px] w-full bg-[#E7E6E6]" />
       <div className="flex items-center gap-6 mt-4">
         <div
-          onClick={() =>
-            tourdetail.isWishlist
-              ? removeFromWishlist(tourdetail.tourId)
-              : addToWishlist(tourdetail.tourId)
-          }
+          onClick={clickWishlist}
           className="w-10 aspect-square rounded-full cursor-pointer border border-[#E7E6E6] grid place-content-center"
         >
           <Heart
-            fill={tourdetail.isWishlist ? "#E0211D" : "transparent"}
-            color={tourdetail.isWishlist ? "#E0211D" : "#E7E6E6"}
+            fill={isWishlisted ? "#E0211D" : "transparent"}
+            color={isWishlisted ? "#E0211D" : "#E7E6E6"}
             size={24}
           />
         </div>
@@ -124,7 +142,7 @@ const Booking = ({ tourdetail }: { tourdetail: TourDetail }) => {
                 Cancel
               </Button>
               <Button
-                onClick={() => router.push("/tours/1/booking")}
+                onClick={() => router.push(`/tours/${tourId}/booking`)}
                 className="h-full w-[200px] bg-[#BD3E2B] hover:bg-[#BD3E2B] text-white cursor-pointer"
               >
                 Book Now

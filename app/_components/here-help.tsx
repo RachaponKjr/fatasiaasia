@@ -4,6 +4,7 @@ import React from "react";
 
 import tourgroup from "@/assets/images/banner/tourgroup.png";
 import woman from "@/assets/images/banner/woman.png";
+import Link from "next/link";
 
 const HereHelp = () => {
   return (
@@ -19,9 +20,9 @@ const HereHelp = () => {
               Let us handle your transportation needs.
               <br /> Enjoy seamless transfers and explore with ease.
             </span>
-            <Button className="bg-white hover:bg-white cursor-pointer font-semibold text-xs xl:text-xl text-[#BD3E2B] py-4 xl:py-7 px-4 xl:px-10 rounded-full">
+            <Link href={'/contact'} className="bg-white hover:bg-white cursor-pointer font-semibold text-xs xl:text-xl text-[#BD3E2B] py-4 flex items-center xl:py-7 px-4 xl:px-10 rounded-full">
               Contact us
-            </Button>
+            </Link>
           </div>
         </div>
         <div className="relative -bottom-2 right-0 xl:right-5">

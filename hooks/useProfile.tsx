@@ -20,9 +20,11 @@ export const useProfile = () => {
     try {
       if (authCookie) {
         const res: ApiResponse<Profile> = await api.user.getProfile();
-        setUser(res.data);
+        setUser(res.data)
       }
     } catch (err: any) {
+      router.push("/login");
+      Cookies.remove('auth_token')
       setError(err.message || "Failed to fetch profile");
       setUser(null);
     } finally {
@@ -30,14 +32,18 @@ export const useProfile = () => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     Cookies.remove("auth_token"); // clear token
+    Cookies.remove("authStatus")
+    await fetchProfile();
     setUser(null); // clear state
     router.push("/login"); // redirect
   };
 
   useEffect(() => {
-    fetchProfile();
+    if (!user) {
+      fetchProfile();
+    }
   }, []);
 
   return {

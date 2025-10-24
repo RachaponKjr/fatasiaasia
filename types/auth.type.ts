@@ -1,7 +1,8 @@
 import z from "zod";
 
 export const AuthSchema = z.object({
-  name: z.string().min(1, { message: "กรุณากรอกชื่อ" }),
+  firstName: z.string().min(1, { message: "กรุณากรอกชื่อ" }),
+  lastName: z.string().min(1, { message: "กรุณากรอกชื่อ" }),
   email: z.string().email({ message: "อีเมลไม่ถูกต้อง" }),
   password: z
     .string()

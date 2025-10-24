@@ -47,7 +47,7 @@ const Footer = () => {
                 <PhoneIcon size={18} />
                 <span className="text-xl font-semibold">More Inquiry</span>
               </div>
-              <span>tel: +66 62 242 3997</span>
+              <span>Tel: +66 62 242 3997</span>
             </div>
             <div className="flex flex-col gap-3">
               <div className="flex gap-2 items-center">
@@ -68,13 +68,7 @@ const Footer = () => {
           </div>
           <div className="flex flex-col">
             <div className="mmax-w-sm">
-              <div className="flex flex-col gap-5">
-                <span className="text-xl font-semibold">We Are Here</span>
-                <p>
-                  Quisque purus augue, facilisis andi neque idont accumsan
-                  fringilla massa. Vivamusol id nibhom condimentum.
-                </p>
-              </div>
+
               <div className="flex flex-col gap-5">
                 <span className="text-xl font-semibold">Payment method</span>
                 <div className="flex gap-2 items-center">

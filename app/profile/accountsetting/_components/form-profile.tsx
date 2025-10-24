@@ -28,6 +28,7 @@ const FormProfile = () => {
 
   const updateProfile = async (e: FormEvent) => {
     e.preventDefault();
+    console.log(editUser)
     if (!editUser) {
       toast.error("ไม่พบข้อมูล Update!", { className: "!text-red-500" });
       return;
@@ -57,17 +58,28 @@ const FormProfile = () => {
     <form onSubmit={updateProfile} className="flex flex-col gap-8">
       {/* Name */}
       <div className="flex flex-col gap-3 w-full">
-        <label className="text-lg font-normal text-[#1A1A1A] ">Name</label>
+        <label className="text-lg font-normal text-[#1A1A1A] ">FirstName</label>
         <div className="flex gap-8 items-center">
           <Input
-            name="name"
-            value={editUser.name || ""}
-            onChange={(e) => handleChange("name", e.target.value)}
+            disabled
+
+            name="firstName"
+            value={editUser.firstName || ""}
+            onChange={(e) => handleChange("firstName", e.target.value)}
             className="max-w-md h-[50px] rounded-[12px] border border-[#B2B2B2]"
           />
-          <Badge className="bg-[#EFEFEF] text-[#333333] text-xl font-light px-8 rounded-full cursor-pointer">
-            Edit
-          </Badge>
+        </div>
+      </div>
+      <div className="flex flex-col gap-3 w-full">
+        <label className="text-lg font-normal text-[#1A1A1A] ">LastName</label>
+        <div className="flex gap-8 items-center">
+          <Input
+            disabled
+            name="lastName"
+            value={editUser.lastName || ""}
+            onChange={(e) => handleChange("lastName", e.target.value)}
+            className="max-w-md h-[50px] rounded-[12px] border border-[#B2B2B2]"
+          />
         </div>
       </div>
 
@@ -78,14 +90,12 @@ const FormProfile = () => {
         </label>
         <div className="flex gap-8 items-center">
           <Input
+            disabled
             name="email"
             value={editUser.email || ""}
             onChange={(e) => handleChange("email", e.target.value)}
             className="max-w-md h-[50px] rounded-[12px] border border-[#B2B2B2]"
           />
-          <Badge className="bg-[#EFEFEF] text-[#333333] text-xl font-light px-8 rounded-full cursor-pointer">
-            Edit
-          </Badge>
         </div>
       </div>
 
@@ -101,9 +111,6 @@ const FormProfile = () => {
             onChange={(e) => handleChange("phoneNumber", e.target.value)}
             className="max-w-md h-[50px] rounded-[12px] border border-[#B2B2B2]"
           />
-          <Badge className="bg-[#EFEFEF] text-[#333333] text-xl font-light px-8 rounded-full cursor-pointer">
-            Edit
-          </Badge>
         </div>
       </div>
 

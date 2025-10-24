@@ -1,6 +1,6 @@
 "use client";
 import { Heart } from "lucide-react";
-import React from "react";
+import React, { useMemo } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import LocationIcon from "@/assets/icons/location";
 import Image from "next/image";
@@ -16,7 +16,10 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
   } = useWishlist();
 
   // เช็คว่า tour นี้อยู่ใน wishlist หรือยัง
-  const isInWishlist = wishlists.some((w) => w.tourId === wishlist.tourId);
+  const isInWishlist = useMemo(
+    () => wishlists.some((w) => w.tourId === wishlist.tourId),
+    [wishlists, wishlist.tourId]
+  );
 
   const handleWishlistToggle = (e: React.MouseEvent) => {
     e.preventDefault(); // กันไม่ให้ Link ทำงานเมื่อกด Heart
@@ -30,17 +33,17 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
   return (
     <Link
       href={`/tours/${wishlist.tourId}`}
-      className="bg-white shadow-[0px_4px_20px_-3px_#000000]/25 h-full w-full rounded-xl xl:rounded-3xl flex flex-col items-start overflow-hidden"
+      className="bg-white shadow-[0px_4px_20px_-3px_#000000]/25 w-full rounded-xl xl:rounded-3xl flex flex-col items-start overflow-hidden"
     >
       {/* Image */}
       <div className="bg-neutral-200 w-full aspect-[16/14] rounded-xl xl:rounded-3xl relative">
-        <Image
-          src={wishlist.thumbnail || ""}
-          alt={wishlist.country || "images"}
-          fill
-          style={{ objectFit: "cover", objectPosition: "center" }}
-          className="rounded-xl xl:rounded-3xl"
-        />
+        {wishlist.thumbnail ? (
+          <Image
+            src={wishlist.thumbnail}
+            alt={wishlist.country || "images"}
+            fill
+          />
+        ) : null}
         <Heart
           onClick={handleWishlistToggle}
           className="absolute top-6 right-6 cursor-pointer"
@@ -58,18 +61,18 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
           <div className="flex gap-4">
             <div className="flex items-center gap-1 text-[#7D7D7D]">
               <LocationIcon size={24} />
-              <span className="text-[10px] xl:text-xs font-normal">
+              <span className="text-[10px] line-clamp-1 xl:text-xs font-normal">
                 {wishlist.title}
               </span>
             </div>
             <div className="flex items-center gap-1 text-[#7D7D7D]">
               <LocationIcon size={24} />
-              <span className="text-[10px] xl:text-xs font-normal">
+              <span className="text-[10px] text-nowrap xl:text-xs font-normal">
                 {wishlist.itinerariesDays} Days
               </span>
             </div>
           </div>
-          <h2 className="font-bold text-[#2F2F2F] text-xs xl:text-base line-clamp-2">
+          <h2 className="font-bold flex-1 text-[#2F2F2F] text-xs xl:text-base line-clamp-2">
             {wishlist.title}
           </h2>
           <div className="text-[#7D7D7D] font-normal text-[13px] flex gap-2 mt-2">

@@ -12,7 +12,11 @@ const signup = async ({ payload }: { payload: Auth }) => {
   });
 };
 
-const login = async ({ payload }: { payload: Omit<Auth, "name"> }) => {
+const login = async ({
+  payload,
+}: {
+  payload: Omit<Auth, "firstName" | "lastName">;
+}) => {
   return BaseApi<LoginRes>("/auth/login", {
     method: "POST",
     body: JSON.stringify(payload),
@@ -20,4 +24,20 @@ const login = async ({ payload }: { payload: Omit<Auth, "name"> }) => {
   });
 };
 
-export { signup, login };
+const verifyOtp = async ({
+  email,
+  otpCode,
+}: {
+  email: string;
+  otpCode: string;
+}) => {
+  return BaseApi("/auth/verify-otp", {
+    method: "POST",
+    body: JSON.stringify({
+      email,
+      otpCode,
+    }),
+  });
+};
+
+export { signup, login, verifyOtp };

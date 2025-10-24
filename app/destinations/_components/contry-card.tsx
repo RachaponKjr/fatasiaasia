@@ -6,7 +6,7 @@ const ContryCard = ({ country, image }: { country: string; image: string }) => {
   const router = useRouter();
   return (
     <div
-      onClick={() => router.push(`/destinations/1?country=${country}`)}
+      onClick={() => router.push(`/destinations/country?country=${country}`)}
       className="w-full cursor-pointer aspect-[13/16] bg-center bg-cover bg-neutral-300 rounded-xl xl:rounded-3xl px-2 py-6 xl:p-8 flex items-end relative overflow-hidden"
       style={{ backgroundImage: `url(${image})` }}
     >

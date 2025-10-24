@@ -16,4 +16,21 @@ export const BookingReqSchema = z.object({
   bookingAddress: z.string().min(1),
 });
 
+export const MyBookingSchema = z.object({
+  bookingId: z.number(),
+  tourId: z.number(),
+  tourTitle: z.string(),
+  country: z.string(),
+  thumbnail: z.string(),
+  startDate: z.string(),
+  endDate: z.string(),
+  duration: z.string(),
+  totalTravellers: z.number(),
+  totalPrice: z.number(),
+  bookingStatus: z.string(),
+  paymentURL: z.string().nullable(),
+  createdAt: z.string(),
+});
+
 export type BookingReq = z.infer<typeof BookingReqSchema>;
+export type MyBooking = z.infer<typeof MyBookingSchema>;
