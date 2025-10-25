@@ -1,6 +1,6 @@
 "use client";
 import { Heart } from "lucide-react";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import LocationIcon from "@/assets/icons/location";
 import Image from "next/image";
@@ -8,12 +8,15 @@ import Link from "next/link";
 import { Tour } from "@/types/tour.type";
 import { useWishlist } from "@/hooks/useWishlist";
 
+import thai from '@/assets/images/country/thai.png'
+
 const TourCard = ({ wishlist }: { wishlist: Tour }) => {
   const {
     wishlist: wishlists,
     addToWishlist,
     removeFromWishlist,
   } = useWishlist();
+  const [countryImage, setCountryImage] = useState<string>(thai.src)
 
   // เช็คว่า tour นี้อยู่ใน wishlist หรือยัง
   const isInWishlist = useMemo(
@@ -29,6 +32,26 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
       addToWishlist(wishlist.tourId);
     }
   };
+  console.table(wishlist)
+
+  useEffect(() => {
+    switch (wishlist.country?.toLowerCase()) {
+      case "thailand":
+        setCountryImage(thai.src);
+        break;
+        // case "japan":
+        //   setCountryImage(japan.src);
+        //   break;
+        // case "korea":
+        //   setCountryImage(korea.src);
+        break;
+      default:
+        setCountryImage(thai.src); // default
+        break;
+    }
+  }, [wishlist.country]);
+
+
 
   return (
     <Link
@@ -52,7 +75,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
           color={isInWishlist ? "red" : "white"}
         />
         <Avatar className="size-12 xl:size-18 ring-4 ring-white absolute -bottom-2 xl:-bottom-6 left-4 xl:left-8 !shadow-lg">
-          <AvatarImage src={wishlist.country} alt={wishlist.title} />
+          <AvatarImage src={countryImage} alt={wishlist.title} />
           <AvatarFallback>{wishlist.country}</AvatarFallback>
         </Avatar>
       </div>
