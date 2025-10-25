@@ -9,6 +9,13 @@ import { Tour } from "@/types/tour.type";
 import { useWishlist } from "@/hooks/useWishlist";
 
 import thai from '@/assets/images/country/thai.png'
+import Cambodia from '@/assets/images/country/Cambodia.svg'
+import India from '@/assets/images/country/India.svg'
+import Laos from '@/assets/images/country/Laos.svg'
+import Malaysia from '@/assets/images/country/Malaysia.svg'
+import Myanmar from '@/assets/images/country/Myanmar.svg'
+import Vietnam from '@/assets/images/country/Vietnam.png'
+import ingapore from '@/assets/images/country/ingapore.svg'
 
 const TourCard = ({ wishlist }: { wishlist: Tour }) => {
   const {
@@ -39,11 +46,25 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
       case "thailand":
         setCountryImage(thai.src);
         break;
-        // case "japan":
-        //   setCountryImage(japan.src);
-        //   break;
-        // case "korea":
-        //   setCountryImage(korea.src);
+      case "Cambodia":
+        setCountryImage(Cambodia.src);
+        break;
+      case "India":
+        setCountryImage(India.src);
+        break;
+      case "singapore":
+        setCountryImage(ingapore.src);
+        break;
+      case "Laos":
+        setCountryImage(Laos.src);
+      case "Malaysia":
+        setCountryImage(Malaysia.src);
+        break;
+      case "Myanmar":
+        setCountryImage(Myanmar.src);
+        break;
+      case "Vietnam":
+        setCountryImage(Vietnam.src);
         break;
       default:
         setCountryImage(thai.src); // default
