@@ -46,24 +46,24 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
       case "thailand":
         setCountryImage(thai.src);
         break;
-      case "Cambodia":
+      case "cambodia":
         setCountryImage(Cambodia.src);
         break;
-      case "India":
+      case "india":
         setCountryImage(India.src);
         break;
       case "singapore":
         setCountryImage(ingapore.src);
         break;
-      case "Laos":
+      case "laos":
         setCountryImage(Laos.src);
-      case "Malaysia":
+      case "malaysia":
         setCountryImage(Malaysia.src);
         break;
-      case "Myanmar":
+      case "myanmar":
         setCountryImage(Myanmar.src);
         break;
-      case "Vietnam":
+      case "vietnam":
         setCountryImage(Vietnam.src);
         break;
       default:
@@ -96,7 +96,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
           color={isInWishlist ? "red" : "white"}
         />
         <Avatar className="size-12 xl:size-18 ring-4 ring-white absolute -bottom-2 xl:-bottom-6 left-4 xl:left-8 !shadow-lg">
-          <AvatarImage src={countryImage} alt={wishlist.title} />
+          <AvatarImage src={countryImage} alt={wishlist.title} className="object-cover"/>
           <AvatarFallback>{wishlist.country}</AvatarFallback>
         </Avatar>
       </div>

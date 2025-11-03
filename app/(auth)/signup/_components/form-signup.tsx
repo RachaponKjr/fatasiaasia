@@ -25,6 +25,8 @@ const FormSignUp = () => {
     confirmPassword: "",
   });
 
+  console.log(sign)
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setSign((prev) => ({ ...prev, [name]: value }));
@@ -49,6 +51,8 @@ const FormSignUp = () => {
         password: sign.password,
       };
       const signupRes = await api.auth.signup({ payload });
+      console.log(signupRes)
+
       if (signupRes.code !== 2000) {
         toast.error(signupRes.message, { className: "!text-red-500" });
         return;
