@@ -3,14 +3,6 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import table from "@/assets/images/table-test.png";
 
-import icon1 from "@/assets/icons/icon-included/icon1.png";
-import icon2 from "@/assets/icons/icon-included/icon2.png";
-import icon3 from "@/assets/icons/icon-included/icon3.png";
-import icon4 from "@/assets/icons/icon-included/icon4.png";
-import icon5 from "@/assets/icons/icon-included/icon5.png";
-import icon6 from "@/assets/icons/icon-included/icon6.png";
-import icon7 from "@/assets/icons/icon-included/icon7.png";
-import icon8 from "@/assets/icons/icon-included/icon8.png";
 import { Check, X } from "lucide-react";
 
 import Image from "next/image";
@@ -171,67 +163,28 @@ const InfomationTour = ({ tourId, tourDetail }: { tourId: string, tourDetail: To
               What's included
             </h4>
             <div className="font-semibold flex flex-col gap-8">
-              <div className="flex gap-3 items-center">
-                <Image src={icon1} alt="" width={40} height={40} />
-                <span>English-speaking local guide</span>
-              </div>
-              <div className="flex gap-3 items-center">
-                <Image src={icon2} alt="" width={40} height={40} />
-                <span>Hotel transfers to/from</span>
-              </div>
-              <div className="flex gap-3 items-center">
-                <Image src={icon3} alt="" width={40} height={40} />
-                <span>Lunch box on the beach</span>
-              </div>
-              <div className="flex gap-3 items-center">
-                <Image src={icon4} alt="" width={40} height={40} />
-                <span>
-                  National park entrance fees: <br />
-                  Adults THB 200 – Children THB 100
-                </span>
-              </div>
-              <div className="flex gap-3 items-center">
-                <Image src={icon5} alt="" width={40} height={40} />
-                <span>Fruit and water on board</span>
-              </div>
-              <div className="flex gap-3 items-center">
-                <Image src={icon6} alt="" width={40} height={40} />
-                <span>Mask and snorkel</span>
-              </div>
-              <div className="flex gap-3 items-center">
-                <Image src={icon7} alt="" width={40} height={40} />
-                <span>Insurance</span>
-              </div>
-              <div className="flex gap-3 items-center">
-                <Image src={icon8} alt="" width={40} height={40} />
-                <span>Life jacket</span>
-              </div>
+              {tourDetail.tourDetails.included.map((item, index) => (
+                <div key={index} className="flex gap-3 items-center">
+                  <Image src={item.iconUrl} alt="" width={40} height={40} />
+                  <span>{item.text}</span>
+                </div>
+              ))}
             </div>
           </div>
           <div className="flex-1 flex flex-col gap-10">
             <div className="flex flex-col gap-4">
               <h6 className="font-bold text-xl text-[#ED021A]">Not included</h6>
-              <div className="flex gap-6 items-center">
-                <div className="px-2 rounded-full bg-[#ED021A]">
-                  <X color="white" size={18} />
+              {tourDetail.tourDetails.notIncluded.map((item, index) => (
+                <div key={index} className="flex gap-6 items-center">
+                  <div className="px-2 rounded-full bg-[#ED021A]">
+                    <X color="white" size={18} />
+                  </div>
+                  <p className="text-[#333333]">
+                    {item}
+                  </p>
                 </div>
-                <p className="text-[#333333]">
-                  Tips, personal expenses, and anything not mentioned in the
-                  program..
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-4">
-              <h6 className="font-bold text-xl text-[#E06C27]">Cancellation</h6>
-              <div className="flex gap-6 items-center">
-                <div className="px-2 rounded-full bg-[#E06C27]">
-                  <X color="white" size={18} />
-                </div>
-                <p className="text-[#333333]">
-                  Free cancellation allowed up to 24 hours before the excursion
-                  departure.
-                </p>
-              </div>
+              ))}
+
             </div>
             <div className="flex flex-col gap-4">
               <h6 className="font-bold text-xl text-[#319E8B]">
@@ -242,7 +195,7 @@ const InfomationTour = ({ tourId, tourDetail }: { tourId: string, tourDetail: To
                   <Check color="white" size={18} />
                 </div>
                 <p className="text-[#333333]">
-                  Sunscreen, swimsuit, beach towel.
+                  {tourDetail.tourDetails.whatToBring}
                 </p>
               </div>
             </div>

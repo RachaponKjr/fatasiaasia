@@ -16,6 +16,7 @@ import Malaysia from '@/assets/images/country/Malaysia.svg'
 import Myanmar from '@/assets/images/country/Myanmar.svg'
 import Vietnam from '@/assets/images/country/Vietnam.png'
 import ingapore from '@/assets/images/country/ingapore.svg'
+import { formatNumber } from "@/utils/format";
 
 const TourCard = ({ wishlist }: { wishlist: Tour }) => {
   const {
@@ -96,7 +97,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
           color={isInWishlist ? "red" : "white"}
         />
         <Avatar className="size-12 xl:size-18 ring-4 ring-white absolute -bottom-2 xl:-bottom-6 left-4 xl:left-8 !shadow-lg">
-          <AvatarImage src={countryImage} alt={wishlist.title} className="object-cover"/>
+          <AvatarImage src={countryImage} alt={wishlist.title} className="object-cover" />
           <AvatarFallback>{wishlist.country}</AvatarFallback>
         </Avatar>
       </div>
@@ -106,7 +107,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
             <div className="flex items-center gap-1 text-[#7D7D7D]">
               <LocationIcon size={24} />
               <span className="text-[10px] line-clamp-1 xl:text-xs font-normal">
-                {wishlist.title}
+                {wishlist.country}
               </span>
             </div>
             <div className="flex items-center gap-1 text-[#7D7D7D]">
@@ -122,7 +123,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
           <div className="text-[#7D7D7D] font-normal text-[13px] flex gap-2 mt-2">
             <h6>estimate</h6>
             <span className="text-sm font-medium text-[#2F2F2F]">
-              ${wishlist.estimateCostPerPerson}
+              ${formatNumber(wishlist.estimateCostPerPerson)}
             </span>
             <h6>/person</h6>
           </div>

@@ -41,7 +41,20 @@ function formatTourDateRange(startDate: string, endDate: string): string {
   const end = new Date(endDate);
 
   // เดือนแบบย่อเป็นภาษาอังกฤษ (JAN, FEB, MAR, ...)
-  const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  const monthNames = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
 
   const startDay = start.getDate();
   const endDay = end.getDate();
@@ -58,5 +71,8 @@ function formatTourDateRange(startDate: string, endDate: string): string {
   return `${startDay} ${startMonth} - ${endDay} ${endMonth} ${year}`;
 }
 
+function formatNumber(amount: number) {
+  return amount.toLocaleString("en-US", { maximumFractionDigits: 2 });
+}
 
-export { formatDate, formatTime,formatTourDateRange };
+export { formatDate, formatTime, formatTourDateRange, formatNumber };

@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { useBooking } from "@/store/booking-store";
 import { TourDetail } from "@/types/tour.type";
 import { useWishlist } from "@/hooks/useWishlist";
+import { formatNumber } from "@/utils/format";
 
 const Booking = ({ tourId, tourdetail }: { tourId: number, tourdetail: TourDetail }) => {
   const router = useRouter();
@@ -54,7 +55,7 @@ const Booking = ({ tourId, tourdetail }: { tourId: number, tourdetail: TourDetai
   return (
     <div className="p-7 border shrink-0 sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] h-max shadow-[0px_10px_40px_0px_#000000]/5">
       <h6 className="text-sm">
-        Estimated cost <strong className="text-lg">$1,200-2,000 </strong>
+        Estimated cost <strong className="text-lg">${formatNumber(tourdetail.estimateCostPerPerson)} </strong>
         /per person
       </h6>
       <span className="text-xs">

@@ -17,6 +17,11 @@ export const ItiinerarieSchama = z.object({
   images: z.string(),
 });
 
+export const IncludedSchama = z.object({
+  text: z.string(),
+  iconUrl: z.string(),
+});
+
 export const TourDetailSchama = z.object({
   tourId: z.number(),
   title: z.string(),
@@ -29,6 +34,11 @@ export const TourDetailSchama = z.object({
   galleryUrls: z.array(z.string()),
   brochureUrl: z.string(),
   itineraries: z.array(ItiinerarieSchama),
+  tourDetails: z.object({
+    included: z.array(IncludedSchama),
+    notIncluded: z.array(z.string()),
+    whatToBring: z.string(),
+  }),
 });
 
 export type Tour = z.infer<typeof TourSchama>;
