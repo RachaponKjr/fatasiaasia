@@ -77,7 +77,7 @@ const Navbar = () => {
 
       {/* Right Section */}
       <div className="hidden md:flex flex-1 justify-end items-center gap-4">
-        <span className="font-semibold">Become an Agency</span>
+        <Link href={'mailto:enquiry@fantasiaasia.com'} className="font-semibold">Become an Agency</Link>
         <Globe size={18} />
         <div className="px-3 py-2 cursor-pointer rounded-full border border-[#EBEBEB] flex items-center gap-2">
           <Heart color="#EBEBEB" size={20} />
