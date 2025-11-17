@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
-  "https://tour-user-api-gep6p.ondigitalocean.app";
+  "https://tour-user-api-27tvf.ondigitalocean.app";
 
 interface RequestOptions extends RequestInit {
   token?: string;
