@@ -8,14 +8,15 @@ import Link from "next/link";
 import { Tour } from "@/types/tour.type";
 import { useWishlist } from "@/hooks/useWishlist";
 
-import thai from '@/assets/images/country/thai.png'
-import Cambodia from '@/assets/images/country/Cambodia.svg'
-import India from '@/assets/images/country/India.svg'
-import Laos from '@/assets/images/country/Laos.svg'
-import Malaysia from '@/assets/images/country/Malaysia.svg'
-import Myanmar from '@/assets/images/country/Myanmar.svg'
-import Vietnam from '@/assets/images/country/Vietnam.png'
-import ingapore from '@/assets/images/country/ingapore.svg'
+import thai from "@/assets/images/country/thai.png";
+import Cambodia from "@/assets/images/country/Cambodia.svg";
+import India from "@/assets/images/country/India.svg";
+import Laos from "@/assets/images/country/Laos.svg";
+import Malaysia from "@/assets/images/country/Malaysia.svg";
+import Myanmar from "@/assets/images/country/Myanmar.svg";
+import Vietnam from "@/assets/images/country/Vietnam.png";
+import ingapore from "@/assets/images/country/ingapore.svg";
+import indo from "@/assets/images/country/indo.png";
 import { formatNumber } from "@/utils/format";
 
 const TourCard = ({ wishlist }: { wishlist: Tour }) => {
@@ -24,7 +25,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
     addToWishlist,
     removeFromWishlist,
   } = useWishlist();
-  const [countryImage, setCountryImage] = useState<string>(thai.src)
+  const [countryImage, setCountryImage] = useState<string>(thai.src);
 
   // เช็คว่า tour นี้อยู่ใน wishlist หรือยัง
   const isInWishlist = useMemo(
@@ -40,7 +41,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
       addToWishlist(wishlist.tourId);
     }
   };
-  console.table(wishlist)
+  console.table(wishlist);
 
   useEffect(() => {
     switch (wishlist.country?.toLowerCase()) {
@@ -67,13 +68,14 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
       case "vietnam":
         setCountryImage(Vietnam.src);
         break;
+      case "indonesia":
+        setCountryImage(indo.src);
+        break;
       default:
         setCountryImage(thai.src); // default
         break;
     }
   }, [wishlist.country]);
-
-
 
   return (
     <Link
@@ -97,7 +99,11 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
           color={isInWishlist ? "red" : "white"}
         />
         <Avatar className="size-12 xl:size-18 ring-4 ring-white absolute -bottom-2 xl:-bottom-6 left-4 xl:left-8 !shadow-lg">
-          <AvatarImage src={countryImage} alt={wishlist.title} className="object-cover" />
+          <AvatarImage
+            src={countryImage}
+            alt={wishlist.title}
+            className="object-cover"
+          />
           <AvatarFallback>{wishlist.country}</AvatarFallback>
         </Avatar>
       </div>
