@@ -10,9 +10,10 @@ import api from "@/server";
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const { data: tour } = await api.tour.getTour();
-  const { data: tourDetail } = await api.tour.getTourDetail({ tourId: Number(id) });
+  const { data: tourDetail } = await api.tour.getTourDetail({
+    tourId: Number(id),
+  });
 
-  console.log(tourDetail.tourDetails)
   return (
     <>
       <div className="container mx-auto px-4 xl:px-0 py-10 xl:py-20 flex gap-4 xl:gap-8 flex-col 2xl:px-20">

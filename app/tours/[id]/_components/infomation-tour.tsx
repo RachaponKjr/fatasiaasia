@@ -21,10 +21,14 @@ import {
 } from "@/components/ui/accordion";
 import Gallery from "./images-show";
 import Booking from "./booking";
-import api from "@/server";
 import { TourDetail } from "@/types/tour.type";
-const InfomationTour = ({ tourId, tourDetail }: { tourId: string, tourDetail: TourDetail }) => {
-
+const InfomationTour = ({
+  tourId,
+  tourDetail,
+}: {
+  tourId: string;
+  tourDetail: TourDetail;
+}) => {
   return (
     <div className="flex flex-col xl:flex-row gap-8 xl:gap-16">
       {/* ข้อมูล booking */}
@@ -179,12 +183,9 @@ const InfomationTour = ({ tourId, tourDetail }: { tourId: string, tourDetail: To
                   <div className="px-2 rounded-full bg-[#ED021A]">
                     <X color="white" size={18} />
                   </div>
-                  <p className="text-[#333333]">
-                    {item}
-                  </p>
+                  <p className="text-[#333333]">{item}</p>
                 </div>
               ))}
-
             </div>
             <div className="flex flex-col gap-4">
               <h6 className="font-bold text-xl text-[#319E8B]">

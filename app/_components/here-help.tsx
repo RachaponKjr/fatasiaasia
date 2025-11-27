@@ -11,16 +11,19 @@ const HereHelp = () => {
     <div className="container mx-auto">
       <div className="w-full aspect-video xl:aspect-[16/5] overflow-hidden relative flex items-center bg-gradient-to-r from-[#E76B58] to-[#BD3E2B] rounded-2xl">
         <div className="flex flex-col items-center grow px-4 xl:px-0">
-          <div className="flex flex-col items-start gap-3 xl:gap-5">
-            <h3 className="text-xl xl:text-5xl font-bold text-white leading-tight">
-              Need b<br />
+          <div className="flex flex-col items-start gap-2 xl:gap-5">
+            <h3 className="text-xl xl:text-5xl text-nowrap font-bold text-white leading-tight">
+              Need <br />
               We're Here to Help!
             </h3>
-            <span className="max-w-lg text-[10px] xl:text-sm text-white leading-loose">
+            <span className="max-w-lg text-[10px] xl:text-sm text-white leading-normal sm:leading-loose">
               Let us handle your transportation needs.
               <br /> Enjoy seamless transfers and explore with ease.
             </span>
-            <Link href={'/contact'} className="bg-white hover:bg-white cursor-pointer font-semibold text-xs xl:text-xl text-[#BD3E2B] py-4 flex items-center xl:py-7 px-4 xl:px-10 rounded-full">
+            <Link
+              href={"/contact"}
+              className="bg-white hover:bg-white cursor-pointer font-semibold text-xs xl:text-xl text-[#BD3E2B] py-4 flex items-center xl:py-7 px-4 xl:px-10 rounded-full"
+            >
               Contact us
             </Link>
           </div>
