@@ -8,8 +8,10 @@ import LayoutSection from "@/app/_components/layout-section";
 
 import "swiper/css";
 
-import { Tour } from "@/types/tour.type";
-const AlsoLike = ({ tour }: { tour: Tour[] }) => {
+import { useTours } from "@/hooks/userTour";
+const AlsoLike = () => {
+  const { tours, loading } = useTours();
+  if (loading) return null;
   return (
     <LayoutSection link="#" title="You might also like...">
       <div className="w-full h-max relative">
@@ -36,7 +38,7 @@ const AlsoLike = ({ tour }: { tour: Tour[] }) => {
           }}
           className="w-full"
         >
-          {tour.map((item, i) => (
+          {tours.map((item, i) => (
             <SwiperSlide key={i} className="p-3">
               <TourCard wishlist={item} />
             </SwiperSlide>

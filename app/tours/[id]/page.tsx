@@ -7,23 +7,17 @@ import AlsoLike from "./_components/also-like";
 import InfomationTour from "./_components/infomation-tour";
 import api from "@/server";
 
-const page = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
-  const { data: tour } = await api.tour.getTour();
-  const { data: tourDetail } = await api.tour.getTourDetail({
-    tourId: Number(id),
-  });
-
+const page = async () => {
   return (
     <>
       <div className="container mx-auto px-4 xl:px-0 py-10 xl:py-20 flex gap-4 xl:gap-8 flex-col 2xl:px-20">
         <Backstep />
-        <InfomationTour tourId={id} tourDetail={tourDetail} />
+        <InfomationTour />
         <div className="my-10 xl:my-[100px]">
           <HereHelp />
         </div>
         <div className="mb-28">
-          <AlsoLike tour={tour} />
+          <AlsoLike />
         </div>
       </div>
       <JoinNewSletter />

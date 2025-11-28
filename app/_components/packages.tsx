@@ -1,22 +1,15 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import LayoutSection from "./layout-section";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ArrowLeft from "@/assets/icons/arrow-left";
 import ArrowRight from "@/assets/icons/arrow-right";
-// import TourCard, { TourCardProps } from "@/components/tour-card";
-
-import thai from "@/assets/images/country/thai.png";
-import indo from "@/assets/images/country/indo.png";
-
-import tourthai1 from "@/assets/images/tour/tourthai1.jpg";
-import tourthai2 from "@/assets/images/tour/tourthai2.jpg";
-import tourindo1 from "@/assets/images/tour/tourindo1.jpg";
-import api from "@/server";
 import TourCard from "@/components/tour-card";
 import { Tour } from "@/types/tour.type";
+import { useTours } from "@/hooks/userTour";
 
-const Packages = ({tour}:{tour:Tour[]}) => {
+const Packages = () => {
+  const { tours } = useTours();
 
   return (
     <LayoutSection link="#" title="Popular Tour Packages">
@@ -48,7 +41,7 @@ const Packages = ({tour}:{tour:Tour[]}) => {
           }}
           className="w-full h-full relative"
         >
-          {tour?.map((item, i) => (
+          {tours?.map((item, i) => (
             <SwiperSlide key={i} className="p-3 !h-full relative">
               <TourCard wishlist={item} key={i} />
             </SwiperSlide>

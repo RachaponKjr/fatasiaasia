@@ -21,12 +21,36 @@ import { TourDetail } from "@/types/tour.type";
 import { useWishlist } from "@/hooks/useWishlist";
 import { formatNumber } from "@/utils/format";
 
-const Booking = ({ tourId, tourdetail }: { tourId: number, tourdetail: TourDetail }) => {
+const Booking = ({
+  tourId,
+  tourdetail,
+}: {
+  tourId: number;
+  tourdetail: TourDetail;
+}) => {
   const router = useRouter();
   const { addToWishlist, removeFromWishlist, fetchWishlist } = useWishlist();
   const [dialogBooking, setDialogBooking] = useState<boolean>(false);
   const { setBooking, booking, resetBooking } = useBooking();
-  const [isWishlisted, setIsWishlisted] = useState(tourdetail.isWishlist);
+  const [isWishlisted, setIsWishlisted] = useState(tourdetail?.isWishlist);
+
+  useEffect(() => {
+    void resetBooking();
+  }, []);
+
+  useEffect(() => {
+    setIsWishlisted(tourdetail?.isWishlist);
+  }, [tourdetail?.isWishlist]);
+
+  const clickWishlist = () => {
+    if (isWishlisted) {
+      removeFromWishlist(tourdetail?.tourId);
+      setIsWishlisted(false);
+    } else {
+      addToWishlist(tourdetail?.tourId);
+      setIsWishlisted(true);
+    }
+  };
 
   if (!tourdetail) {
     return (
@@ -34,28 +58,13 @@ const Booking = ({ tourId, tourdetail }: { tourId: number, tourdetail: TourDetai
     );
   }
 
-  useEffect(() => {
-    void resetBooking()
-  }, [])
-
-  useEffect(() => {
-    setIsWishlisted(tourdetail.isWishlist);
-  }, [tourdetail.isWishlist]);
-
-  const clickWishlist = () => {
-    if (isWishlisted) {
-      removeFromWishlist(tourdetail.tourId);
-      setIsWishlisted(false);
-    } else {
-      addToWishlist(tourdetail.tourId);
-      setIsWishlisted(true);
-    }
-  };
-
   return (
     <div className="p-7 border shrink-0 sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] h-max shadow-[0px_10px_40px_0px_#000000]/5">
       <h6 className="text-sm">
-        Estimated cost <strong className="text-lg">${formatNumber(tourdetail.estimateCostPerPerson)} </strong>
+        Estimated cost{" "}
+        <strong className="text-lg">
+          ${formatNumber(tourdetail?.estimateCostPerPerson)}{" "}
+        </strong>
         /per person
       </h6>
       <span className="text-xs">

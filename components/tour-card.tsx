@@ -41,7 +41,6 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
       addToWishlist(wishlist.tourId);
     }
   };
-  console.table(wishlist);
 
   useEffect(() => {
     switch (wishlist.country?.toLowerCase()) {

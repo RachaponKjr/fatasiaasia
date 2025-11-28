@@ -22,13 +22,20 @@ import {
 import Gallery from "./images-show";
 import Booking from "./booking";
 import { TourDetail } from "@/types/tour.type";
-const InfomationTour = ({
-  tourId,
-  tourDetail,
-}: {
-  tourId: string;
-  tourDetail: TourDetail;
-}) => {
+import { useParams } from "next/navigation";
+const InfomationTour = () => {
+  const { id } = useParams();
+  const [tourDetail, setTourDetail] = useState<TourDetail | null>(null);
+  useEffect(() => {
+    const fetchTourDetail = async () => {
+      const res = await fetch(
+        `https://tour-user-api-27tvf.ondigitalocean.app/tour/${id}`
+      );
+      const data = await res.json();
+      setTourDetail(data.data);
+    };
+    fetchTourDetail();
+  }, [id]);
   return (
     <div className="flex flex-col xl:flex-row gap-8 xl:gap-16">
       {/* ข้อมูล booking */}
@@ -167,7 +174,7 @@ const InfomationTour = ({
               What's included
             </h4>
             <div className="font-semibold flex flex-col gap-8">
-              {tourDetail.tourDetails.included.map((item, index) => (
+              {tourDetail?.tourDetails.included.map((item, index) => (
                 <div key={index} className="flex gap-3 items-center">
                   <Image src={item.iconUrl} alt="" width={40} height={40} />
                   <span>{item.text}</span>
@@ -178,7 +185,7 @@ const InfomationTour = ({
           <div className="flex-1 flex flex-col gap-10">
             <div className="flex flex-col gap-4">
               <h6 className="font-bold text-xl text-[#ED021A]">Not included</h6>
-              {tourDetail.tourDetails.notIncluded.map((item, index) => (
+              {tourDetail?.tourDetails.notIncluded.map((item, index) => (
                 <div key={index} className="flex gap-6 items-center">
                   <div className="px-2 rounded-full bg-[#ED021A]">
                     <X color="white" size={18} />
@@ -196,7 +203,7 @@ const InfomationTour = ({
                   <Check color="white" size={18} />
                 </div>
                 <p className="text-[#333333]">
-                  {tourDetail.tourDetails.whatToBring}
+                  {tourDetail?.tourDetails.whatToBring}
                 </p>
               </div>
             </div>
@@ -218,7 +225,7 @@ const InfomationTour = ({
             </div> */}
       </div>
       {/* booking */}
-      <Booking tourId={Number(tourId)} tourdetail={tourDetail as TourDetail} />
+      <Booking tourId={Number(id)} tourdetail={tourDetail as TourDetail} />
     </div>
   );
 };
