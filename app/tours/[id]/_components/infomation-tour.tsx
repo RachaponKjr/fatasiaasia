@@ -22,20 +22,13 @@ import {
 import Gallery from "./images-show";
 import Booking from "./booking";
 import { TourDetail } from "@/types/tour.type";
-import { useParams } from "next/navigation";
-const InfomationTour = () => {
-  const { id } = useParams();
-  const [tourDetail, setTourDetail] = useState<TourDetail | null>(null);
-  useEffect(() => {
-    const fetchTourDetail = async () => {
-      const res = await fetch(
-        `https://tour-user-api-27tvf.ondigitalocean.app/tour/${id}`
-      );
-      const data = await res.json();
-      setTourDetail(data.data);
-    };
-    fetchTourDetail();
-  }, [id]);
+const InfomationTour = ({
+  tourDetail,
+  id,
+}: {
+  tourDetail: TourDetail;
+  id: string;
+}) => {
   return (
     <div className="flex flex-col xl:flex-row gap-8 xl:gap-16">
       {/* ข้อมูล booking */}

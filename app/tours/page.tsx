@@ -11,7 +11,6 @@ import HeroLayout from "../about/_components/hero-about";
 import tourImage from "@/assets/images/banner/tour.png";
 
 const page = async () => {
-  // ดึงข้อมูลTour
   const { data: tour } = await api.tour.getTour();
   return (
     <>

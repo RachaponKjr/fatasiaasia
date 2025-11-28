@@ -28,7 +28,6 @@ const FormProfile = () => {
 
   const updateProfile = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(editUser)
     if (!editUser) {
       toast.error("ไม่พบข้อมูล Update!", { className: "!text-red-500" });
       return;
@@ -40,7 +39,7 @@ const FormProfile = () => {
         return;
       }
       toast.success("อัพเดทสำเร็จ!", { className: "!text-green-500" });
-      router.refresh()
+      router.refresh();
       return;
     } catch (err) {
       console.error(err);
@@ -53,7 +52,6 @@ const FormProfile = () => {
 
   if (!editUser) return <p>Loading...</p>;
 
-  console.log(editUser);
   return (
     <form onSubmit={updateProfile} className="flex flex-col gap-8">
       {/* Name */}
@@ -62,7 +60,6 @@ const FormProfile = () => {
         <div className="flex gap-8 items-center">
           <Input
             disabled
-
             name="firstName"
             value={editUser.firstName || ""}
             onChange={(e) => handleChange("firstName", e.target.value)}

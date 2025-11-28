@@ -2,14 +2,17 @@
 import { useState, useEffect } from "react";
 import api from "@/server";
 import { Tour } from "@/types/tour.type";
+import { useProfile } from "./useProfile";
 
 export const useWishlist = () => {
   const [wishlist, setWishlist] = useState<Tour[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { authStatus } = useProfile();
 
   // โหลด wishlist
   const fetchWishlist = async () => {
+    if (!authStatus) return;
     setIsLoading(true);
     setError(null);
     try {

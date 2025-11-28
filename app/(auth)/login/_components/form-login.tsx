@@ -42,11 +42,11 @@ const FormLogin = () => {
       toast.success("เข้าสู่ระบบสำเร็จ", { className: "!text-green-500" });
 
       if (res?.data?.sessionToken) {
-        Cookies.set("auth_token", res.data.sessionToken, { expires: 1 });
-        Cookies.set("authStatus", "true", { expires: 1 })
+        Cookies.set("access_token", res.data.sessionToken, { expires: 1 });
+        Cookies.set("authStatus", "true", { expires: 1 });
       }
       await refresh();
-      router.push('/')
+      router.push("/");
     } catch (err) {
       console.error("Login error:", err);
       toast.error("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง", {

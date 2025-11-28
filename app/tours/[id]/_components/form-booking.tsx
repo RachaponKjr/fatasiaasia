@@ -15,7 +15,6 @@ const FormBooking = ({ setStep, booking, setBooking }: Props) => {
     return <div>Loading...</div>;
   }
 
-  console.log(booking, "Booking");
   return (
     <div className="flex flex-col gap-10">
       <DatePicker

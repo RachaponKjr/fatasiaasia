@@ -33,18 +33,18 @@ const LinkList = [
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [authStatus, setAuthStatus] = useState<string | null>(null)
+  const [authStatus, setAuthStatus] = useState<string | null>(null);
   const { logout } = useProfile();
   const router = useRouter();
 
   useEffect(() => {
     // อ่าน cookie ตอน component mount
-    const status = Cookies.get('authStatus');
+    const status = Cookies.get("authStatus");
     setAuthStatus(status as string);
 
     // ถ้าต้องการฟังการเปลี่ยนแปลง cookie ก็สามารถใช้ interval หรือ event listener
     const interval = setInterval(() => {
-      const updatedStatus = Cookies.get('authStatus');
+      const updatedStatus = Cookies.get("authStatus");
       if (updatedStatus !== authStatus) {
         setAuthStatus(updatedStatus as string);
       }
@@ -77,7 +77,12 @@ const Navbar = () => {
 
       {/* Right Section */}
       <div className="hidden md:flex flex-1 justify-end items-center gap-4">
-        <Link href={'mailto:enquiry@fantasiaasia.com'} className="font-semibold">Become an Agency</Link>
+        <Link
+          href={"mailto:enquiry@fantasiaasia.com"}
+          className="font-semibold"
+        >
+          Become an Agency
+        </Link>
         <Globe size={18} />
         <div className="px-3 py-2 cursor-pointer rounded-full border border-[#EBEBEB] flex items-center gap-2">
           <Heart color="#EBEBEB" size={20} />
@@ -92,7 +97,7 @@ const Navbar = () => {
               className="w-72 mt-4 text-[#333333] p-6 flex flex-col"
               align="end"
             >
-              {authStatus === 'true' ? (
+              {authStatus === "true" ? (
                 <>
                   <DropdownMenuLabel className="font-bold text-xl">
                     Hello, User
@@ -195,13 +200,17 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {authStatus === 'true' ? (
+          {authStatus === "true" ? (
             <div className="flex flex-col gap-3 mt-4 border-t pt-4">
               {[
                 { href: "/profile", icon: profile, label: "My Profile" },
                 { href: "/profile/tour", icon: tour, label: "Tours" },
                 { href: "/profile/pasttour", icon: past, label: "Past Tours" },
-                { href: "/profile/wishlist", icon: wishlist, label: "Wishlist" },
+                {
+                  href: "/profile/wishlist",
+                  icon: wishlist,
+                  label: "Wishlist",
+                },
                 {
                   href: "/profile/accountsetting",
                   icon: setting,

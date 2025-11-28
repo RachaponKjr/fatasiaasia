@@ -10,7 +10,6 @@ type Props = {
 
 const InfoUser = ({ setStep }: Props) => {
   const { booking, setBooking } = useBooking();
-  console.log(booking);
   return (
     <div className="flex flex-col justify-around">
       <div className="flex flex-col gap-4">

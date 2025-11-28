@@ -11,8 +11,9 @@ export const useProfile = () => {
   const [user, setUser] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [authStatus, setAuthStatus] = useState<string | null>(null);
   const router = useRouter();
-  const authCookie = Cookies.get('auth_token')
+  const authCookie = Cookies.get("access_token");
 
   const fetchProfile = async () => {
     setIsLoading(true);
@@ -20,11 +21,16 @@ export const useProfile = () => {
     try {
       if (authCookie) {
         const res: ApiResponse<Profile> = await api.user.getProfile();
-        setUser(res.data)
+        setUser(res.data);
+        Cookies.set("authStatus", "true");
+        setAuthStatus("true");
+        Cookies.set("access_token", authCookie);
       }
     } catch (err: any) {
       router.push("/login");
-      Cookies.remove('auth_token')
+      Cookies.remove("access_token");
+      Cookies.remove("authStatus");
+      setAuthStatus(null);
       setError(err.message || "Failed to fetch profile");
       setUser(null);
     } finally {
@@ -33,8 +39,8 @@ export const useProfile = () => {
   };
 
   const logout = async () => {
-    Cookies.remove("auth_token"); // clear token
-    Cookies.remove("authStatus")
+    Cookies.remove("access_token"); // clear token
+    Cookies.remove("authStatus");
     await fetchProfile();
     setUser(null); // clear state
     router.push("/login"); // redirect
@@ -52,5 +58,6 @@ export const useProfile = () => {
     error,
     refresh: fetchProfile,
     logout,
+    authStatus,
   };
 };

@@ -8,9 +8,7 @@ import TourCard from "@/components/tour-card";
 import { Tour } from "@/types/tour.type";
 import { useTours } from "@/hooks/userTour";
 
-const Packages = () => {
-  const { tours } = useTours();
-
+const Packages = ({ tours }: { tours: Tour[] }) => {
   return (
     <LayoutSection link="#" title="Popular Tour Packages">
       <div className="w-full h-max relative">

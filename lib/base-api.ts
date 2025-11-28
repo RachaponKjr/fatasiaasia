@@ -8,7 +8,7 @@ const BASE_URL =
 
 interface RequestOptions extends RequestInit {
   token?: string;
-  requiresAuth?: boolean; // <-- เพิ่มตรงนี้
+  requiresAuth?: boolean;
 }
 
 export interface ApiResponse<T> {
@@ -30,11 +30,11 @@ export async function BaseApi<T>(
 
   let finalToken: string | undefined = optionToken;
 
-  // ถ้า requiresAuth และไม่มี token → ลองดึงจาก cookie
-  if (requiresAuth && !finalToken) {
+  // ⛔ ไม่มี token แต่ต้องใช้ auth → ตัดไฟตั้งแต่ต้นลม
+  if (requiresAuth) {
     try {
       const cookieStore = cookies();
-      finalToken = (await cookieStore).get("auth_token")?.value;
+      finalToken = (await cookieStore).get("access_token")?.value;
     } catch (err) {
       console.warn("Cannot read auth token from cookies:", err);
     }
@@ -45,7 +45,6 @@ export async function BaseApi<T>(
     ...(headers as Record<string, string>),
   };
 
-  // ใส่ Authorization เฉพาะถ้า requiresAuth และมี token จริง
   if (requiresAuth && finalToken) {
     requestHeaders["Authorization"] = `Bearer ${finalToken}`;
   }
@@ -54,13 +53,6 @@ export async function BaseApi<T>(
     ...rest,
     headers: requestHeaders,
   });
-
-  // Debug
-  // console.log("===== DEBUG API CALL =====");
-  // console.log("Endpoint:", endpoint);
-  // console.log("Token:", finalToken);
-  // console.log("Headers:", requestHeaders);
-  // console.log("==========================");
 
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
