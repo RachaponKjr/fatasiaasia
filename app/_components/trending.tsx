@@ -16,7 +16,7 @@ import { Tour } from "@/types/tour.type";
 const Trending = () => {
   const infoTrending = [
     {
-      name: "Bangkok",
+      name: "Thailand",
       detail: "Railway Market & Damnoensaduak Floating Market",
       image: thai.src,
     },
@@ -37,7 +37,7 @@ const Trending = () => {
     },
   ];
   return (
-    <LayoutSection link="#" title="Trending Destinations">
+    <LayoutSection link="/destinations" title="Trending Destinations">
       <div className="w-full h-max relative">
         <Swiper
           slidesPerView={4}

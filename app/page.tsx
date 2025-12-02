@@ -21,7 +21,7 @@ export default async function Home() {
         <Packages tours={tour} />
         <WhyChoose />
         <BaseService />
-        <BeachPackages />
+        <BeachPackages tours={tour} />
         <FollowFantasiaasia />
         <Client />
       </div>

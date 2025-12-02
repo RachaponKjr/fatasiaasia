@@ -10,7 +10,7 @@ import { useTours } from "@/hooks/userTour";
 
 const Packages = ({ tours }: { tours: Tour[] }) => {
   return (
-    <LayoutSection link="#" title="Popular Tour Packages">
+    <LayoutSection link="/tours" title="Popular Tour Packages">
       <div className="w-full h-max relative">
         <Swiper
           slidesPerView={3}

@@ -2,12 +2,93 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
 
 import "swiper/css";
+import "swiper/css/navigation";
+
 import { Star } from "lucide-react";
 import ArrowLeft from "@/assets/icons/arrow-left";
 import ArrowRight from "@/assets/icons/arrow-right";
 import HereHelp from "./here-help";
+
+const testimonials = [
+  {
+    name: "Walter Antonello",
+    review: "During my vacation in Ao Nang, Alice and Pluto organized a nice 3 days tour in Koh Lanta, 4 days in Bangkok and a daily tour in Koh Yao. Thanks to them for the warm hospitality. It Is good to have people that speak Italian and can assist you. Hoping to come back soon, thanks for the good suggestions.",
+    location: "Italy"
+  },
+  {
+    name: "Nona Margareta",
+    review: "Nothing to complain. It's the best tour experience we had. Safety first priority and hospitality. Alice and Silvia took us to the beach. Sent us with warm smile. Meanwhile Pluto treated us just like a long time friends. Defenetly we left our heart here. Massive thanks to all team. We will come back again.",
+    location: "Netherlands"
+  },
+  {
+    name: "Marcin Maciaszczyk",
+    review: "Most reliable local tour agency in Klong Muang, run by adorable owners Alice and Pluto. We absolutely enjoyed their tours (Mar 2020): private long boat trip to Hong Island and a tour to hot springs and Tiger Temple. Everything was perfectly …",
+    location: "Poland"
+  },
+  {
+    name: "Laura Cardonnet",
+    review: "Always willing to help us, Pluto has not only been a great advisor for us to find the best beach tours according to our expectations, budget and needs, but also assisted us in overcoming some surprising obstacles along our journey. Totally recommended!",
+    location: "France"
+  },
+  {
+    name: "Stefano P.",
+    review: "Brilliant bespoke service provided by skilled and fun-to-be with staff in Krabi. Highly reccomended for your trip!",
+    location: "Italy"
+  },
+  {
+    name: "daniel knights",
+    review: "Great staff. Very knowledgeable about local hidden gems. Great trips at great prices. Highly recommend. English, Italian and Thai spoken",
+    location: "United Kingdom"
+  },
+  {
+    name: "Margherita Ducoli",
+    review: "We used this agency for a trip/stay in Bangkok. They organized everything excellently, including transportation to and from the airport and the hotel. They also provided an Italian-speaking guide for the three days of sightseeing. Excellent …",
+    location: "Italy"
+  },
+  {
+    name: "Ivan Penz",
+    review: "My heartfelt congratulations to Maya, a kind and thoughtful person. We spent four days in Krabi in the rain, a real drama. Keo saved us with some advice and alternatives, giving us a little optimism. Thank you, well done, and especially well done, Maya!",
+    location: "Italy"
+  },
+  {
+    name: "Franco Cere",
+    review: "An Italian-speaking travel agency in Krabi, they organize tours to the most beautiful islands and can assist travelers with advice, bookings, and other information. Recommended!",
+    location: "Italy"
+  },
+  {
+    name: "Giorgio Staiti",
+    review: "It is not easy to find people who know how to combine professional skill and human relationship and friendship. Simply fantastic. Highly recommended. Trust them. …",
+    location: "Italy"
+  },
+  {
+    name: "CAMILLA CRESPINI",
+    review: "Alice was fantastic. Very thoughtful and kind, always available. We had a really good time, thanks in part to her excellent guidance and advice.",
+    location: "Italy"
+  },
+  {
+    name: "Кузнецова Анна",
+    review: "Personal attitude to clients, always in touch, will select a tour according to your wishes. …",
+    location: "Russia"
+  },
+  {
+    name: "AR SNWBRDS",
+    review: "If you need to book any type of excursion or trip, do it here. They speak several languages: English, Italian, Spanish, Thai... They are very attentive at all times and offer the best prices. Without a doubt, the service is unbeatable; any …",
+    location: "Spain"
+  },
+  {
+    name: "Luca Bonzi",
+    review: "This agency is a sure thing..... Be prepared, they speak Italian and any of your requests will be satisfied!!!!",
+    location: "Italy"
+  },
+  {
+    name: "瞇瞇眼",
+    review: "Krabi's best travel agency. I will come back for you 🚗⛵🏝️⛵🚗🥰",
+    location: "Taiwan"
+  }
+];
 
 const Client = () => {
   return (
@@ -51,6 +132,15 @@ const Client = () => {
         {/* Testimonials Swiper */}
         <div className="w-full lg:flex-1">
           <Swiper
+            modules={[Autoplay, Navigation]}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            navigation={{
+              nextEl: ".client-next",
+              prevEl: ".client-prev",
+            }}
             loop
             breakpoints={{
               640: {
@@ -67,20 +157,20 @@ const Client = () => {
               },
             }}
           >
-            {Array.from({ length: 5 }).map((_, i) => (
+            {testimonials.map((item, i) => (
               <SwiperSlide key={i} className="p-2">
                 <div className="p-6 sm:p-8 bg-white rounded-3xl min-h-[240px] max-h-[280px] sm:max-h-[240px] shadow-[0px_3px_10px_0px_rgba(0,_0,_0,_0.1)]">
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
                       <Avatar className="size-10 sm:size-12">
-                        <AvatarFallback className="text-sm">M</AvatarFallback>
+                        <AvatarFallback className="text-sm">{item.name.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div className="text-black leading-tight">
                         <h6 className="text-sm sm:text-base font-bold">
-                          Sara Mohamed
+                          {item.name}
                         </h6>
                         <span className="font-medium text-[11px] sm:text-xs text-gray-500">
-                          Jakatar
+                          {item.location}
                         </span>
                       </div>
                     </div>
@@ -101,10 +191,7 @@ const Client = () => {
                   <div className="w-full h-[1px] bg-[#E4E6E8] my-4 sm:my-6" />
 
                   <p className="text-xs sm:text-sm text-[#737373] leading-relaxed line-clamp-4">
-                    I've been using the hotel booking system for several years
-                    now, and it's become my go-to platform for planning my
-                    trips. The interface is user-friendly, and I appreciate the
-                    detailed information and real-time availability of hotels.
+                    {item.review}
                   </p>
                 </div>
               </SwiperSlide>
@@ -116,12 +203,12 @@ const Client = () => {
       {/* Navigation Buttons */}
       <div className="flex justify-center sm:justify-end w-full gap-3 sm:gap-4 relative mt-4">
         {/* Prev Button */}
-        <div className="w-12 sm:w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md hover:bg-[#FFE8CC] transition-colors">
+        <div className="client-prev w-12 sm:w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md hover:bg-[#FFE8CC] transition-colors">
           <ArrowLeft size={20} />
         </div>
 
         {/* Next Button */}
-        <div className="w-12 sm:w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md hover:bg-[#FFE8CC] transition-colors">
+        <div className="client-next w-12 sm:w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md hover:bg-[#FFE8CC] transition-colors">
           <ArrowRight size={20} />
         </div>
       </div>

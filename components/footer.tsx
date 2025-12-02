@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import PhoneIcon from "@/assets/icons/phone";
 import MailIcon from "@/assets/icons/mail";
 import Address from "@/assets/icons/address";
+import Link from "next/link";
 
 import omise from "@/assets/images/payment/omise.png";
 import visa from "@/assets/images/payment/visa.png";
@@ -26,19 +27,31 @@ const Footer = () => {
           <h6 className="text-3xl font-semibold text-[#333333]">
             Want to Take Tour Packages?
           </h6>
-          <Button className="bg-main rounded-full font-semibold">
-            Book A Tour
-          </Button>
+          <Link href="/tours">
+            <Button className="bg-main rounded-full font-semibold">
+              Book A Tour
+            </Button>
+          </Link>
         </div>
         <div className="flex flex-wrap md:flex-nowrap gap-2 md:gap-0 justify-between flex-1">
           <div className="flex flex-col gap-5">
             <span className="text-xl font-semibold">Quick Link</span>
             <ul className="flex flex-col gap-3 font-normal [&>li]:cursor-pointer">
-              <li>About Us</li>
-              <li>Destinations</li>
-              <li>Tour Package</li>
-              <li>Article</li>
-              <li>Contact Us</li>
+              <li>
+                <Link href="/about">About Us</Link>
+              </li>
+              <li>
+                <Link href="/destinations">Destinations</Link>
+              </li>
+              <li>
+                <Link href="/tours">Tour Package</Link>
+              </li>
+              <li>
+                <Link href="#">Article</Link>
+              </li>
+              <li>
+                <Link href="/contact">Contact Us</Link>
+              </li>
             </ul>
           </div>
           <div className="max-w-[16rem] md:max-w-[18rem] flex flex-col gap-7">

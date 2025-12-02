@@ -13,9 +13,10 @@ import "lightgallery/css/lg-thumbnail.css";
 
 import gallery from "@/assets/images/gallery.png";
 
-export default function Gallery({ galleryUrls }: { galleryUrls: string[] }) {
+export default function Gallery({ galleryUrls: rawGalleryUrls }: { galleryUrls: string[] }) {
+  const galleryUrls = rawGalleryUrls?.filter((url) => url && url.trim() !== "") || [];
   const lightGalleryRef = useRef<ILightGallery | null>(null);
-  
+
   const openGallery = (e: React.MouseEvent, index: number = 0) => {
     e.preventDefault();
     if (lightGalleryRef.current) {
@@ -24,7 +25,7 @@ export default function Gallery({ galleryUrls }: { galleryUrls: string[] }) {
   };
 
   if (!galleryUrls || galleryUrls.length === 0) return null;
-  
+
   return (
     <div className="w-full">
       <LightGallery
@@ -58,12 +59,12 @@ export default function Gallery({ galleryUrls }: { galleryUrls: string[] }) {
                 onClick={(e) => openGallery(e, 0)}
                 className="min-w-[140px] md:!min-w-[240px] cursor-pointer min-h-[40px] md:!min-h-[61px] flex gap-4 justify-center items-center bg-white/50 backdrop-blur-sm border border-white rounded-full absolute bottom-4 right-4 md:bottom-10 md:right-10 z-50 hover:bg-white/70 transition-all"
               >
-                <Image 
-                  src={gallery.src} 
-                  alt="" 
-                  width={40} 
-                  height={40} 
-                  className="w-8 h-8 md:w-10 md:h-10" 
+                <Image
+                  src={gallery.src}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="w-8 h-8 md:w-10 md:h-10"
                 />
                 <span className="text-white font-semibold text-sm md:text-lg">
                   View all ({galleryUrls.length})

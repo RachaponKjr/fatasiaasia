@@ -133,7 +133,7 @@ const Booking = ({
         </div>
 
         <Dialog open={dialogBooking} onOpenChange={setDialogBooking}>
-          <DialogTrigger className="flex-1">
+          <DialogTrigger asChild className="flex-1">
             <Button className="h-[60px] rounded-[12px] w-full bg-[#BD3E2B] hover:bg-[#BD3E2B] cursor-pointer">
               Book Now
             </Button>

@@ -118,6 +118,7 @@ const InfomationTour = ({
             <Accordion type="multiple" className="gap-5 flex flex-col w-full">
               {tourDetail?.itineraries.map((item, index) => (
                 <AccordionItem
+                  key={index}
                   value={`itineraries-${index}`}
                   className="cursor-pointer"
                 >
@@ -141,8 +142,7 @@ const InfomationTour = ({
                     </div>
                     {item.images && item.images.length > 0 && (
                       <div>
-                        <h6 className="font-bold">PRICE IN US$ :</h6>
-                        {item.images.map((image, index) => (
+                        {item.images.filter((img) => img && img.trim() !== "").map((image, index) => (
                           <Image
                             key={index}
                             src={`${image}`}
@@ -177,7 +177,9 @@ const InfomationTour = ({
             <div className="font-semibold flex flex-col gap-8">
               {tourDetail?.tourDetails.included.map((item, index) => (
                 <div key={index} className="flex gap-3 items-center">
-                  <Image src={item.iconUrl} alt="" width={40} height={40} />
+                  {item.iconUrl && item.iconUrl.trim() !== "" && (
+                    <Image src={item.iconUrl} alt="" width={40} height={40} />
+                  )}
                   <span>{item.text}</span>
                 </div>
               ))}
