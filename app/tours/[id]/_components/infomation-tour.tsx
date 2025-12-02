@@ -44,7 +44,7 @@ const InfomationTour = ({
                 Duration
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                Half-Day
+                {tourDetail?.tourDetails?.duration || "Half-Day"}
               </span>
             </div>
           </div>
@@ -55,7 +55,7 @@ const InfomationTour = ({
                 Group Size
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                Max 10 people
+                {tourDetail?.tourDetails?.groupSize || "Max 10 people"}
               </span>
             </div>
           </div>
@@ -66,7 +66,7 @@ const InfomationTour = ({
                 Ages
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                18-65 yrs
+                {tourDetail?.tourDetails?.ages || "18-65 yrs"}
               </span>
             </div>
           </div>
@@ -77,7 +77,7 @@ const InfomationTour = ({
                 Languages
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                English,Italiano
+                {tourDetail?.tourDetails?.languages || "English,Italiano"}
               </span>
             </div>
           </div>
@@ -88,7 +88,7 @@ const InfomationTour = ({
                 Tour Category
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                Adventure
+                {tourDetail?.tourDetails?.tourCategory || "Adventure"}
               </span>
             </div>
           </div>

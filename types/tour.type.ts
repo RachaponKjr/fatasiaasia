@@ -38,6 +38,11 @@ export const TourDetailSchama = z.object({
     included: z.array(IncludedSchama),
     notIncluded: z.array(z.string()),
     whatToBring: z.string(),
+    duration: z.string().optional(),
+    groupSize: z.string().optional(),
+    ages: z.string().optional(),
+    languages: z.string().optional(),
+    tourCategory: z.string().optional(),
   }),
 });
 
