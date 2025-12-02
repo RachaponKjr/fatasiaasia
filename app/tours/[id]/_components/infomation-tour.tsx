@@ -99,16 +99,18 @@ const InfomationTour = ({
           {/* Tour Overview */}
           <div className="flex flex-col gap-2 xl:gap-6 text-[#333333]">
             <h4 className="font-bold text-xl xl:text-3xl">Tour Overview</h4>
-            <p className="font-normal text-xs xl:text-sm leading-loose">
-              {tourDetail?.overview}
-            </p>
+            <div
+              className="font-normal text-xs xl:text-sm leading-loose"
+              dangerouslySetInnerHTML={{ __html: tourDetail?.overview || "" }}
+            />
           </div>
           {/* Tour Highlights */}
           <div className="flex flex-col gap-2 xl:gap-6 text-[#333333]">
             <h4 className="font-bold text-xl xl:text-3xl">Tour Highlights</h4>
-            <p className="font-normal text-xs xl:text-sm leading-loose">
-              {tourDetail?.highlight}
-            </p>
+            <div
+              className="font-normal text-xs xl:text-sm leading-loose"
+              dangerouslySetInnerHTML={{ __html: tourDetail?.highlight || "" }}
+            />
           </div>
         </div>
         {/* ltinerary */}
