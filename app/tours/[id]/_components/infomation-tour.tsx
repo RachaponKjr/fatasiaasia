@@ -125,7 +125,7 @@ const InfomationTour = ({
                   className="cursor-pointer"
                 >
                   <AccordionTrigger>
-                    Day {index + 1}: {item.title.replace(/^Day \d+:\s*/, "")}
+                    Day {index + 1}: {item.title.replace(/^Day\s*\d+[:\s-]*\s*/i, "")}
                   </AccordionTrigger>
                   <AccordionContent className="space-y-4">
                     <div dangerouslySetInnerHTML={{ __html: item.detail }} />
