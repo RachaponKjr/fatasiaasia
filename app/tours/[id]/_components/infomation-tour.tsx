@@ -29,6 +29,37 @@ const InfomationTour = ({
   tourDetail: TourDetail;
   id: string;
 }) => {
+  const included = tourDetail?.tourDetails?.included || [];
+  let durationVal = "Half-Day";
+  let groupSizeVal = "Max 10 people";
+  let agesVal = "18-65 yrs";
+  let languagesVal = "English,Italiano";
+  let tourCategoryVal = "Adventure";
+
+  const filteredIncluded = included.filter((item) => {
+    if (item.text.startsWith("META_DURATION:")) {
+      durationVal = item.text.replace("META_DURATION:", "");
+      return false;
+    }
+    if (item.text.startsWith("META_GROUPSIZE:")) {
+      groupSizeVal = item.text.replace("META_GROUPSIZE:", "");
+      return false;
+    }
+    if (item.text.startsWith("META_AGES:")) {
+      agesVal = item.text.replace("META_AGES:", "");
+      return false;
+    }
+    if (item.text.startsWith("META_LANGUAGES:")) {
+      languagesVal = item.text.replace("META_LANGUAGES:", "");
+      return false;
+    }
+    if (item.text.startsWith("META_CATEGORY:")) {
+      tourCategoryVal = item.text.replace("META_CATEGORY:", "");
+      return false;
+    }
+    return true;
+  });
+
   return (
     <div className="flex flex-col xl:flex-row gap-8 xl:gap-16">
       {/* ข้อมูล booking */}
@@ -44,7 +75,7 @@ const InfomationTour = ({
                 Duration
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                {tourDetail?.tourDetails?.duration || "Half-Day"}
+                {durationVal}
               </span>
             </div>
           </div>
@@ -55,7 +86,7 @@ const InfomationTour = ({
                 Group Size
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                {tourDetail?.tourDetails?.groupSize || "Max 10 people"}
+                {groupSizeVal}
               </span>
             </div>
           </div>
@@ -66,7 +97,7 @@ const InfomationTour = ({
                 Ages
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                {tourDetail?.tourDetails?.ages || "18-65 yrs"}
+                {agesVal}
               </span>
             </div>
           </div>
@@ -77,7 +108,7 @@ const InfomationTour = ({
                 Languages
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                {tourDetail?.tourDetails?.languages || "English,Italiano"}
+                {languagesVal}
               </span>
             </div>
           </div>
@@ -88,7 +119,7 @@ const InfomationTour = ({
                 Tour Category
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                {tourDetail?.tourDetails?.tourCategory || "Adventure"}
+                {tourCategoryVal}
               </span>
             </div>
           </div>
@@ -179,7 +210,7 @@ const InfomationTour = ({
               What's included
             </h4>
             <div className="font-semibold flex flex-col gap-8">
-              {tourDetail?.tourDetails.included.map((item, index) => (
+              {filteredIncluded.map((item, index) => (
                 <div key={index} className="flex gap-3 items-center">
                   {item.iconUrl && item.iconUrl.trim() !== "" && (
                     <Image src={item.iconUrl} alt="" width={40} height={40} />
