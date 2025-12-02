@@ -2,7 +2,6 @@ export const dynamic = "force-dynamic";
 
 import JoinNewSletter from "@/components/join-newsletter";
 import PaginationComponent from "@/components/pagination";
-import SearchComponent from "@/components/search";
 import TourCard from "@/components/tour-card";
 import React from "react";
 

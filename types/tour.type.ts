@@ -14,7 +14,7 @@ export const ItiinerarieSchama = z.object({
   day: z.string(),
   title: z.string(),
   detail: z.string(),
-  images: z.string(),
+  images: z.array(z.string()),
 });
 
 export const IncludedSchama = z.object({

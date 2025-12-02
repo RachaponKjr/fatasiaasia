@@ -11,12 +11,12 @@ type Props = {
 const InfoUser = ({ setStep }: Props) => {
   const { booking, setBooking } = useBooking();
   return (
-    <div className="flex flex-col justify-around">
+    <div className="flex flex-col justify-around gap-4">
       <div className="flex flex-col gap-4">
         <h5 className=" font-semibold text-[#333333] text-2xl">
           Who shall we send these tickets to?
         </h5>
-        <div className="grid grid-cols-2 gap-[55px]">
+        <div className="grid grid-cols-2 gap-4 lg:gap-[55px]">
           <InputWithLabel
             id="name"
             value={booking.bookingFirstname}

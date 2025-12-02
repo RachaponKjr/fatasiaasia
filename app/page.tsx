@@ -12,7 +12,6 @@ import api from "@/server";
 
 export default async function Home() {
   const { data: tour } = await api.tour.getTour();
-  // console.log(tour);
   return (
     <div className="overflow-hidden">
       <HeroSection />

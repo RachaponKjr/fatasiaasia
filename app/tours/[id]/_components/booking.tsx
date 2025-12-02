@@ -138,22 +138,22 @@ const Booking = ({
               Book Now
             </Button>
           </DialogTrigger>
-          <DialogContent className="!max-w-3xl max-h-11/12 p-[75px] overflow-hidden overflow-y-auto rounded-3xl">
+          <DialogContent className="!max-w-3xl max-h-11/12 lg:p-[75px] p-[20px] overflow-hidden overflow-y-auto rounded-3xl">
             <DialogTitle className="text-3xl text-[#333333] font-bold">
               Bali on a Shoestring 7 Days 6 nights
             </DialogTitle>
             {/* Form */}
             <FormBooking booking={booking} setBooking={setBooking} />
-            <DialogFooter className="h-14 font-medium [&>button]:rounded-[12px]">
+            <DialogFooter className="h-14 flex flex-row lg:flex-col  font-medium [&>button]:rounded-[12px]">
               <Button
                 onClick={() => setDialogBooking(false)}
-                className="h-full w-[144px] bg-[#EFEFEF] hover:bg-[#ADADAD] text-[#ADADAD] hover:text-[#EFEFEF] cursor-pointer"
+                className="h-full flex-1 lg:w-[144px] bg-[#EFEFEF] hover:bg-[#ADADAD] text-[#ADADAD] hover:text-[#EFEFEF] cursor-pointer"
               >
                 Cancel
               </Button>
               <Button
                 onClick={() => router.push(`/tours/${tourId}/booking`)}
-                className="h-full w-[200px] bg-[#BD3E2B] hover:bg-[#BD3E2B] text-white cursor-pointer"
+                className="h-full flex-1 lg:w-[200px] bg-[#BD3E2B] hover:bg-[#BD3E2B] text-white cursor-pointer"
               >
                 Book Now
               </Button>

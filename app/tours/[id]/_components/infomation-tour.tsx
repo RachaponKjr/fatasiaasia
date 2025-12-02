@@ -139,10 +139,18 @@ const InfomationTour = ({
                         control.
                       </p>
                     </div>
-                    {item.images && (
+                    {item.images && item.images.length > 0 && (
                       <div>
                         <h6 className="font-bold">PRICE IN US$ :</h6>
-                        <Image src={table} alt="" width={500} height={500} />
+                        {item.images.map((image, index) => (
+                          <Image
+                            key={index}
+                            src={`${image}`}
+                            alt=""
+                            width={500}
+                            height={500}
+                          />
+                        ))}
                       </div>
                     )}
                   </AccordionContent>

@@ -20,7 +20,7 @@ export function StepProgress({
   className,
 }: StepProgressProps) {
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("w-full px-4 lg:px-0", className)}>
       <div className="flex items-center justify-between">
         {steps.map((step, index) => {
           const stepNumber = index + 1;
