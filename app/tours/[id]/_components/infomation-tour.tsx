@@ -124,7 +124,9 @@ const InfomationTour = ({
                   value={`itineraries-${index}`}
                   className="cursor-pointer"
                 >
-                  <AccordionTrigger>{item.title}</AccordionTrigger>
+                  <AccordionTrigger>
+                    Day {index + 1}: {item.title.replace(/^Day \d+:\s*/, "")}
+                  </AccordionTrigger>
                   <AccordionContent className="space-y-4">
                     <div dangerouslySetInnerHTML={{ __html: item.detail }} />
                     <div className="flex flex-col gap-2 text-[#333333]">
