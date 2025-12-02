@@ -126,7 +126,7 @@ const InfomationTour = ({
                 >
                   <AccordionTrigger>{item.title}</AccordionTrigger>
                   <AccordionContent className="space-y-4">
-                    <p>{item.detail}</p>
+                    <div dangerouslySetInnerHTML={{ __html: item.detail }} />
                     <div className="flex flex-col gap-2 text-[#333333]">
                       <h6 className="font-bold">DEPARTURE TIME :</h6>
                       <p>
