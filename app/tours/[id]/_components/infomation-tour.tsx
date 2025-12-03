@@ -124,8 +124,6 @@ const InfomationTour = ({
             </div>
           </div>
         </div>
-        {/* Images */}
-        {tourDetail && <Gallery galleryUrls={tourDetail?.galleryUrls} />}
         <div className="flex flex-col gap-4 xl:gap-14 xl:my-14">
           {/* Tour Overview */}
           <div className="flex flex-col gap-2 xl:gap-6 text-[#333333]">
@@ -144,6 +142,8 @@ const InfomationTour = ({
             />
           </div>
         </div>
+        {/* Images */}
+        {tourDetail && <Gallery galleryUrls={tourDetail?.galleryUrls} />}
         {/* ltinerary */}
         <div className="flex flex-col gap-2 xl:gap-6 text-[#333333] w-full">
           <h4 className="font-bold text-xl xl:text-3xl">Itinerary</h4>
