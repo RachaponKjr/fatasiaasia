@@ -82,7 +82,7 @@ const Booking = ({
       <h6 className="text-lg font-medium">Tickets</h6>
       <div className="flex flex-col gap-4 my-[24px]">
         <div className="flex items-center ">
-          <span className="text-sm min-w-[150px]">Adult (13+ years)</span>
+          <span className="text-sm min-w-[150px]">Adult (18+ years)</span>
           <Counter
             initialValue={booking.adultTickets}
             onChange={(v) =>
