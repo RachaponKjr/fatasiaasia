@@ -82,7 +82,7 @@ const Booking = ({
       <h6 className="text-lg font-medium">Tickets</h6>
       <div className="flex flex-col gap-4 my-[24px]">
         <div className="flex items-center ">
-          <span className="text-sm min-w-[150px]">Adult (18+ years)</span>
+          <span className="text-sm min-w-[150px]">Adult (13+ years)</span>
           <Counter
             initialValue={booking.adultTickets}
             onChange={(v) =>
@@ -94,7 +94,7 @@ const Booking = ({
           />
         </div>
         <div className="flex items-center">
-          <span className="text-sm min-w-[150px]">Child (6-17 years) </span>
+          <span className="text-sm min-w-[150px]">Child (6-12 years) </span>
           <Counter
             initialValue={booking.childTickets}
             onChange={(v) =>
@@ -106,7 +106,7 @@ const Booking = ({
           />
         </div>
         <div className="flex items-center">
-          <span className="text-sm min-w-[150px]">Infant (0-5 years)</span>
+          <span className="text-sm min-w-[150px]">Infant (0-6 years)</span>
           <Counter
             initialValue={booking.infantTickets}
             onChange={(v) =>
@@ -117,6 +117,17 @@ const Booking = ({
             }
           />
         </div>
+      </div>
+
+      <div className="flex justify-between items-center mb-4">
+        <h6 className="text-lg font-medium">Total</h6>
+        <h6 className="text-2xl font-bold text-[#BD3E2B]">
+          $
+          {formatNumber(
+            (booking.adultTickets + booking.childTickets) *
+            (tourdetail?.estimateCostPerPerson || 0)
+          )}
+        </h6>
       </div>
 
       <div className="h-[1px] w-full bg-[#E7E6E6]" />
