@@ -9,13 +9,35 @@ import { Plus } from "lucide-react";
 
 const images = [banner, halong, tajmahal];
 
+const quotes = [
+  "Experience the magic of Asia with us.",
+  "Curated journeys for the modern traveler.",
+  "Unforgettable memories await you.",
+  "Explore hidden gems and iconic landmarks.",
+  "Luxury travel tailored to your dreams.",
+  "Your gateway to authentic Asian culture.",
+  "Expert guides, seamless adventures.",
+  "Discover the extraordinary in every destination.",
+  "Travel with confidence and style.",
+  "Crafting perfect holidays just for you.",
+];
+
 const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [quoteIndex, setQuoteIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setQuoteIndex((prev) => (prev + 1) % quotes.length);
+    }, 4000); // Change quote every 4 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -43,7 +65,7 @@ const HeroSection = () => {
       </div>
       <div className="max-w-6xl flex flex-col items-center gap-9 z-10">
         <h2 className="text-white text-2xl xl:text-7xl font-bold text-center">
-          No matter where you’re going to, we’ll take you there
+          No matter where you're going to, we'll take you there
         </h2>
 
         {/* Search */}
@@ -72,7 +94,12 @@ const HeroSection = () => {
               </AvatarFallback>
             </Avatar>
           </div>
-          <span>200 people booked Tour in last 24 hours</span>
+          <span
+            key={quoteIndex}
+            className="animate-in fade-in slide-in-from-bottom-2 duration-500 text-center xl:text-left"
+          >
+            {quotes[quoteIndex]}
+          </span>
         </div>
       </div>
     </section>
