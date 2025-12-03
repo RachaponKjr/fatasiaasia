@@ -7,6 +7,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Tour } from "@/types/tour.type";
 import { useWishlist } from "@/hooks/useWishlist";
+import Cookies from "js-cookie";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
+import FormLogin from "@/app/(auth)/login/_components/form-login";
 
 import thai from "@/assets/images/country/thai.png";
 import Cambodia from "@/assets/images/country/Cambodia.svg";
@@ -26,6 +34,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
     removeFromWishlist,
   } = useWishlist();
   const [countryImage, setCountryImage] = useState<string>(thai.src);
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
   // เช็คว่า tour นี้อยู่ใน wishlist หรือยัง
   const isInWishlist = useMemo(
@@ -35,6 +44,18 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
 
   const handleWishlistToggle = (e: React.MouseEvent) => {
     e.preventDefault(); // กันไม่ให้ Link ทำงานเมื่อกด Heart
+    e.stopPropagation(); // ป้องกันไม่ให้ event ไปที่ parent Link
+
+    // Check if user is logged in
+    const accessToken = Cookies.get("access_token");
+
+    if (!accessToken) {
+      // Show login dialog if not authenticated
+      setLoginDialogOpen(true);
+      return;
+    }
+
+    // Toggle wishlist if authenticated
     if (isInWishlist) {
       removeFromWishlist(wishlist.tourId);
     } else {
@@ -134,6 +155,21 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
           </div>
         </div>
       </div>
+
+      {/* Login Dialog */}
+      <Dialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-center">
+              Login Required
+            </DialogTitle>
+            <p className="text-center text-sm text-gray-600 mt-2">
+              Please login to add tours to your wishlist
+            </p>
+          </DialogHeader>
+          <FormLogin />
+        </DialogContent>
+      </Dialog>
     </Link>
   );
 };
