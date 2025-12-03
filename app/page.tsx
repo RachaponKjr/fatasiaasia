@@ -13,7 +13,7 @@ import api from "@/server";
 export default async function Home() {
   const { data: tour } = await api.tour.getTour();
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden" suppressHydrationWarning>
       <HeroSection />
       <div className="container mx-auto py-10 xl:py-20 flex flex-col gap-10 xl:gap-32 2xl:px-20">
         <Trending />

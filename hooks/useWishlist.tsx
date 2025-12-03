@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import api from "@/server";
 import { Tour } from "@/types/tour.type";
 import { useProfile } from "./useProfile";
@@ -11,7 +11,7 @@ export const useWishlist = () => {
   const { authStatus } = useProfile();
 
   // โหลด wishlist
-  const fetchWishlist = async () => {
+  const fetchWishlist = useCallback(async () => {
     if (!authStatus) return;
     setIsLoading(true);
     setError(null);
@@ -23,7 +23,7 @@ export const useWishlist = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [authStatus]);
 
   // เพิ่ม item
   const addToWishlist = async (tourId: number) => {
@@ -48,8 +48,10 @@ export const useWishlist = () => {
   };
 
   useEffect(() => {
-    fetchWishlist();
-  }, []);
+    if (authStatus === "true") {
+      fetchWishlist();
+    }
+  }, [authStatus, fetchWishlist]);
 
   return {
     wishlist,

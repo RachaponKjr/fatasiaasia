@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import SmoothScroll from "@/components/smooth-scroll";
+import CookieConsent from "@/components/cookie-consent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
         <div className="w-full h-[1px] bg-[#C5C5C5]" />
         {children}
         <Footer />
+        <CookieConsent />
         <Toaster />
       </body>
     </html>
