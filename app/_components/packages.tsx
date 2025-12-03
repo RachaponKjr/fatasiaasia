@@ -2,17 +2,31 @@
 import React from "react";
 import LayoutSection from "./layout-section";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
 import ArrowLeft from "@/assets/icons/arrow-left";
 import ArrowRight from "@/assets/icons/arrow-right";
 import TourCard from "@/components/tour-card";
 import { Tour } from "@/types/tour.type";
-import { useTours } from "@/hooks/userTour";
 
 const Packages = ({ tours }: { tours: Tour[] }) => {
+  // Duplicate tours to ensure enough items for looping and "add more" feel
+  const displayTours = tours ? [...tours, ...tours] : [];
+
   return (
     <LayoutSection link="/tours" title="Popular Tour Packages">
-      <div className="w-full h-max relative">
+      <div className="w-full h-max relative group">
         <Swiper
+          modules={[Autoplay, Navigation]}
+          loop={true}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          navigation={{
+            nextEl: ".package-next",
+            prevEl: ".package-prev",
+          }}
           slidesPerView={3}
           spaceBetween={102}
           breakpoints={{
@@ -39,19 +53,19 @@ const Packages = ({ tours }: { tours: Tour[] }) => {
           }}
           className="w-full h-full relative"
         >
-          {tours?.map((item, i) => (
+          {displayTours.map((item, i) => (
             <SwiperSlide key={i} className="p-3 !h-full relative">
               <TourCard wishlist={item} key={i} />
             </SwiperSlide>
           ))}
         </Swiper>
         {/* Prev Button (ซ้าย) */}
-        <div className="absolute top-1/2 -translate-y-1/2 -left-12 -translate-x-1/2 w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md">
+        <div className="package-prev absolute top-1/2 -translate-y-1/2 -left-12 -translate-x-1/2 w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md z-10 hover:scale-110 transition-transform">
           <ArrowLeft size={28} />
         </div>
 
         {/* Next Button (ขวา) */}
-        <div className="absolute top-1/2 -translate-y-1/2 -right-12 translate-x-1/2 w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md">
+        <div className="package-next absolute top-1/2 -translate-y-1/2 -right-12 translate-x-1/2 w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md z-10 hover:scale-110 transition-transform">
           <ArrowRight size={28} />
         </div>
       </div>
