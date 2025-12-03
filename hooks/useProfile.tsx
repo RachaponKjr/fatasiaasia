@@ -22,27 +22,33 @@ export const useProfile = () => {
       if (authCookie) {
         const res: ApiResponse<Profile> = await api.user.getProfile();
         setUser(res.data);
-        Cookies.set("authStatus", "true");
+        Cookies.set("authStatus", "true", {
+          expires: 7,
+          path: '/',
+          sameSite: 'lax'
+        });
         setAuthStatus("true");
-        Cookies.set("access_token", authCookie);
+        // Don't reset the access_token cookie here, keep the original
       }
     } catch (err: any) {
-      router.push("/login");
-      Cookies.remove("access_token");
-      Cookies.remove("authStatus");
-      setAuthStatus(null);
+      // Only clear cookies if it's an authentication error (401)
+      if (err.response?.status === 401) {
+        Cookies.remove("access_token", { path: '/' });
+        Cookies.remove("authStatus", { path: '/' });
+        setAuthStatus(null);
+        setUser(null);
+      }
       setError(err.message || "Failed to fetch profile");
-      setUser(null);
     } finally {
       setIsLoading(false);
     }
   };
 
   const logout = async () => {
-    Cookies.remove("access_token"); // clear token
-    Cookies.remove("authStatus");
-    await fetchProfile();
+    Cookies.remove("access_token", { path: '/' }); // clear token with path
+    Cookies.remove("authStatus", { path: '/' });
     setUser(null); // clear state
+    setAuthStatus(null);
     router.push("/login"); // redirect
   };
 
