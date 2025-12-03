@@ -35,6 +35,12 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
   } = useWishlist();
   const [countryImage, setCountryImage] = useState<string>(thai.src);
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent Dialog from rendering during SSR to avoid hydration errors
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // เช็คว่า tour นี้อยู่ใน wishlist หรือยัง
   const isInWishlist = useMemo(
@@ -158,20 +164,22 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
         </div>
       </Link>
 
-      {/* Login Dialog */}
-      <Dialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-center">
-              Login Required
-            </DialogTitle>
-            <p className="text-center text-sm text-gray-600 mt-2">
-              Please login to add tours to your wishlist
-            </p>
-          </DialogHeader>
-          <FormLogin />
-        </DialogContent>
-      </Dialog>
+      {/* Login Dialog - Only render on client to prevent hydration errors */}
+      {mounted && (
+        <Dialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold text-center">
+                Login Required
+              </DialogTitle>
+              <p className="text-center text-sm text-gray-600 mt-2">
+                Please login to add tours to your wishlist
+              </p>
+            </DialogHeader>
+            <FormLogin />
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 };
