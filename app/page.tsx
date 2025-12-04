@@ -31,6 +31,8 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const { data: tour } = await api.tour.getTour();
+  const { data: beachTours } = await api.tour.getTour({ isBeachTour: true });
+
   return (
     <div className="overflow-hidden" suppressHydrationWarning>
       <HeroSection />
@@ -40,7 +42,7 @@ export default async function Home() {
         <Packages tours={tour} />
         <WhyChoose />
         <BaseService />
-        <BeachPackages tours={tour} />
+        <BeachPackages tours={beachTours} />
         <FollowFantasiaasia />
         <Client />
       </div>
