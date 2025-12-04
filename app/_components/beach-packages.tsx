@@ -20,7 +20,8 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
     return included.some((item: { text: string }) => item.text === "META_BEACHTOUR:true");
   }) || [];
 
-  if (beachTours.length === 0) return null;
+  // If no tours are marked as beach tours, show all tours (backwards compatible)
+  const toursToDisplay = beachTours.length > 0 ? beachTours : tours;
 
   return (
     <LayoutSection link="/tours" title="Beach Tour Packages">
@@ -50,7 +51,7 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
           }}
           className="w-full"
         >
-          {beachTours.map((item, i) => (
+          {toursToDisplay?.map((item, i) => (
             <SwiperSlide key={i}>
               <div className="bg-white h-max w-full rounded-3xl flex flex-col items-start overflow-hidden">
                 {/* Image */}
