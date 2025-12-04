@@ -235,11 +235,11 @@ of a people who never cease to renew themselves.
     } catch (err) {
       console.error(err)
     }
-  }, [])
+  }, [country])
 
   useEffect(() => {
     void getCountry()
-  }, [])
+  }, [getCountry])
   const data = country ? content[country] : null;
   return (
     <div>
