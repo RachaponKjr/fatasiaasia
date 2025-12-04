@@ -15,6 +15,13 @@ import Image from "next/image";
 import { Tour } from "@/types/tour.type";
 
 const BeachPackages = ({ tours }: { tours: Tour[] }) => {
+  const beachTours = tours?.filter((tour) => {
+    const included = tour.tourDetails?.included || [];
+    return included.some((item: { text: string }) => item.text === "META_BEACHTOUR:true");
+  }) || [];
+
+  if (beachTours.length === 0) return null;
+
   return (
     <LayoutSection link="/tours" title="Beach Tour Packages">
       <div className="w-full h-max relative">
@@ -43,7 +50,7 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
           }}
           className="w-full"
         >
-          {tours?.map((item, i) => (
+          {beachTours.map((item, i) => (
             <SwiperSlide key={i}>
               <div className="bg-white h-max w-full rounded-3xl flex flex-col items-start overflow-hidden">
                 {/* Image */}

@@ -8,7 +8,7 @@ const getTour = async ({ country }: { country?: string } = {}) => {
 const getTourDetail = async ({ tourId }: { tourId: number }) => {
   return BaseApi<TourDetail>(`/tour/${tourId}`, {
     method: "GET",
-    requiresAuth: true,
+    requiresAuth: false,
   });
 };
 

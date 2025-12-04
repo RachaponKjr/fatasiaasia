@@ -8,6 +8,12 @@ const TourSchama = z.object({
   thumbnail: z.string(),
   itinerariesDays: z.number(),
   isWishlist: z.boolean(),
+  tourDetails: z.object({
+    included: z.array(z.object({
+      text: z.string(),
+      iconUrl: z.string(),
+    })),
+  }).optional(),
 });
 
 export const ItiinerarieSchama = z.object({
