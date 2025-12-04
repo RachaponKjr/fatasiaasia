@@ -85,6 +85,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
         break;
       case "laos":
         setCountryImage(Laos.src);
+        break;
       case "malaysia":
         setCountryImage(Malaysia.src);
         break;
