@@ -55,8 +55,8 @@ const FormLogin = () => {
       }
       await refresh();
 
-      // Reload the page to refresh the authentication state
-      window.location.reload();
+      // Redirect to homepage after successful login
+      router.push("/");
     } catch (err) {
       console.error("Login error:", err);
       toast.error("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง", {

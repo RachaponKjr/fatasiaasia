@@ -77,7 +77,9 @@ const FormSignUp = () => {
         otpCode: valueOtp,
       });
       if (otpRes.code === 2000) {
-        router.push("/login");
+        toast.success("Verification successful!", { className: "!text-green-500" });
+        // Redirect to homepage after successful signup verification
+        router.push("/");
       }
     } catch (err) {
       console.error(err);
