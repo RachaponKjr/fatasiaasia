@@ -31,6 +31,17 @@ const LinkList = [
   { link: "Contact", path: "/contact" },
 ];
 
+const countries = [
+  "Thailand",
+  "Vietnam",
+  "Laos",
+  "Cambodia",
+  "Malaysia",
+  "Indonesia",
+  "Singapore",
+  "India",
+];
+
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authStatus, setAuthStatus] = useState<string | null>(null);
@@ -68,10 +79,36 @@ const Navbar = () => {
 
       {/* Desktop Menu */}
       <div className="hidden md:flex flex-1 gap-14">
-        {LinkList.map((path, index) => (
-          <Link key={index} href={path.path} className="font-medium text-lg">
-            {path.link}
-          </Link>
+        {LinkList.map((item, index) => (
+          item.link === "Destinations" ? (
+            <DropdownMenu key={index}>
+              <DropdownMenuTrigger className="font-medium text-lg cursor-pointer outline-none flex items-center gap-1">
+                {item.link}
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-48 mt-2">
+                <DropdownMenuItem asChild>
+                  <Link href="/destinations" className="w-full font-semibold">
+                    All Destinations
+                  </Link>
+                </DropdownMenuItem>
+                <div className="h-px bg-gray-200 my-1" />
+                {countries.map((country) => (
+                  <DropdownMenuItem key={country} asChild>
+                    <Link href={`/destinations/country?country=${country}`} className="w-full">
+                      {country}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link key={index} href={item.path} className="font-medium text-lg">
+              {item.link}
+            </Link>
+          )
         ))}
       </div>
 
