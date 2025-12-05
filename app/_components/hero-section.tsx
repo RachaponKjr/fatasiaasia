@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import banner from "@/assets/images/banner/herobanner.jpg";
-import halong from "@/assets/images/banner/halong.jpg";
+import halong2 from "@/assets/images/banner/halong2.jpg";
 import tajmahal from "@/assets/images/banner/tajmahal.jpg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Plus } from "lucide-react";
 
-const images = [banner, halong, tajmahal];
+const images = [banner, halong2, tajmahal];
 
 const quotes = [
   "Experience the magic of Asia with us.",
