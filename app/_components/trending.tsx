@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 import LayoutSection from "./layout-section";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -74,27 +75,29 @@ const Trending = () => {
         >
           {infoTrending.map((item, i) => (
             <SwiperSlide key={i} className="!overflow-visible">
-              <div
-                onMouseEnter={() => setHoveredIndex(i)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                className={`bg-gray-200 aspect-[12/16] w-full relative overflow-hidden rounded-2xl p-8 flex bg-cover bg-center items-end transition-all duration-500 ease-out cursor-pointer shadow-lg
+              <Link href={`/destinations/country?country=${item.name}`}>
+                <div
+                  onMouseEnter={() => setHoveredIndex(i)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  className={`bg-gray-200 aspect-[12/16] w-full relative overflow-hidden rounded-2xl p-8 flex bg-cover bg-center items-end transition-all duration-500 ease-out cursor-pointer shadow-lg
                   ${hoveredIndex === i
-                    ? "scale-105 shadow-2xl z-10 ring-2 ring-white/50"
-                    : hoveredIndex !== null
-                      ? "scale-95 blur-[2px] opacity-50 grayscale-[0.3]"
-                      : "hover:scale-105 hover:shadow-xl"
-                  }
+                      ? "scale-105 shadow-2xl z-10 ring-2 ring-white/50"
+                      : hoveredIndex !== null
+                        ? "scale-95 blur-[2px] opacity-50 grayscale-[0.3]"
+                        : "hover:scale-105 hover:shadow-xl"
+                    }
                 `}
-                style={{
-                  backgroundImage: `url(${item.image})`,
-                }}
-              >
-                <div className="bg-gradient-to-b from-transparent to-black/80 from-60% w-full h-full absolute top-0 left-0" />
-                <div className="text-white flex flex-col gap-1 z-10">
-                  <h6 className="font-medium text-lg">{item.name}</h6>
-                  <span className="font-light text-xs">{item.detail}</span>
+                  style={{
+                    backgroundImage: `url(${item.image})`,
+                  }}
+                >
+                  <div className="bg-gradient-to-b from-transparent to-black/80 from-60% w-full h-full absolute top-0 left-0" />
+                  <div className="text-white flex flex-col gap-1 z-10">
+                    <h6 className="font-medium text-lg">{item.name}</h6>
+                    <span className="font-light text-xs">{item.detail}</span>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
