@@ -88,9 +88,9 @@ const Navbar = () => {
           <Heart color="#EBEBEB" size={20} />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Avatar>
+              <Avatar className="bg-[#BD3E2B]">
                 <AvatarImage src="/user.jpg" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback className="bg-[#BD3E2B] text-white">CN</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent
