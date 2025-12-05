@@ -15,22 +15,8 @@ import Image from "next/image";
 import { Tour } from "@/types/tour.type";
 
 const BeachPackages = ({ tours }: { tours: Tour[] }) => {
+  // If no beach tours, don't show the section
   if (!tours || tours.length === 0) return null;
-
-  // Check if any tour has tourDetails (backend support)
-  const hasTourDetails = tours.some(tour => tour.tourDetails !== undefined && tour.tourDetails !== null);
-
-  // If backend supports tourDetails, filter for beach tours
-  // Otherwise show all tours (backwards compatible)
-  const beachTours = hasTourDetails
-    ? tours.filter((tour) => {
-      const included = tour.tourDetails?.included || [];
-      return included.some((item: { text: string }) => item.text === "META_BEACHTOUR:true");
-    })
-    : tours;
-
-  // If filtering is active and no beach tours found, hide section
-  if (hasTourDetails && beachTours.length === 0) return null;
 
   return (
     <LayoutSection link="/tours" title="Beach Tour Packages">
@@ -60,7 +46,7 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
           }}
           className="w-full"
         >
-          {beachTours.map((item, i) => (
+          {tours.map((item, i) => (
             <SwiperSlide key={i}>
               <div className="bg-white h-max w-full rounded-3xl flex flex-col items-start overflow-hidden">
                 {/* Image */}

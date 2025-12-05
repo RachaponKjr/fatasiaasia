@@ -207,7 +207,7 @@ Its history is made of conquests and resistance, royal dynasties, and struggles 
 independence that have shaped a strong and proud identity. From the imperial remains of Hué,
 an ancient and refined capital, to the pagodas and temples dotting its cities, the past coexists
 with a dynamic present looking confidently toward the future.
-Vietnam’s nature provides spectacular scenery: Ha Long Bay, with its thousands of limestone
+Vietnam's nature provides spectacular scenery: Ha Long Bay, with its thousands of limestone
 karsts rising from emerald waters, seems like a dream suspended between legend and reality.
 The terraced rice fields of Sapa, cultivated for centuries by ethnic minorities, create a landscape
 that speaks of harmony between man and nature. Along the Mekong Delta, life moves slowly
@@ -216,10 +216,36 @@ Tourism in Vietnam thrives on the richness of these experiences: the genuine hos
 people, the variety of a cuisine considered among the finest in Asia, and the constant
 intertwining of tradition and modernity. Here, one can experience the intensity of a major city as
 well as the tranquility of a fishing village, explore ancient temples, or lose oneself in the natural
-wonders that make the country one of Southeast Asia’s most complete destinations.
+wonders that make the country one of Southeast Asia's most complete destinations.
 Vietnam is, ultimately, a journey of continuous discovery—a place that fascinates and captivates
 because it contains, in a single land, the power of history, the beauty of nature, and the vitality
 of a people who never cease to renew themselves.
+`,
+    },
+    Singapore: {
+      title: "Explore Singapore famous places",
+      description: `Singapore is a dazzling city-state where modernity meets tradition in perfect harmony. Known as 
+the "Lion City," this island nation has transformed from a humble fishing village into one of the 
+world's most dynamic financial and cultural hubs. Its skyline, dominated by the iconic Marina Bay 
+Sands and the futuristic Gardens by the Bay, showcases cutting-edge architecture that seems to 
+defy imagination.
+Yet beneath its gleaming surface, Singapore preserves a rich tapestry of heritage. Chinatown's 
+ornate temples and bustling markets, Little India's vibrant colors and aromatic spice shops, and 
+Kampong Glam's historic mosques tell stories of the diverse communities that have shaped this 
+nation. The Peranakan culture, a unique blend of Chinese and Malay traditions, adds another 
+layer of cultural richness evident in architecture, cuisine, and customs.
+Singapore's culinary scene is legendary. From world-renowned hawker centers serving 
+affordable local delicacies like Hainanese chicken rice and laksa, to Michelin-starred restaurants 
+offering innovative fusion cuisine, the city caters to every palate. Food is more than sustenance 
+here—it's a national passion and a unifying cultural force.
+Nature lovers will find unexpected treasures: Sentosa Island's beaches, the lush greenery of 
+Botanic Gardens (a UNESCO World Heritage Site), and the otherworldly Supertree Grove that 
+comes alive at night with spectacular light shows. The Singapore Zoo and Night Safari offer 
+world-class wildlife experiences.
+Tourism in Singapore thrives on this unique combination: world-class shopping on Orchard Road, 
+family entertainment at Universal Studios, serene walks through heritage neighborhoods, and 
+endless culinary adventures. Clean, safe, and efficiently connected, Singapore welcomes visitors 
+with warmth and delivers experiences that blend the best of East and West.
 `,
     },
   };

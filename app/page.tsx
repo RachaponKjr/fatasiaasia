@@ -32,6 +32,35 @@ export const metadata: Metadata = {
 export default async function Home() {
   const { data: tour } = await api.tour.getTour();
 
+  // Fetch beach tours server-side (no CORS issues)
+  let beachTours: typeof tour = [];
+  if (tour && tour.length > 0) {
+    try {
+      // Fetch details for all tours in parallel
+      const detailPromises = tour.map(async (t) => {
+        try {
+          const { data } = await api.tour.getTourDetail({ tourId: t.tourId });
+          return data;
+        } catch {
+          return null;
+        }
+      });
+
+      const tourDetails = await Promise.all(detailPromises);
+
+      // Filter for beach tours
+      beachTours = tour.filter((t, index) => {
+        const detail = tourDetails[index];
+        if (!detail || !detail.tourDetails?.included) return false;
+        return detail.tourDetails.included.some(
+          (item) => item.text === "META_BEACHTOUR:true"
+        );
+      });
+    } catch (error) {
+      console.error("Error fetching beach tours:", error);
+    }
+  }
+
   return (
     <div className="overflow-hidden" suppressHydrationWarning>
       <HeroSection />
@@ -41,7 +70,7 @@ export default async function Home() {
         <Packages tours={tour} />
         <WhyChoose />
         <BaseService />
-        <BeachPackages tours={tour} />
+        <BeachPackages tours={beachTours} />
         <FollowFantasiaasia />
         <Client />
       </div>
