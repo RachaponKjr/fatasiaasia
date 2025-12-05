@@ -160,21 +160,6 @@ const InfomationTour = ({
                   </AccordionTrigger>
                   <AccordionContent className="space-y-4">
                     <div dangerouslySetInnerHTML={{ __html: item.detail }} />
-                    <div className="flex flex-col gap-2 text-[#333333]">
-                      <h6 className="font-bold">DEPARTURE TIME :</h6>
-                      <p>
-                        07:30/08:30. To be reconfirmed depending on the hotel
-                        location.
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-2 text-[#333333]">
-                      <h6 className="font-bold">NOTE :</h6>
-                      <p>
-                        The program is subject to changes due to weather
-                        conditions, tides, or unforeseen events beyond our
-                        control.
-                      </p>
-                    </div>
                     {item.images && item.images.length > 0 && (
                       <div>
                         {item.images.filter((img) => img && img.trim() !== "").map((image, index) => (
