@@ -18,15 +18,26 @@ interface VideoItem {
 const FollowFantasiaasia = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
   const [mainVideo, setMainVideo] = useState<string>("https://www.youtube.com/watch?v=AhneBfQjRg4");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLatestVideos = async () => {
       try {
-        // Fetch latest 5 videos from the channel
+        setLoading(true);
+        // Add timestamp to prevent caching
+        const timestamp = new Date().getTime();
         const res = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet&order=date&maxResults=5&type=video`
+          `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet&order=date&maxResults=5&type=video&_t=${timestamp}`,
+          {
+            cache: 'no-store', // Ensure no caching
+            headers: {
+              'Cache-Control': 'no-cache',
+            }
+          }
         );
         const data = await res.json();
+
+        console.log("YouTube API Response:", data); // Debug log
 
         if (data.items && data.items.length > 0) {
           const videoList: VideoItem[] = data.items.map((item: { id: { videoId: string } }) => ({
@@ -34,21 +45,32 @@ const FollowFantasiaasia = () => {
             url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
           }));
 
+          console.log("Videos fetched:", videoList); // Debug log
+
           // Set main video as the latest one
           setMainVideo(videoList[0].url);
           // Set the rest as side videos (next 4)
           setVideos(videoList.slice(1, 5));
+        } else if (data.error) {
+          console.error("YouTube API Error:", data.error);
+          // Use fallback on error
+          setFallbackVideos();
         }
       } catch (error) {
         console.error("Error fetching YouTube videos:", error);
-        // Fallback to hardcoded videos on error
-        setVideos([
-          { videoId: "YC3UtNPVL5Q", url: "https://www.youtube.com/watch?v=YC3UtNPVL5Q" },
-          { videoId: "t0pafVU3EhY", url: "https://www.youtube.com/watch?v=t0pafVU3EhY" },
-          { videoId: "3-UBBZwjn1M", url: "https://www.youtube.com/watch?v=3-UBBZwjn1M" },
-          { videoId: "5iIIE04DDhU", url: "https://www.youtube.com/watch?v=5iIIE04DDhU" },
-        ]);
+        setFallbackVideos();
+      } finally {
+        setLoading(false);
       }
+    };
+
+    const setFallbackVideos = () => {
+      setVideos([
+        { videoId: "YC3UtNPVL5Q", url: "https://www.youtube.com/watch?v=YC3UtNPVL5Q" },
+        { videoId: "t0pafVU3EhY", url: "https://www.youtube.com/watch?v=t0pafVU3EhY" },
+        { videoId: "3-UBBZwjn1M", url: "https://www.youtube.com/watch?v=3-UBBZwjn1M" },
+        { videoId: "5iIIE04DDhU", url: "https://www.youtube.com/watch?v=5iIIE04DDhU" },
+      ]);
     };
 
     fetchLatestVideos();
