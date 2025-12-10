@@ -82,7 +82,7 @@ const Booking = ({
       <h6 className="text-lg font-medium">Tickets</h6>
       <div className="flex flex-col gap-4 my-[24px]">
         <div className="flex items-center ">
-          <span className="text-sm min-w-[150px]">Adult (18+ years)</span>
+          <span className="text-sm min-w-[150px]">Adult (12+ years)</span>
           <Counter
             initialValue={booking.adultTickets}
             onChange={(v) =>
@@ -94,7 +94,7 @@ const Booking = ({
           />
         </div>
         <div className="flex items-center">
-          <span className="text-sm min-w-[150px]">Child (6-12 years) </span>
+          <span className="text-sm min-w-[150px]">Child (3-11 years)</span>
           <Counter
             initialValue={booking.childTickets}
             onChange={(v) =>
@@ -106,7 +106,7 @@ const Booking = ({
           />
         </div>
         <div className="flex items-center">
-          <span className="text-sm min-w-[150px]">Infant (0-6 years)</span>
+          <span className="text-sm min-w-[150px]">Infant (0-3 years)</span>
           <Counter
             initialValue={booking.infantTickets}
             onChange={(v) =>

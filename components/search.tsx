@@ -65,18 +65,18 @@ const SearchComponent = () => {
           <PopoverContent className="w-max">
             <div className="flex flex-col gap-4">
               <div className="flex items-center ">
-                <span className="text-sm min-w-[150px]">Adult (18+ years)</span>
+                <span className="text-sm min-w-[150px]">Adult (12+ years)</span>
                 <Counter />
               </div>
               <div className="flex items-center">
                 <span className="text-sm min-w-[150px]">
-                  Child (6-17 years){" "}
+                  Child (3-11 years)
                 </span>
                 <Counter />
               </div>
               <div className="flex items-center">
                 <span className="text-sm min-w-[150px]">
-                  Infant (0-5 years)
+                  Infant (0-3 years)
                 </span>
                 <Counter />
               </div>

@@ -75,7 +75,7 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
                       2
                     </span>
                   </div>
-                  <span>Adult (18+)</span>
+                  <span>Adult (12+)</span>
                 </div>
                 <div className="flex items-center gap-2 py-4">
                   <div className="bg-[#EFEFEF] w-10 aspect-square rounded-full grid place-content-center">
@@ -83,7 +83,7 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
                       0
                     </span>
                   </div>
-                  <span>Child (6-17)</span>
+                  <span>Child (3-11)</span>
                 </div>
                 <div className="flex items-center gap-2 py-4">
                   <div className="bg-[#EFEFEF] w-10 aspect-square rounded-full grid place-content-center">
@@ -91,7 +91,7 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
                       2
                     </span>
                   </div>
-                  <span>Infant (0-5)</span>
+                  <span>Infant (0-3)</span>
                 </div>
               </div>
             </div>
