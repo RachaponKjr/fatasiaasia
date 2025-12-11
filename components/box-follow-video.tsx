@@ -10,7 +10,7 @@ interface YoutubeData {
   likeCount: string;
   commentCount: string;
 }
-
+const API_KEY = "AIzaSyALWMBSjkV5xo_qT3ZpZz9gXrBjFoacBbU";
 const BoxFollowVideo = ({ youtube }: { youtube: string }) => {
   const [data, setData] = useState<YoutubeData | null>(null);
 
@@ -20,7 +20,7 @@ const BoxFollowVideo = ({ youtube }: { youtube: string }) => {
         const videoId = new URLSearchParams(new URL(youtube).search).get("v");
         if (!videoId) return;
         const res = await fetch(
-          `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=AIzaSyALWMBSjkV5xo_qT3ZpZz9gXrBjFoacBbU`
+          `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${API_KEY}`
         );
         const json = await res.json();
 

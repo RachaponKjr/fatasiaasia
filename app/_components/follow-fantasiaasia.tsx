@@ -17,7 +17,9 @@ interface VideoItem {
 
 const FollowFantasiaasia = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
-  const [mainVideo, setMainVideo] = useState<string>("https://www.youtube.com/watch?v=AhneBfQjRg4");
+  const [mainVideo, setMainVideo] = useState<string>(
+    "https://www.youtube.com/watch?v=AhneBfQjRg4"
+  );
 
   useEffect(() => {
     const fetchLatestVideos = async () => {
@@ -29,10 +31,12 @@ const FollowFantasiaasia = () => {
         const data = await res.json();
 
         if (data.items && data.items.length > 0) {
-          const videoList: VideoItem[] = data.items.map((item: { id: { videoId: string } }) => ({
-            videoId: item.id.videoId,
-            url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-          }));
+          const videoList: VideoItem[] = data.items.map(
+            (item: { id: { videoId: string } }) => ({
+              videoId: item.id.videoId,
+              url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+            })
+          );
 
           // Set main video as the latest one
           setMainVideo(videoList[0].url);
@@ -43,10 +47,22 @@ const FollowFantasiaasia = () => {
         console.error("Error fetching YouTube videos:", error);
         // Fallback to hardcoded videos on error
         setVideos([
-          { videoId: "YC3UtNPVL5Q", url: "https://www.youtube.com/watch?v=YC3UtNPVL5Q" },
-          { videoId: "t0pafVU3EhY", url: "https://www.youtube.com/watch?v=t0pafVU3EhY" },
-          { videoId: "3-UBBZwjn1M", url: "https://www.youtube.com/watch?v=3-UBBZwjn1M" },
-          { videoId: "5iIIE04DDhU", url: "https://www.youtube.com/watch?v=5iIIE04DDhU" },
+          {
+            videoId: "YC3UtNPVL5Q",
+            url: "https://www.youtube.com/watch?v=YC3UtNPVL5Q",
+          },
+          {
+            videoId: "t0pafVU3EhY",
+            url: "https://www.youtube.com/watch?v=t0pafVU3EhY",
+          },
+          {
+            videoId: "3-UBBZwjn1M",
+            url: "https://www.youtube.com/watch?v=3-UBBZwjn1M",
+          },
+          {
+            videoId: "5iIIE04DDhU",
+            url: "https://www.youtube.com/watch?v=5iIIE04DDhU",
+          },
         ]);
       }
     };
@@ -75,15 +91,26 @@ const FollowFantasiaasia = () => {
             <div className="flex flex-col gap-2 justify-between">
               {videos.length > 0 ? (
                 videos.map((video, index) => (
-                  <BoxFollowVideo key={video.videoId || index} youtube={video.url} />
+                  <BoxFollowVideo
+                    key={video.videoId || index}
+                    youtube={video.url}
+                  />
                 ))
               ) : (
                 // Fallback while loading
                 <>
-                  <BoxFollowVideo youtube={"https://www.youtube.com/watch?v=YC3UtNPVL5Q"} />
-                  <BoxFollowVideo youtube={"https://www.youtube.com/watch?v=t0pafVU3EhY"} />
-                  <BoxFollowVideo youtube={"https://www.youtube.com/watch?v=3-UBBZwjn1M"} />
-                  <BoxFollowVideo youtube={"https://www.youtube.com/watch?v=5iIIE04DDhU"} />
+                  <BoxFollowVideo
+                    youtube={"https://www.youtube.com/watch?v=YC3UtNPVL5Q"}
+                  />
+                  <BoxFollowVideo
+                    youtube={"https://www.youtube.com/watch?v=t0pafVU3EhY"}
+                  />
+                  <BoxFollowVideo
+                    youtube={"https://www.youtube.com/watch?v=3-UBBZwjn1M"}
+                  />
+                  <BoxFollowVideo
+                    youtube={"https://www.youtube.com/watch?v=5iIIE04DDhU"}
+                  />
                 </>
               )}
             </div>
