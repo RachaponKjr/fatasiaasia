@@ -57,6 +57,10 @@ const InfomationTour = ({
       tourCategoryVal = item.text.replace("META_CATEGORY:", "");
       return false;
     }
+    // Filter out META_BEACHTOUR - don't display it
+    if (item.text.startsWith("META_BEACHTOUR:")) {
+      return false;
+    }
     return true;
   });
 

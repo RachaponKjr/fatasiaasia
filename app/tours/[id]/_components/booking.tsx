@@ -94,7 +94,7 @@ const Booking = ({
           />
         </div>
         <div className="flex items-center">
-          <span className="text-sm min-w-[150px]">Child (3-11 years) </span>
+          <span className="text-sm min-w-[150px]">Child (3-11 years)</span>
           <Counter
             initialValue={booking.childTickets}
             onChange={(v) =>

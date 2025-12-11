@@ -50,7 +50,7 @@ const FormBooking = ({ setStep, booking, setBooking }: Props) => {
               }))
             }
             value={booking.adultTickets ?? 0}
-            label="Adult (18+)"
+            label="Adult (12+)"
           />
           <BookingCounter
             onChange={(v) =>
@@ -60,7 +60,7 @@ const FormBooking = ({ setStep, booking, setBooking }: Props) => {
               }))
             }
             value={booking.childTickets ?? 0}
-            label="Child (6-17)"
+            label="Child (3-11)"
           />
           <BookingCounter
             onChange={(v) =>
@@ -70,7 +70,7 @@ const FormBooking = ({ setStep, booking, setBooking }: Props) => {
               }))
             }
             value={booking.infantTickets ?? 0}
-            label="Infant (0-5) "
+            label="Infant (0-3)"
           />
         </div>
       </div>
