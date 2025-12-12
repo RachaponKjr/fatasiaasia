@@ -27,16 +27,6 @@ const FormBooking = ({ setStep, booking, setBooking }: Props) => {
         }
         label="When you will visit?"
       />
-      <TimePicker
-        value={booking.visitTime}
-        onChange={(timestamp) =>
-          setBooking((prev) => ({
-            ...prev,
-            visitTime: timestamp,
-          }))
-        }
-        label="Which time?"
-      />
       <div className="flex flex-col gap-[28px]">
         <h5 className="px-1 font-semibold text-2xl text-[#333333]">
           Select Your Tickets

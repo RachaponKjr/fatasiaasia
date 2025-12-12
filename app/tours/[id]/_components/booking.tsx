@@ -75,8 +75,8 @@ const Booking = ({
           <Image src={calendar2} alt="" width={30} height={30} />
         </div>
         <div className="flex flex-col justify-center">
-          <h6 className="text-base font-medium">From</h6>
-          <span className="text-sm font-normal">February 05 ~ February 12</span>
+          <h6 className="text-base font-medium">Availability</h6>
+          <span className="text-sm font-normal text-[#319E8B]">Flexible dates available</span>
         </div>
       </div>
       <h6 className="text-lg font-medium">Tickets</h6>
@@ -125,7 +125,7 @@ const Booking = ({
           $
           {formatNumber(
             (booking.adultTickets + booking.childTickets) *
-              (tourdetail?.estimateCostPerPerson || 0)
+            (tourdetail?.estimateCostPerPerson || 0)
           )}
         </h6>
       </div>

@@ -22,6 +22,7 @@ import {
 import Gallery from "./images-show";
 import Booking from "./booking";
 import { TourDetail } from "@/types/tour.type";
+import Link from "next/link";
 const InfomationTour = ({
   tourDetail,
   id,
@@ -75,7 +76,7 @@ const InfomationTour = ({
         <h1 className="font-bold text-xl xl:text-4xl text-[#333333]">
           {tourDetail?.title}
         </h1>
-        <div className="grid grid-cols-3 gap-x-4 gap-y-2 xl:gap-0 xl:grid-cols-5">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-4 xl:gap-8 xl:grid-cols-4">
           <div className="flex gap-2 items-center">
             <Image src={duration} alt="" width={59} height={59} />
             <div>
@@ -88,21 +89,10 @@ const InfomationTour = ({
             </div>
           </div>
           <div className="flex gap-2 items-center">
-            <Image src={group} alt="" width={45} height={45} />
-            <div>
-              <h6 className="text-[#333333] font-normal text-xs xl:text-sm text-nowrap">
-                Group Size
-              </h6>
-              <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                {groupSizeVal}
-              </span>
-            </div>
-          </div>
-          <div className="flex gap-2 items-center">
             <Image src={ages} alt="" width={40} height={40} />
             <div>
               <h6 className="text-[#333333] font-normal text-xs xl:text-sm text-nowrap">
-                Ages
+                Suitable For
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
                 {agesVal}
@@ -113,7 +103,7 @@ const InfomationTour = ({
             <Image src={languages} alt="" width={35} height={35} />
             <div>
               <h6 className="text-[#333333] font-normal text-xs xl:text-sm text-nowrap">
-                Languages
+                Guide Language
               </h6>
               <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
                 {languagesVal}
@@ -126,9 +116,12 @@ const InfomationTour = ({
               <h6 className="text-[#333333] font-normal text-xs xl:text-sm text-nowrap">
                 Tour Category
               </h6>
-              <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
+              <Link
+                href={`/tours?category=${tourCategoryVal?.toLowerCase().includes("beach") ? "beach" : tourCategoryVal?.toLowerCase().includes("culture") ? "culture" : tourCategoryVal?.toLowerCase().includes("nature") ? "nature" : tourCategoryVal?.toLowerCase().includes("local") ? "local" : tourCategoryVal?.toLowerCase().includes("cities") ? "cities" : tourCategoryVal?.toLowerCase().includes("wellness") ? "wellness" : ""}`}
+                className="text-xs xl:text-sm font-normal text-nowrap text-[#BD3E2B] hover:underline"
+              >
                 {tourCategoryVal}
-              </span>
+              </Link>
             </div>
           </div>
         </div>
@@ -187,43 +180,36 @@ const InfomationTour = ({
             </Accordion>
           </div>
         </div>
-        {/* Download BTN */}
-        <Button
-          className="rounded-full bg-[#BD3E2B] hover:bg-[#BD3E2B] h-14 font-semibold px-8 cursor-pointer my-4 xl:my-14"
-          asChild
-        >
-          <a href={tourDetail?.brochureUrl} download>
-            Download Brochure
-          </a>
-        </Button>
 
-        <div className="flex">
-          <div className="flex flex-col gap-10 flex-1">
-            <h4 className="text-[30px] text-[#333333] font-bold">
-              What's included
+        <div className="flex flex-col xl:flex-row gap-8 xl:gap-16">
+          <div className="flex flex-col gap-6 flex-1">
+            <h4 className="text-2xl xl:text-[30px] text-[#319E8B] font-bold">
+              Included
             </h4>
-            <div className="font-semibold flex flex-col gap-8">
+            <div className="flex flex-col gap-4">
               {filteredIncluded.map((item, index) => (
-                <div key={index} className="flex gap-3 items-center">
-                  {item.iconUrl && item.iconUrl.trim() !== "" && (
-                    <Image src={item.iconUrl} alt="" width={40} height={40} />
-                  )}
-                  <span>{item.text}</span>
+                <div key={index} className="flex gap-4 items-center">
+                  <div className="w-6 h-6 rounded-full bg-[#319E8B] flex items-center justify-center flex-shrink-0">
+                    <Check color="white" size={14} />
+                  </div>
+                  <span className="text-[#333333] text-sm xl:text-base">{item.text}</span>
                 </div>
               ))}
             </div>
           </div>
           <div className="flex-1 flex flex-col gap-10">
-            <div className="flex flex-col gap-4">
-              <h6 className="font-bold text-xl text-[#ED021A]">Not included</h6>
-              {tourDetail?.tourDetails.notIncluded.map((item, index) => (
-                <div key={index} className="flex gap-6 items-center">
-                  <div className="px-2 rounded-full bg-[#ED021A]">
-                    <X color="white" size={18} />
+            <div className="flex flex-col gap-6">
+              <h6 className="font-bold text-2xl xl:text-[30px] text-[#ED021A]">Not Included</h6>
+              <div className="flex flex-col gap-4">
+                {tourDetail?.tourDetails.notIncluded.map((item, index) => (
+                  <div key={index} className="flex gap-4 items-center">
+                    <div className="w-6 h-6 rounded-full bg-[#ED021A] flex items-center justify-center flex-shrink-0">
+                      <X color="white" size={14} />
+                    </div>
+                    <span className="text-[#333333] text-sm xl:text-base">{item}</span>
                   </div>
-                  <p className="text-[#333333]">{item}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
             <div className="flex flex-col gap-4">
               <h6 className="font-bold text-xl text-[#319E8B]">

@@ -29,12 +29,12 @@ const page = async () => {
     <>
       <HeroLayout
         image={tourImage.src}
-        title="Discover Your Perfect Tour"
+        title="Discover Our Handpicked Tours in Asia"
       />
       <div className="container mx-auto py-10 xl:py-20 px-4 xl:px-0 flex flex-col items-center gap-6 xl:gap-[60px] 2xl:px-20">
         <div className="text-center max-w-4xl">
           <h2 className="text-3xl xl:text-[40px] font-medium text-[#333333] mb-4">
-            Explore Our Tour Collection
+            Find Your Next Unforgettable Journey
           </h2>
           <p className="text-lg text-gray-600">
             Browse our carefully curated tours by category and find your perfect Asian adventure.

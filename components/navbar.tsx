@@ -104,6 +104,9 @@ const Navbar = () => {
                   </Link>
                 </DropdownMenuItem>
                 <div className="h-px bg-gray-200 my-1" />
+                <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                  By Category
+                </div>
                 {tourCategories.map((category) => (
                   <DropdownMenuItem key={category.slug} asChild>
                     <Link href={`/tours?category=${category.slug}`} className="w-full">
@@ -111,6 +114,25 @@ const Navbar = () => {
                     </Link>
                   </DropdownMenuItem>
                 ))}
+                <div className="h-px bg-gray-200 my-1" />
+                <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                  By Duration
+                </div>
+                <DropdownMenuItem asChild>
+                  <Link href="/tours?duration=half" className="w-full">
+                    Half-Day
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/tours?duration=full" className="w-full">
+                    Full-Day
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/tours?duration=multi" className="w-full">
+                    Multi-Day
+                  </Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : item.link === "Destinations" ? (
