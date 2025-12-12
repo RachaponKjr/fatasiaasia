@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fantasia Asia | Premium Tours & Travel Experiences",
-  description: "Discover the beauty of Asia with Fantasia Asia. We offer exclusive tour packages, custom itineraries, and unforgettable travel experiences across Thailand, Vietnam, Laos, and more.",
+  title: "Fantasia Asia: Tailor-Made Tours & Curated Journeys across Asia",
+  description: "Discover the best of Asia, from Southeast to India and beyond. Book unique, tailor-made itineraries with 24/7 support and guaranteed best value.",
   icons: {
     icon: "/logo.png",
   },

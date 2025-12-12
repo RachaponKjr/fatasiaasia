@@ -5,7 +5,7 @@ import banner from "@/assets/images/banner/herobanner.jpg";
 import halong2 from "@/assets/images/banner/halong2.jpg";
 import tajmahal from "@/assets/images/banner/tajmahal.jpg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Plus } from "lucide-react";
+import { Plus, Users } from "lucide-react";
 
 const images = [banner, halong2, tajmahal];
 
@@ -64,12 +64,21 @@ const HeroSection = () => {
         ))}
       </div>
       <div className="max-w-6xl flex flex-col items-center gap-9 z-10">
-        <h2 className="text-white text-2xl xl:text-7xl font-bold text-center">
-          No matter where you're going to, we'll take you there
-        </h2>
+        {/* Main Slogan - H1 for SEO */}
+        <h1 className="text-white text-2xl xl:text-7xl font-bold text-center">
+          No matter where you're going, we'll take you there.
+        </h1>
 
-        {/* Search */}
-        {/* <SearchComponent /> */}
+        {/* Social Proof */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 flex items-center gap-3">
+          <div className="flex items-center">
+            <Users className="w-5 h-5 text-white mr-2" />
+            <span className="text-white font-semibold">200+ travelers</span>
+          </div>
+          <span className="text-white/80 text-sm">
+            booked a tour in the last 24 hours.
+          </span>
+        </div>
 
         {/* Avatar */}
         <div className="text-white flex flex-col xl:flex-row items-center font-medium gap-6">

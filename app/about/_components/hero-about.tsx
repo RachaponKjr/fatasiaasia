@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import React from "react";
+import Image from "next/image";
 
 // image banner contry
 import los from "@/assets/images/banner-country/laos.png";
@@ -40,20 +41,30 @@ const HeroLayout = ({
   const country = param.get("country");
   const banner =
     country && countryImages[country] ? countryImages[country] : image;
+  // Check if this is a country page (watercolor images need size constraint)
+  const isCountryPage = country && countryImages[country];
+
   return (
-    <div
-      className={cn(
-        "w-full aspect-[16/8] xl:aspect-[16/5] bg-center bg-cover flex justify-center items-center relative",
-        className
-      )}
-      style={{ backgroundImage: `url(${banner})` }}
-    >
-      <div className="w-full h-full bg-gradient-to-b from-white from-5% to-transparent absolute" />
-      <h1 className="font-bold text-3xl xl:text-6xl text-center text-[#333333] z-10">
-        {title ? title : country}
-      </h1>
+    <div className={cn("w-full relative", className)}>
+      {/* Image container - full width, natural aspect ratio */}
+      <div className="w-full relative">
+        <img
+          src={banner}
+          alt={title || country || "Hero banner"}
+          className="w-full h-auto block"
+        />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white from-5% to-transparent" />
+      </div>
+      {/* Title overlay */}
+      <div className="absolute inset-0 flex justify-center items-center">
+        <h1 className="font-bold text-3xl xl:text-6xl text-center text-[#333333] z-10 px-4">
+          {title ? title : country}
+        </h1>
+      </div>
     </div>
   );
 };
 
 export default HeroLayout;
+

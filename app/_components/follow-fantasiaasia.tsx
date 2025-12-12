@@ -2,13 +2,12 @@
 import BoxFollowVideo from "@/components/box-follow-video";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import ReactPlayer from "react-player";
 
 import youtube from "@/assets/images/youtube.png";
 
-// Fantasiaasia YouTube Channel ID
-const CHANNEL_ID = "UC3mLCHCq_A99BKjGz-5EYLQ";
-const API_KEY = "AIzaSyALWMBSjkV5xo_qT3ZpZz9gXrBjFoacBbU";
+// Use the channel handle to search for videos
+const CHANNEL_HANDLE = "withfantasiaasia";
+const API_KEY = "AIzaSyBHklPpmmfthTbESyX6zTbwCKzNDMVf71Q";
 
 interface VideoItem {
   videoId: string;
@@ -17,51 +16,76 @@ interface VideoItem {
 
 const FollowFantasiaasia = () => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
-  const [mainVideo, setMainVideo] = useState<string>(
-    "https://www.youtube.com/watch?v=AhneBfQjRg4"
-  );
+  const [mainVideo, setMainVideo] = useState<string>("AhneBfQjRg4");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchLatestVideos = async () => {
       try {
         setLoading(true);
-        // Add timestamp to prevent caching
-        const timestamp = new Date().getTime();
-        const res = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet&order=date&maxResults=5&type=video&_t=${timestamp}`,
-          {
-            cache: "no-store", // Ensure no caching
-            headers: {
-              "Cache-Control": "no-cache",
-            },
-          }
+        setError(null);
+
+        // First, get the channel ID from the handle
+        const channelRes = await fetch(
+          `https://www.googleapis.com/youtube/v3/channels?key=${API_KEY}&forHandle=${CHANNEL_HANDLE}&part=contentDetails`,
+          { cache: "no-store" }
         );
-        const data = await res.json();
 
-        console.log("YouTube API Response:", data); // Debug log
+        const channelData = await channelRes.json();
+        console.log("Channel API Response:", channelData);
 
-        if (data.items && data.items.length > 0) {
-          const videoList: VideoItem[] = data.items.map(
-            (item: { id: { videoId: string } }) => ({
-              videoId: item.id.videoId,
-              url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+        if (channelData.error) {
+          console.error("Channel API Error:", channelData.error);
+          setError(channelData.error.message);
+          setFallbackVideos();
+          return;
+        }
+
+        if (!channelData.items || channelData.items.length === 0) {
+          console.error("Channel not found");
+          setError("Channel not found");
+          setFallbackVideos();
+          return;
+        }
+
+        // Get the uploads playlist ID
+        const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
+        console.log("Uploads Playlist ID:", uploadsPlaylistId);
+
+        // Now get the videos from the uploads playlist
+        const videosRes = await fetch(
+          `https://www.googleapis.com/youtube/v3/playlistItems?key=${API_KEY}&playlistId=${uploadsPlaylistId}&part=snippet&maxResults=5`,
+          { cache: "no-store" }
+        );
+
+        const videosData = await videosRes.json();
+        console.log("Videos API Response:", videosData);
+
+        if (videosData.error) {
+          console.error("Videos API Error:", videosData.error);
+          setError(videosData.error.message);
+          setFallbackVideos();
+          return;
+        }
+
+        if (videosData.items && videosData.items.length > 0) {
+          const videoList: VideoItem[] = videosData.items.map(
+            (item: { snippet: { resourceId: { videoId: string } } }) => ({
+              videoId: item.snippet.resourceId.videoId,
+              url: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`,
             })
           );
 
-          console.log("Videos fetched:", videoList); // Debug log
-
-          // Set main video as the latest one
-          setMainVideo(videoList[0].url);
-          // Set the rest as side videos (next 4)
+          console.log("Videos fetched:", videoList);
+          setMainVideo(videoList[0].videoId);
           setVideos(videoList.slice(1, 5));
-        } else if (data.error) {
-          console.error("YouTube API Error:", data.error);
-          // Use fallback on error
+        } else {
           setFallbackVideos();
         }
-      } catch (error) {
-        console.error("Error fetching YouTube videos:", error);
+      } catch (err) {
+        console.error("Error fetching YouTube videos:", err);
+        setError(String(err));
         setFallbackVideos();
       } finally {
         setLoading(false);
@@ -70,34 +94,26 @@ const FollowFantasiaasia = () => {
 
     const setFallbackVideos = () => {
       setVideos([
-        {
-          videoId: "YC3UtNPVL5Q",
-          url: "https://www.youtube.com/watch?v=YC3UtNPVL5Q",
-        },
-        {
-          videoId: "t0pafVU3EhY",
-          url: "https://www.youtube.com/watch?v=t0pafVU3EhY",
-        },
-        {
-          videoId: "3-UBBZwjn1M",
-          url: "https://www.youtube.com/watch?v=3-UBBZwjn1M",
-        },
-        {
-          videoId: "5iIIE04DDhU",
-          url: "https://www.youtube.com/watch?v=5iIIE04DDhU",
-        },
+        { videoId: "YC3UtNPVL5Q", url: "https://www.youtube.com/watch?v=YC3UtNPVL5Q" },
+        { videoId: "t0pafVU3EhY", url: "https://www.youtube.com/watch?v=t0pafVU3EhY" },
+        { videoId: "3-UBBZwjn1M", url: "https://www.youtube.com/watch?v=3-UBBZwjn1M" },
+        { videoId: "5iIIE04DDhU", url: "https://www.youtube.com/watch?v=5iIIE04DDhU" },
       ]);
     };
 
     fetchLatestVideos();
   }, []);
 
+  // Handle clicking on a side video - play it in the main player
+  const handleVideoClick = (videoId: string) => {
+    setMainVideo(videoId);
+  };
+
   return (
     <div className="w-screen -mx-[calc((100vw-100%)/2)] bg-[#FFF3E1] ">
       <div className="container mx-auto py-20">
         <div className="bg-white !px-4 xl:px-14 py-10 xl:py-20 md:rounded-3xl flex flex-col gap-4 xl:gap-14">
           <div className="flex items-center justify-center gap-4">
-            {/* YoutubeImage */}
             <Image
               src={youtube}
               alt=""
@@ -109,6 +125,7 @@ const FollowFantasiaasia = () => {
               Follow Fantasiaasia on Youtube
             </h3>
           </div>
+
           <div className="flex flex-col-reverse xl:flex-row gap-4 ">
             <div className="flex flex-col gap-2 justify-between">
               {videos.length > 0 ? (
@@ -116,32 +133,31 @@ const FollowFantasiaasia = () => {
                   <BoxFollowVideo
                     key={video.videoId || index}
                     youtube={video.url}
+                    videoId={video.videoId}
+                    isActive={mainVideo === video.videoId}
+                    onVideoClick={handleVideoClick}
                   />
                 ))
               ) : (
-                // Fallback while loading
                 <>
-                  <BoxFollowVideo
-                    youtube={"https://www.youtube.com/watch?v=YC3UtNPVL5Q"}
-                  />
-                  <BoxFollowVideo
-                    youtube={"https://www.youtube.com/watch?v=t0pafVU3EhY"}
-                  />
-                  <BoxFollowVideo
-                    youtube={"https://www.youtube.com/watch?v=3-UBBZwjn1M"}
-                  />
-                  <BoxFollowVideo
-                    youtube={"https://www.youtube.com/watch?v=5iIIE04DDhU"}
-                  />
+                  <div className="w-full xl:w-[280px] aspect-video bg-gray-200 animate-pulse rounded-[10px]" />
+                  <div className="w-full xl:w-[280px] aspect-video bg-gray-200 animate-pulse rounded-[10px]" />
+                  <div className="w-full xl:w-[280px] aspect-video bg-gray-200 animate-pulse rounded-[10px]" />
+                  <div className="w-full xl:w-[280px] aspect-video bg-gray-200 animate-pulse rounded-[10px]" />
                 </>
               )}
             </div>
             <div className="w-full xl:w-7/12 aspect-video xl:aspect-[16/9] overflow-hidden shrink-0 bg-neutral-100 rounded-[10px] xl:rounded-[20px]">
-              <ReactPlayer
-                width={"100%"}
-                height={"100%"}
-                src={mainVideo}
-                controls
+              <iframe
+                key={mainVideo} // Force re-render when video changes
+                width="100%"
+                height="100%"
+                src={`https://www.youtube.com/embed/${mainVideo}?rel=0&autoplay=1`}
+                title="Fantasiaasia Video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
               />
             </div>
           </div>
