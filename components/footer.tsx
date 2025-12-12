@@ -49,9 +49,7 @@ const Footer = () => {
               <li>
                 <Link href="/tours">Tour Package</Link>
               </li>
-              <li>
-                <Link href="#">Article</Link>
-              </li>
+
               <li>
                 <Link href="/contact">Contact Us</Link>
               </li>
