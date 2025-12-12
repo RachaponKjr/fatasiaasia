@@ -136,10 +136,10 @@ const ToursClient = ({
     };
 
     return (
-        <div className="w-full flex flex-col xl:flex-row gap-8">
+        <div className="w-full flex flex-col xl:flex-row gap-6 xl:gap-8">
             {/* Sidebar Filters */}
-            <div className="xl:w-64 flex-shrink-0">
-                <div className="bg-white rounded-2xl p-6 shadow-lg sticky top-24">
+            <div className="w-full xl:w-64 flex-shrink-0">
+                <div className="bg-white rounded-2xl p-6 shadow-lg xl:sticky xl:top-24">
                     <h3 className="font-bold text-lg text-[#333] mb-4">Filter Tours</h3>
 
                     {/* Category Filter */}
@@ -210,7 +210,7 @@ const ToursClient = ({
                 {/* Tours Grid */}
                 {paginatedTours.length > 0 ? (
                     <>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 xl:gap-8">
                             {paginatedTours.map((item, i) => (
                                 <TourCard wishlist={item} key={i} />
                             ))}

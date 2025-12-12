@@ -51,6 +51,118 @@ const tourCategories = [
   { name: "Wellness and Spirituality", slug: "wellness" },
 ];
 
+// Mobile Dropdown Component
+interface MobileDropdownItem {
+  label: string;
+  href: string;
+  isHeader?: boolean;
+}
+
+const MobileDropdown = ({
+  title,
+  items,
+  onItemClick
+}: {
+  title: string;
+  items: MobileDropdownItem[];
+  onItemClick: () => void;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="flex flex-col">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="font-medium text-lg flex items-center justify-between w-full"
+      >
+        {title}
+        <svg
+          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="flex flex-col pl-4 mt-2 gap-2 border-l-2 border-[#BD3E2B]/20">
+          {items.map((item, idx) => {
+            if (item.label === "---") {
+              return <div key={idx} className="h-px bg-gray-200 my-1" />;
+            }
+            if (item.isHeader) {
+              return (
+                <span key={idx} className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-2">
+                  {item.label}
+                </span>
+              );
+            }
+            return (
+              <Link
+                key={idx}
+                href={item.href}
+                className="text-gray-700 hover:text-[#BD3E2B] py-1"
+                onClick={onItemClick}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Hover Dropdown Component for Desktop
+const HoverDropdown = ({
+  title,
+  children
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  let timeoutId: NodeJS.Timeout;
+
+  const handleMouseEnter = () => {
+    clearTimeout(timeoutId);
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutId = setTimeout(() => {
+      setIsOpen(false);
+    }, 150); // Small delay to allow moving to dropdown
+  };
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <button className="font-medium text-lg cursor-pointer outline-none flex items-center gap-1">
+        {title}
+        <svg
+          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-100 py-2 min-w-[260px] z-50">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authStatus, setAuthStatus] = useState<string | null>(null);
@@ -87,78 +199,56 @@ const Navbar = () => {
       </div>
 
       {/* Desktop Menu */}
-      <div className="hidden md:flex flex-1 gap-14">
+      <div className="hidden lg:flex flex-1 gap-14">
         {LinkList.map((item, index) =>
           item.link === "Tours" ? (
-            <DropdownMenu key={index}>
-              <DropdownMenuTrigger className="font-medium text-lg cursor-pointer outline-none flex items-center gap-1">
-                {item.link}
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-64 mt-2">
-                <DropdownMenuItem asChild>
-                  <Link href="/tours" className="w-full font-semibold">
-                    All Tours
-                  </Link>
-                </DropdownMenuItem>
-                <div className="h-px bg-gray-200 my-1" />
-                <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                  By Category
-                </div>
-                {tourCategories.map((category) => (
-                  <DropdownMenuItem key={category.slug} asChild>
-                    <Link href={`/tours?category=${category.slug}`} className="w-full">
-                      {category.name}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-                <div className="h-px bg-gray-200 my-1" />
-                <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                  By Duration
-                </div>
-                <DropdownMenuItem asChild>
-                  <Link href="/tours?duration=half" className="w-full">
-                    Half-Day
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/tours?duration=full" className="w-full">
-                    Full-Day
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/tours?duration=multi" className="w-full">
-                    Multi-Day
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <HoverDropdown key={index} title="Tours">
+              <Link href="/tours" className="block px-4 py-2 font-semibold hover:bg-gray-50">
+                All Tours
+              </Link>
+              <div className="h-px bg-gray-200 my-1" />
+              <div className="px-4 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                By Category
+              </div>
+              {tourCategories.map((category) => (
+                <Link
+                  key={category.slug}
+                  href={`/tours?category=${category.slug}`}
+                  className="block px-4 py-2 hover:bg-gray-50 text-gray-700"
+                >
+                  {category.name}
+                </Link>
+              ))}
+              <div className="h-px bg-gray-200 my-1" />
+              <div className="px-4 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                By Duration
+              </div>
+              <Link href="/tours?duration=half" className="block px-4 py-2 hover:bg-gray-50 text-gray-700">
+                Half-Day
+              </Link>
+              <Link href="/tours?duration=full" className="block px-4 py-2 hover:bg-gray-50 text-gray-700">
+                Full-Day
+              </Link>
+              <Link href="/tours?duration=multi" className="block px-4 py-2 hover:bg-gray-50 text-gray-700">
+                Multi-Day
+              </Link>
+            </HoverDropdown>
           ) : item.link === "Destinations" ? (
-            <DropdownMenu key={index}>
-              <DropdownMenuTrigger className="font-medium text-lg cursor-pointer outline-none flex items-center gap-1">
-                {item.link}
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-48 mt-2">
-                <DropdownMenuItem asChild>
-                  <Link href="/destinations" className="w-full font-semibold">
-                    All Destinations
-                  </Link>
-                </DropdownMenuItem>
-                <div className="h-px bg-gray-200 my-1" />
-                {countries.map((country) => (
-                  <DropdownMenuItem key={country} asChild>
-                    <Link href={`/destinations/country?country=${country}`} className="w-full">
-                      {country}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <HoverDropdown key={index} title="Destinations">
+              <Link href="/destinations" className="block px-4 py-2 font-semibold hover:bg-gray-50">
+                All Destinations
+              </Link>
+              <div className="h-px bg-gray-200 my-1" />
+              {countries.map((country) => (
+                <Link
+                  key={country}
+                  href={`/destinations/country?country=${country}`}
+                  className="block px-4 py-2 hover:bg-gray-50 text-gray-700"
+                >
+                  {country}
+                </Link>
+              ))}
+            </HoverDropdown>
           ) : (
             <Link key={index} href={item.path} className="font-medium text-lg">
               {item.link}
@@ -168,7 +258,7 @@ const Navbar = () => {
       </div>
 
       {/* Right Section */}
-      <div className="hidden md:flex flex-1 justify-end items-center gap-4">
+      <div className="hidden lg:flex flex-1 justify-end items-center gap-4">
         <Link
           href={"mailto:enquiry@fantasiaasia.com"}
           className="font-semibold"
@@ -269,28 +359,84 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      </div>
+      </div >
 
       {/* Mobile Hamburger */}
-      <div className="md:hidden flex items-center gap-4">
+      < div className="lg:hidden flex items-center gap-4" >
         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-      </div>
+      </div >
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-white shadow-md flex flex-col md:hidden p-6 gap-4 z-20">
-          {LinkList.map((path, index) => (
-            <Link
-              key={index}
-              href={path.path}
-              className="font-medium text-lg"
+        <div className="fixed top-0 left-0 w-full h-screen bg-white flex flex-col lg:hidden p-6 gap-4 z-40 overflow-y-auto">
+          {/* Close button */}
+          <div className="flex justify-between items-center mb-4">
+            <Image
+              src={"/logo.png"}
+              alt="logo"
+              width={150}
+              height={50}
+              className="cursor-pointer"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                router.push("/");
+              }}
+            />
+            <button
               onClick={() => setMobileMenuOpen(false)}
+              className="p-2 hover:bg-gray-100 rounded-full"
             >
-              {path.link}
-            </Link>
-          ))}
+              <X size={24} />
+            </button>
+          </div>
+          {LinkList.map((path, index) => {
+            if (path.link === "Tours") {
+              return (
+                <MobileDropdown
+                  key={index}
+                  title="Tours"
+                  items={[
+                    { label: "All Tours", href: "/tours" },
+                    { label: "---", href: "" },
+                    { label: "By Category", href: "", isHeader: true },
+                    ...tourCategories.map(cat => ({ label: cat.name, href: `/tours?category=${cat.slug}` })),
+                    { label: "---", href: "" },
+                    { label: "By Duration", href: "", isHeader: true },
+                    { label: "Half-Day", href: "/tours?duration=half" },
+                    { label: "Full-Day", href: "/tours?duration=full" },
+                    { label: "Multi-Day", href: "/tours?duration=multi" },
+                  ]}
+                  onItemClick={() => setMobileMenuOpen(false)}
+                />
+              );
+            }
+            if (path.link === "Destinations") {
+              return (
+                <MobileDropdown
+                  key={index}
+                  title="Destinations"
+                  items={[
+                    { label: "All Destinations", href: "/destinations" },
+                    { label: "---", href: "" },
+                    ...countries.map(country => ({ label: country, href: `/destinations/country?country=${country}` })),
+                  ]}
+                  onItemClick={() => setMobileMenuOpen(false)}
+                />
+              );
+            }
+            return (
+              <Link
+                key={index}
+                href={path.path}
+                className="font-medium text-lg"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {path.link}
+              </Link>
+            );
+          })}
 
           {authStatus === "true" ? (
             <div className="flex flex-col gap-3 mt-4 border-t pt-4">
@@ -350,8 +496,9 @@ const Navbar = () => {
             </div>
           )}
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 };
 

@@ -63,25 +63,25 @@ const HeroSection = () => {
           </div>
         ))}
       </div>
-      <div className="max-w-6xl flex flex-col items-center gap-9 z-10">
+      <div className="max-w-6xl flex flex-col items-center gap-6 md:gap-9 z-10 px-4">
         {/* Main Slogan - H1 for SEO */}
-        <h1 className="text-white text-2xl xl:text-7xl font-bold text-center">
+        <h1 className="text-white text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-center leading-tight">
           No matter where you're going, we'll take you there.
         </h1>
 
         {/* Social Proof */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 flex items-center gap-3">
+        <div className="bg-white/10 backdrop-blur-sm rounded-full px-4 md:px-6 py-2 md:py-3 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
           <div className="flex items-center">
-            <Users className="w-5 h-5 text-white mr-2" />
-            <span className="text-white font-semibold">200+ travelers</span>
+            <Users className="w-4 h-4 md:w-5 md:h-5 text-white mr-2" />
+            <span className="text-white font-semibold text-sm md:text-base">200+ travelers</span>
           </div>
-          <span className="text-white/80 text-sm">
+          <span className="text-white/80 text-xs md:text-sm text-center sm:text-left">
             booked a tour in the last 24 hours.
           </span>
         </div>
 
         {/* Avatar */}
-        <div className="text-white flex flex-col xl:flex-row items-center font-medium gap-6">
+        <div className="text-white flex flex-col lg:flex-row items-center font-medium gap-4 md:gap-6">
           <div className="*:data-[slot=avatar]:ring-background *:data-[slot=avatar]:size-10 flex -space-x-2 *:data-[slot=avatar]:ring-3">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />

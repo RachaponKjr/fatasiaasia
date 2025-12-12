@@ -46,7 +46,7 @@ const Adventure = () => {
 
   return (
     <LayoutSection title="Adventure & Activity" link="/tours">
-      <div className="grid grid-cols-2 xl:grid-cols-6 gap-4 xl:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
         {adventureList.map((item, i) => (
           <Link
             key={i}

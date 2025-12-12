@@ -32,7 +32,7 @@ const page = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 md:gap-8 lg:gap-12 xl:gap-16">
           <ContryCard image={thai.src} country="Thailand" />
           <ContryCard image={laos.src} country="Laos" />
           <ContryCard image={vuetnam.src} country="Vietnam" />
