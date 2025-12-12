@@ -18,19 +18,17 @@ import Uzbekistan from "@/assets/images/destination/Uzbekistan.jpg";
 const page = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <HeroLayout image={destinationhero.src} title="Destination" />
+      <HeroLayout image={destinationhero.src} title="Destinations" />
       <div className="container mx-auto xl:pt-[150px] xl:pb-[200px] py-10 px-4 xl:px-0">
         {/* Title and Description Section */}
         <div className="flex flex-col items-center mb-16">
           <h3 className="font-bold text-xl md:text-4xl mb-9 text-center">
-            Explore Our Amazing Destinations
+            Explore Asia: Unforgettable Journeys Await
           </h3>
           <p className="font-light text-lg md:text-2xl text-[#585858] leading-relaxed text-center max-w-5xl">
-            Discover the wonders of Asia with Fantasia Asia. From the ancient temples of Thailand
-            to the stunning beaches of Indonesia, the vibrant cities of Singapore to the serene
-            landscapes of Laos – each destination offers unique experiences, rich cultures, and
-            unforgettable memories. Choose your next adventure and let us guide you through the
-            most beautiful corners of this incredible continent.
+            From the spiritual peaks of the Himalayas to the ancient wonders of Southeast Asia, your next
+            incredible journey begins here. Discover our handpicked destinations and start planning your
+            perfect, tailor-made adventure today.
           </p>
         </div>
 

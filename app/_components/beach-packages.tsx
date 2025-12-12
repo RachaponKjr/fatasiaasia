@@ -3,12 +3,12 @@ import React from "react";
 import Link from "next/link";
 import LayoutSection from "./layout-section";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
 
 import "swiper/css";
 import ArrowLeft from "@/assets/icons/arrow-left";
 import ArrowRight from "@/assets/icons/arrow-right";
 import { Heart, Star } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LocationIcon from "@/assets/icons/location";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -18,10 +18,26 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
   // If no beach tours, don't show the section
   if (!tours || tours.length === 0) return null;
 
+  // Duplicate tours to ensure enough items for looping
+  const displayTours = [...tours, ...tours];
+
   return (
-    <LayoutSection link="/tours" title="Beach Tour Packages">
-      <div className="w-full h-max relative">
+    <LayoutSection link="/beach-tours" title="Beach Tour Packages">
+      <div className="w-full h-max relative group">
         <Swiper
+          modules={[Autoplay, Navigation]}
+          loop={true}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          navigation={{
+            nextEl: ".beach-next",
+            prevEl: ".beach-prev",
+          }}
+          slidesPerView={3}
+          spaceBetween={102}
           breakpoints={{
             320: {
               slidesPerView: 1.2,
@@ -46,7 +62,7 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
           }}
           className="w-full"
         >
-          {tours.map((item, i) => (
+          {displayTours.map((item, i) => (
             <SwiperSlide key={i}>
               <div className="bg-white h-max w-full rounded-3xl flex flex-col items-start overflow-hidden">
                 {/* Image */}
@@ -64,7 +80,6 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
                     size={34}
                     color="white"
                   />
-                  {/* Avatar removed as we don't have country image in Tour type */}
                 </div>
                 <div className="py-10 px-6">
                   <div className="flex flex-col items-start gap-4">
@@ -98,13 +113,13 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
             </SwiperSlide>
           ))}
         </Swiper>
-        {/* Prev Button (ซ้าย) */}
-        <div className="absolute top-1/2 -translate-y-1/2 -left-12 -translate-x-1/2 w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md">
+        {/* Prev Button */}
+        <div className="beach-prev absolute top-1/2 -translate-y-1/2 -left-12 -translate-x-1/2 w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md z-10 hover:scale-110 transition-transform">
           <ArrowLeft size={28} />
         </div>
 
-        {/* Next Button (ขวา) */}
-        <div className="absolute top-1/2 -translate-y-1/2 -right-12 translate-x-1/2 w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md">
+        {/* Next Button */}
+        <div className="beach-next absolute top-1/2 -translate-y-1/2 -right-12 translate-x-1/2 w-14 aspect-square rounded-full bg-[#FFF3E1] grid place-content-center cursor-pointer shadow-md z-10 hover:scale-110 transition-transform">
           <ArrowRight size={28} />
         </div>
       </div>
@@ -113,3 +128,4 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
 };
 
 export default BeachPackages;
+

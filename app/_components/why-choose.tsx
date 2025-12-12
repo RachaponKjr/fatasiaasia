@@ -18,23 +18,23 @@ const WhyChoose = () => {
         <div className="flex flex-col gap-4 xl:gap-0 justify-evenly grow">
           <BoxWhyChoose
             icon={attractions.src}
-            title="100s of Attractions"
-            description="Discover all the great things from Cambodia, Laos, Thailand and Vietnam with us."
+            title="Wide Range of Attractions"
+            description="Discover unique experiences and iconic destinations across the whole of Asia with our curated tours."
           />
           <BoxWhyChoose
             icon={great.src}
-            title="Great Customer Support"
-            description="Questions or doubts? Our customer support team is always ready to help you!"
+            title="Exceptional Customer Support"
+            description="Questions or doubts? Our dedicated support team is available 24/7 and always ready to help you!"
           />
           <BoxWhyChoose
             icon={best.src}
-            title="Best Price In The Industry"
-            description="Get the best value for your money with our tours. Best quality, guaranteed."
+            title="Best Value for Money"
+            description="Get the most out of your budget with our tours. We guarantee the best quality and value for your money."
           />
           <BoxWhyChoose
             icon={super1.src}
-            title="Super Fast Booking"
-            description="Just a couple of clicks to select your favorite tour!"
+            title="Hassle-Free Booking"
+            description="Select and secure your perfect trip easily and efficiently, letting us handle the logistics."
           />
         </div>
       </div>

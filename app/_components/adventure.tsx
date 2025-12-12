@@ -89,7 +89,7 @@ const Adventure = () => {
             <Image src={rest} alt={""} width={120} height={120} />
           </div>
           <span className="text-[#333333] font-semibold text-sm text-center">
-            Sustainable Tours
+            Local Experiences
           </span>
         </div>
         <div className="bg-white rounded-3xl grow py-4  xl:py-10 flex flex-col items-center justify-center shadow-lg">

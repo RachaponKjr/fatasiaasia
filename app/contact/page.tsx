@@ -19,11 +19,10 @@ const page = () => {
           <div className="text-[#333333] flex">
             <div className="flex flex-col justify-between gap-4 relative">
               <h2 className="text-2xl xl:text-4xl font-bold">
-                Let's talk with us
+                Get in Touch With Us
               </h2>
               <p className=" text-lg xl:text-xl  max-w-sm md:max-w-full font-normal">
-                Questions, comments, or suggestions? Simply fill in the form and
-                we’ll be in touch shortly.
+                Questions, comments, or suggestions? Simply fill out the form to the right, and we will be in touch shortly.
               </p>
               <div className="flex flex-col gap-2 xl:gap-4">
                 <div className="flex flex-row gap-3">
@@ -57,7 +56,7 @@ const page = () => {
                 </h5>
                 <div className="w-full grow rounded-2xl max-h-[235px] overflow-hidden">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.425560150691!2d98.81995950000001!3d8.0579998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3051bfb79db8de05%3A0xffa6340c93d265b3!2sFantasia%20Asia%20Service%20Part%20Ltd!5e0!3m2!1sth!2sth!4v1758169216762!5m2!1sth!2sth"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.425560150691!2d98.81995950000001!3d8.0579998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3051bfb79db8de05%3A0xffa6340c93d265b3!2sFantasia%20Asia%20Service%20Part%20Ltd!5e0!3m2!1sen!2sth!4v1758169216762!5m2!1sen!2sth"
                     width="600"
                     height="450"
                     className="rounded-2xl"

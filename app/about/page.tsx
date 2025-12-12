@@ -48,36 +48,33 @@ const page = () => {
       <HeroLayout image={heroabout.src} title="About us" />
       <div className="container mx-auto py-10 xl:py-20 px-4 flex flex-col gap-8 xl:gap-32 2xl:px-20">
         <p className="text-center text-base xl:text-2xl text-[#333333] font-normal">
-          Traveling is more than just visiting some attractions; we believe it
-          should be a complete, life-changing
-          <br /> experience. This is exactly what we offer you at Fantasia Asia,
-          because we are travellers like you with more <br />
-          than 20 years of experience exploring the Southeast Asia,
-          <br /> and we know what traveling should be like.
+          Traveling is more than simply visiting attractions; it is a profound, life-changing experience. This
+          <br /> core belief drives everything we offer at Fantasia Asia. As avid travelers ourselves, we bring over 20
+          <br /> years of hands-on experience exploring Asia and crafting journeys that truly reflect what travel
+          <br /> should be.
         </p>
         <BoxDetail
           image={experienced.src}
-          title="Experienced Travellers,At Your Disposal"
-          detail="Our head quarter is in Krabi, Southern Thailand but our team is spread through other SEA countries like Vietnam,Cambodia and Laos. We have been traveling across this region for 20+ years, therefore we know all the secrets of theselands...and we will happily share them with you."
+          title="Experienced Travelers, Always Available"
+          detail="Our headquarters is located in Krabi, Southern Thailand, but our dedicated team is strategically spread across Asia, including key Southeast Asian countries such as Vietnam, Cambodia, and Laos. With over 20 years of continuous travel throughout this region, we possess deep local knowledge and happily share the secrets of these incredible lands with you."
         />
         <div className="flex flex-col items-center justify-center">
           <PolaroidGallery photos={samplePhotos} />
           <p className="mt-8 xl:mt-24 text-center max-w-4xl text-lg xl:text-2xl text-[#333333]">
-            We understand your passions, your needs and preferences, and you
-            will feel it once you join any of tours. All of of our experience
-            and knowledge, at your disposal.
+            We fully understand your passions, needs, and preferences. You will feel the difference the moment
+            you join any of our tours. Our extensive experience and knowledge are entirely at your disposal.
           </p>
         </div>
         <BoxDetail
           image={anywhere.src}
           className="flex-col items-end xl:flex-row-reverse"
-          title="Exclusive Tours that You Will Not Find Anywhere Else"
-          detail="Since we know the secrets of the countries and cities we bring you to visit, our tours are exdive: they take you in places and make you live experiences that conventional tours don't. Take it for granted.Our mission is to offer you a life-changing experience with every single one of our tours, and that is exactly why you will enjoy them."
+          title="Exclusive Journeys You Won't Find Anywhere Else"
+          detail="Because we know the deepest secrets of the destinations we feature, our tours are truly exclusive. We take you to places and deliver experiences that conventional itineraries simply cannot match. Our mission is to ensure every single tour offers you a life-changing experience, and that is precisely why you will enjoy traveling with us."
         />
         <BoxDetail
           image={included.src}
-          title="Ideal Itinerary, All the Services Included"
-          detail="To bring you the smoothest and most exciting experience, we have designed the perfect itinerary for each tours. We havedone it based on feedbacks and our own knowledge acquired throughout the years. All of our tour quides speak perfect English and have plenty of experience, therefore they will be able to explain everything you need to know and answer all the questions you might have. Furthermore, you will be provided with all the essential services to guarantee your safety, comfort and enjoyment."
+          title="Perfect Itineraries, All Services Included"
+          detail="To ensure you have the smoothest and most exciting experience, we have meticulously designed the ideal itinerary for every tour. These routes are based on years of direct experience and valuable customer feedback. Our professional tour guides are fluent in English, highly experienced, and ready to explain everything you need to know and answer all your questions. Moreover, you will be provided with all the essential services to guarantee your safety, comfort, and ultimate enjoyment."
         />
       </div>
       <FollowFantasiaasia />

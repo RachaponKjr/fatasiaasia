@@ -122,11 +122,6 @@ const Client = () => {
           <h3 className="font-bold text-2xl sm:text-3xl lg:text-[40px] text-[#333333] leading-tight">
             What our clients are saying about us?
           </h3>
-          <p className="text-sm sm:text-base text-gray-600 max-w-lg">
-            Discover how you can offset your adventure's carbon emissions and
-            support the sustainable initiatives practiced by our operators
-            worldwide.
-          </p>
         </div>
 
         {/* Testimonials Swiper */}

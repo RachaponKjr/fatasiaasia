@@ -10,16 +10,16 @@ import { Plus } from "lucide-react";
 const images = [banner, halong2, tajmahal];
 
 const quotes = [
+  "Explore hidden gems and iconic landmarks.",
+  "Premium experiences tailored to your dreams.",
+  "Your gateway to authentic Asian culture.",
+  "Expert-Led Tours, Seamless Adventures.",
+  "Discover the extraordinary in every destination.",
+  "Travel with Confidence. Book with Style.",
+  "Crafting perfect holidays just for you.",
   "Experience the magic of Asia with us.",
   "Curated journeys for the modern traveler.",
-  "Unforgettable memories await you.",
-  "Explore hidden gems and iconic landmarks.",
-  "Luxury travel tailored to your dreams.",
-  "Your gateway to authentic Asian culture.",
-  "Expert guides, seamless adventures.",
-  "Discover the extraordinary in every destination.",
-  "Travel with confidence and style.",
-  "Crafting perfect holidays just for you.",
+  "Create Your Unforgettable Asian Memory.",
 ];
 
 const HeroSection = () => {

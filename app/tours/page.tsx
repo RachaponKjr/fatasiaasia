@@ -1,36 +1,49 @@
 export const dynamic = "force-dynamic";
 
 import JoinNewSletter from "@/components/join-newsletter";
-import PaginationComponent from "@/components/pagination";
-import TourCard from "@/components/tour-card";
-import React from "react";
+import React, { Suspense } from "react";
 
 import api from "@/server";
 import HeroLayout from "../about/_components/hero-about";
 import tourImage from "@/assets/images/banner/tour.png";
+import ToursClient from "./_components/tours-client";
 
 const page = async () => {
   const { data: tour } = await api.tour.getTour();
+
+  // Fetch tour details for category filtering
+  let tourDetails: any[] = [];
+  if (tour && tour.length > 0) {
+    const detailPromises = tour.map(async (t) => {
+      try {
+        const { data } = await api.tour.getTourDetail({ tourId: t.tourId });
+        return data;
+      } catch {
+        return null;
+      }
+    });
+    tourDetails = await Promise.all(detailPromises);
+  }
+
   return (
     <>
       <HeroLayout
         image={tourImage.src}
-        title="Uncover your next adventure with our tours"
+        title="Discover Your Perfect Tour"
       />
       <div className="container mx-auto py-10 xl:py-20 px-4 xl:px-0 flex flex-col items-center gap-6 xl:gap-[60px] 2xl:px-20">
-        <h2 className="text-3xl xl:text-[40px]  font-medium text-[#333333]">
-          Uncover your next adventure with our tours
-        </h2>
-        {/* Search */}
-        {/* <SearchComponent /> */}
-        <div className="grid grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-24 xl:my-10">
-          {tour.map((item, i) => (
-            <TourCard wishlist={item} key={i} />
-          ))}
+        <div className="text-center max-w-4xl">
+          <h2 className="text-3xl xl:text-[40px] font-medium text-[#333333] mb-4">
+            Explore Our Tour Collection
+          </h2>
+          <p className="text-lg text-gray-600">
+            Browse our carefully curated tours by category and find your perfect Asian adventure.
+          </p>
         </div>
-        <div className="my-4 xl:my-10">
-          <PaginationComponent />
-        </div>
+
+        <Suspense fallback={<div className="text-center py-20">Loading tours...</div>}>
+          <ToursClient tours={tour} tourDetails={tourDetails} />
+        </Suspense>
       </div>
       <JoinNewSletter />
     </>

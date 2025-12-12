@@ -24,9 +24,11 @@ const Footer = () => {
             width={280}
             height={280}
           />
-          <h6 className="text-3xl font-semibold text-[#333333]">
-            Want to Take Tour Packages?
-          </h6>
+          <Link href="/tours">
+            <h6 className="text-3xl font-semibold text-[#333333] hover:text-main transition-colors cursor-pointer">
+              Find Your Perfect Asian Journey
+            </h6>
+          </Link>
           <Link href="/tours">
             <Button className="bg-main rounded-full font-semibold">
               Book A Tour

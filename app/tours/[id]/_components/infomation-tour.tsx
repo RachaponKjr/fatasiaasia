@@ -61,6 +61,10 @@ const InfomationTour = ({
     if (item.text.startsWith("META_BEACHTOUR:")) {
       return false;
     }
+    // Filter out META_REGION - don't display it
+    if (item.text.startsWith("META_REGION:")) {
+      return false;
+    }
     return true;
   });
 

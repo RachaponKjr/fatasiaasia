@@ -42,6 +42,15 @@ const countries = [
   "India",
 ];
 
+const tourCategories = [
+  { name: "Sea, Beaches and Islands", slug: "beach" },
+  { name: "Culture, History and Traditions", slug: "culture" },
+  { name: "Nature", slug: "nature" },
+  { name: "Local Experiences", slug: "local" },
+  { name: "Cities and Modernity", slug: "cities" },
+  { name: "Wellness and Spirituality", slug: "wellness" },
+];
+
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authStatus, setAuthStatus] = useState<string | null>(null);
@@ -79,8 +88,32 @@ const Navbar = () => {
 
       {/* Desktop Menu */}
       <div className="hidden md:flex flex-1 gap-14">
-        {LinkList.map((item, index) => (
-          item.link === "Destinations" ? (
+        {LinkList.map((item, index) =>
+          item.link === "Tours" ? (
+            <DropdownMenu key={index}>
+              <DropdownMenuTrigger className="font-medium text-lg cursor-pointer outline-none flex items-center gap-1">
+                {item.link}
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-64 mt-2">
+                <DropdownMenuItem asChild>
+                  <Link href="/tours" className="w-full font-semibold">
+                    All Tours
+                  </Link>
+                </DropdownMenuItem>
+                <div className="h-px bg-gray-200 my-1" />
+                {tourCategories.map((category) => (
+                  <DropdownMenuItem key={category.slug} asChild>
+                    <Link href={`/tours?category=${category.slug}`} className="w-full">
+                      {category.name}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : item.link === "Destinations" ? (
             <DropdownMenu key={index}>
               <DropdownMenuTrigger className="font-medium text-lg cursor-pointer outline-none flex items-center gap-1">
                 {item.link}
@@ -109,7 +142,7 @@ const Navbar = () => {
               {item.link}
             </Link>
           )
-        ))}
+        )}
       </div>
 
       {/* Right Section */}
