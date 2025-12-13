@@ -152,7 +152,7 @@ const FollowFantasiaasia = () => {
                 key={mainVideo} // Force re-render when video changes
                 width="100%"
                 height="100%"
-                src={`https://www.youtube.com/embed/${mainVideo}?rel=0&autoplay=1`}
+                src={`https://www.youtube.com/embed/${mainVideo}?rel=0`}
                 title="Fantasiaasia Video"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
