@@ -36,7 +36,7 @@ const Footer = () => {
             </Button>
           </Link>
         </div>
-        <div className="grid grid-cols-2 md:flex md:flex-wrap lg:flex-nowrap gap-6 md:gap-8 lg:gap-0 justify-between flex-1">
+        <div className="grid grid-cols-2 md:flex md:flex-wrap lg:flex-nowrap gap-6 md:gap-8 lg:gap-0 justify-between flex-1 lg:ml-16 xl:ml-24">
           <div className="flex flex-col gap-5">
             <span className="text-xl font-semibold">Quick Link</span>
             <ul className="flex flex-col gap-3 font-normal [&>li]:cursor-pointer">
