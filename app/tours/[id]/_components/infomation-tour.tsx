@@ -34,8 +34,40 @@ const InfomationTour = ({
   let durationVal = "Half-Day";
   let groupSizeVal = "Max 10 people";
   let agesVal = "18-65 yrs";
-  let languagesVal = "English,Italiano";
+  let languagesVal = "en";
   let tourCategoryVal = "Adventure";
+
+  // Language code to flag emoji mapping
+  const languageFlags: Record<string, { flag: string; name: string }> = {
+    en: { flag: "🇬🇧", name: "English" },
+    th: { flag: "🇹🇭", name: "Thai" },
+    zh: { flag: "🇨🇳", name: "Chinese" },
+    ja: { flag: "🇯🇵", name: "Japanese" },
+    ko: { flag: "🇰🇷", name: "Korean" },
+    vi: { flag: "🇻🇳", name: "Vietnamese" },
+    fr: { flag: "🇫🇷", name: "French" },
+    de: { flag: "🇩🇪", name: "German" },
+    es: { flag: "🇪🇸", name: "Spanish" },
+    it: { flag: "🇮🇹", name: "Italian" },
+    ru: { flag: "🇷🇺", name: "Russian" },
+    ar: { flag: "🇸🇦", name: "Arabic" },
+    hi: { flag: "🇮🇳", name: "Hindi" },
+    // Legacy text support
+    english: { flag: "🇬🇧", name: "English" },
+    thai: { flag: "🇹🇭", name: "Thai" },
+    chinese: { flag: "🇨🇳", name: "Chinese" },
+    japanese: { flag: "🇯🇵", name: "Japanese" },
+    korean: { flag: "🇰🇷", name: "Korean" },
+    vietnamese: { flag: "🇻🇳", name: "Vietnamese" },
+    french: { flag: "🇫🇷", name: "French" },
+    german: { flag: "🇩🇪", name: "German" },
+    spanish: { flag: "🇪🇸", name: "Spanish" },
+    italian: { flag: "🇮🇹", name: "Italian" },
+    italiano: { flag: "🇮🇹", name: "Italian" },
+    russian: { flag: "🇷🇺", name: "Russian" },
+    arabic: { flag: "🇸🇦", name: "Arabic" },
+    hindi: { flag: "🇮🇳", name: "Hindi" },
+  };
 
   const filteredIncluded = included.filter((item) => {
     if (item.text.startsWith("META_DURATION:")) {
@@ -105,9 +137,29 @@ const InfomationTour = ({
               <h6 className="text-[#333333] font-normal text-xs xl:text-sm text-nowrap">
                 Guide Language
               </h6>
-              <span className="text-xs xl:text-sm font-normal text-nowrap text-[#717171]">
-                {languagesVal}
-              </span>
+              <div className="flex gap-1 items-center flex-wrap">
+                {languagesVal.split(",").map((lang, idx) => {
+                  const langKey = lang.trim().toLowerCase();
+                  const langData = languageFlags[langKey];
+                  if (langData) {
+                    return (
+                      <span
+                        key={idx}
+                        className="text-lg"
+                        title={langData.name}
+                      >
+                        {langData.flag}
+                      </span>
+                    );
+                  }
+                  // Fallback for unrecognized languages
+                  return (
+                    <span key={idx} className="text-xs text-[#717171]">
+                      {lang.trim()}
+                    </span>
+                  );
+                })}
+              </div>
             </div>
           </div>
           <div className="flex gap-2 items-center">
