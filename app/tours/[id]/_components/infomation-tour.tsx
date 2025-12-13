@@ -138,30 +138,39 @@ const InfomationTour = ({
                 Guide Language
               </h6>
               <div className="flex gap-2 items-center flex-wrap">
-                {languagesVal.split(",").map((lang, idx) => {
-                  const langKey = lang.trim().toLowerCase();
-                  const langData = languageToCountry[langKey];
-                  if (langData) {
+                {/* Deduplicate languages by country code */}
+                {(() => {
+                  const seen = new Set<string>();
+                  return languagesVal.split(",").map((lang, idx) => {
+                    const langKey = lang.trim().toLowerCase();
+                    const langData = languageToCountry[langKey];
+                    if (langData) {
+                      // Skip if we already showed this country's flag
+                      if (seen.has(langData.code)) return null;
+                      seen.add(langData.code);
+                      return (
+                        <img
+                          key={idx}
+                          src={`https://flagcdn.com/24x18/${langData.code}.png`}
+                          srcSet={`https://flagcdn.com/48x36/${langData.code}.png 2x`}
+                          width="24"
+                          height="18"
+                          alt={langData.name}
+                          title={langData.name}
+                          className="rounded-sm shadow-sm"
+                        />
+                      );
+                    }
+                    // Fallback for unrecognized languages (also dedupe)
+                    if (seen.has(langKey)) return null;
+                    seen.add(langKey);
                     return (
-                      <img
-                        key={idx}
-                        src={`https://flagcdn.com/24x18/${langData.code}.png`}
-                        srcSet={`https://flagcdn.com/48x36/${langData.code}.png 2x`}
-                        width="24"
-                        height="18"
-                        alt={langData.name}
-                        title={langData.name}
-                        className="rounded-sm shadow-sm"
-                      />
+                      <span key={idx} className="text-xs text-[#717171] bg-gray-100 px-2 py-0.5 rounded">
+                        {lang.trim()}
+                      </span>
                     );
-                  }
-                  // Fallback for unrecognized languages
-                  return (
-                    <span key={idx} className="text-xs text-[#717171] bg-gray-100 px-2 py-0.5 rounded">
-                      {lang.trim()}
-                    </span>
-                  );
-                })}
+                  });
+                })()}
               </div>
             </div>
           </div>
