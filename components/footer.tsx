@@ -27,7 +27,7 @@ const Footer = () => {
           />
           <Link href="/tours">
             <h6 className="text-2xl md:text-3xl font-semibold text-[#333333] hover:text-main transition-colors cursor-pointer">
-              Find Your Perfect Asian Journey
+              Find Your Perfect<br />Asian Journey
             </h6>
           </Link>
           <Link href="/tours">
