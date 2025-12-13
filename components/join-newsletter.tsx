@@ -1,6 +1,6 @@
 import React from "react";
 
-import joinsletter from "@/assets/images/banner/joinsletter.jpg";
+import joinsletter from "@/assets/images/banner/joinsletter.webp";
 import Image from "next/image";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";

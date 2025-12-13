@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import React, { Suspense } from "react";
 import HeroLayout from "../about/_components/hero-about";
-import destinationhero from "@/assets/images/destination/destination-hero.png";
+import destinationhero from "@/assets/images/destination/destination-hero.webp";
 import JoinNewSletter from "@/components/join-newsletter";
 import TourCard from "@/components/tour-card";
 import api from "@/server";

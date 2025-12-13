@@ -4,16 +4,16 @@ import FollowFantasiaasia from "../_components/follow-fantasiaasia";
 
 import BoxDetail from "./_components/box-detail";
 
-import experienced from "@/assets/images/about/exoerienced.jpg";
-import anywhere from "@/assets/images/about/anywhere.jpg";
-import included from "@/assets/images/about/included.jpg";
+import experienced from "@/assets/images/about/exoerienced.webp";
+import anywhere from "@/assets/images/about/anywhere.webp";
+import included from "@/assets/images/about/included.webp";
 import showimage1 from "@/assets/images/about/showimage1.jpg";
 import showimage2 from "@/assets/images/about/showimage2.jpg";
 import showimage3 from "@/assets/images/about/showimage3.jpg";
 import showimage4 from "@/assets/images/about/showimage4.jpg";
 
 import HeroLayout from "./_components/hero-about";
-import heroabout from "@/assets/images/banner/about.png";
+import heroabout from "@/assets/images/banner/about.webp";
 import PolaroidGallery from "@/components/polaroidgallery";
 
 const page = () => {

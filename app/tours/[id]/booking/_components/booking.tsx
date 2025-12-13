@@ -10,7 +10,7 @@ import ConBooking from "./con-booking";
 import CompleteBooking from "./complete-booking";
 import Image from "next/image";
 
-import imagetest from "@/assets/imagetest.jpg";
+import imagetest from "@/assets/imagetest.webp";
 import { useBooking } from "@/store/booking-store";
 import { TourDetail } from "@/types/tour.type";
 import { formatDate, formatTime } from "@/utils/format";

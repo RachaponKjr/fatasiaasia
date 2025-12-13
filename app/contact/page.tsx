@@ -8,7 +8,7 @@ import whatapp from "@/assets/images/whatapp.png";
 import Mail2Icon from "@/assets/icons/mail2";
 import { Button } from "@/components/ui/button";
 import HeroLayout from "../about/_components/hero-about";
-import contactUs from "@/assets/images/banner/contactUs.png";
+import contactUs from "@/assets/images/banner/contactUs.webp";
 
 const page = () => {
   return (

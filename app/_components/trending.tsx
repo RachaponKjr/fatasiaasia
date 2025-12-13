@@ -8,10 +8,10 @@ import "swiper/css";
 import ArrowLeft from "@/assets/icons/arrow-left";
 import ArrowRight from "@/assets/icons/arrow-right";
 
-import thai from "@/assets/images/trending/thai.jpg";
-import laos from "@/assets/images/trending/laos.jpg";
-import vietnam from "@/assets/images/trending/vietnam.jpg";
-import india from "@/assets/images/trending/india.jpg";
+import thai from "@/assets/images/trending/thai.webp";
+import laos from "@/assets/images/trending/laos.webp";
+import vietnam from "@/assets/images/trending/vietnam.webp";
+import india from "@/assets/images/trending/india.webp";
 import { Tour } from "@/types/tour.type";
 
 const Trending = () => {

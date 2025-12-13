@@ -4,16 +4,16 @@ import { useSearchParams } from "next/navigation";
 import React from "react";
 import Image from "next/image";
 
-// image banner contry
-import los from "@/assets/images/banner-country/laos.png";
-import brunei from "@/assets/images/banner-country/brunei.png";
-import india from "@/assets/images/banner-country/india.png";
-import indonesia from "@/assets/images/banner-country/indonesia.png";
-import malaysia from "@/assets/images/banner-country/malaysia.png";
-import singapore from "@/assets/images/banner-country/singapore.png";
-import uzbekistan from "@/assets/images/banner-country/uzbekistan.png";
-import vietnam from "@/assets/images/banner-country/vietnam.png";
-import thailandhero from "@/assets/images/destination/thailand-hero.png";
+// image banner contry - optimized WebP format
+import los from "@/assets/images/banner-country/laos.webp";
+import brunei from "@/assets/images/banner-country/brunei.webp";
+import india from "@/assets/images/banner-country/india.webp";
+import indonesia from "@/assets/images/banner-country/indonesia.webp";
+import malaysia from "@/assets/images/banner-country/malaysia.webp";
+import singapore from "@/assets/images/banner-country/singapore.webp";
+import uzbekistan from "@/assets/images/banner-country/uzbekistan.webp";
+import vietnam from "@/assets/images/banner-country/vietnam.webp";
+import thailandhero from "@/assets/images/destination/thailand-hero.webp";
 
 const countryImages: Record<string, string> = {
   Laos: los.src,

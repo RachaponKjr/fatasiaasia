@@ -5,7 +5,7 @@ import React, { Suspense } from "react";
 
 import api from "@/server";
 import HeroLayout from "../about/_components/hero-about";
-import tourImage from "@/assets/images/banner/tour.png";
+import tourImage from "@/assets/images/banner/tour.webp";
 import ToursClient from "./_components/tours-client";
 
 const page = async () => {

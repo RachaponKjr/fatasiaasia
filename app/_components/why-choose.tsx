@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-import whychoose from "@/assets/images/who-choose.png";
+import whychoose from "@/assets/images/who-choose.webp";
 
 import attractions from "@/assets/icons/chooseus/attractions.png";
 import great from "@/assets/icons/chooseus/great.png";

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import React, { Dispatch, SetStateAction } from "react";
-import imagetest from "@/assets/imagetest.jpg";
+import imagetest from "@/assets/imagetest.webp";
 import Image from "next/image";
 import { TourDetail } from "@/types/tour.type";
 import api from "@/server";

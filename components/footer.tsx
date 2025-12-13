@@ -11,7 +11,7 @@ import visa from "@/assets/images/payment/visa.png";
 import mastercard from "@/assets/images/payment/mastercard.png";
 import paypal from "@/assets/images/payment/paypal.png";
 
-import footerBg from "@/assets/images/footer-bg.png";
+import footerBg from "@/assets/images/footer-bg.webp";
 
 const Footer = () => {
   return (

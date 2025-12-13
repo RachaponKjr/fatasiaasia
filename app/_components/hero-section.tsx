@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import banner from "@/assets/images/banner/herobanner.jpg";
-import halong2 from "@/assets/images/banner/halong2.jpg";
-import tajmahal from "@/assets/images/banner/tajmahal.jpg";
+import banner from "@/assets/images/banner/herobanner.webp";
+import halong2 from "@/assets/images/banner/halong2.webp";
+import tajmahal from "@/assets/images/banner/tajmahal.webp";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Plus, Users } from "lucide-react";
 
