@@ -37,36 +37,36 @@ const InfomationTour = ({
   let languagesVal = "en";
   let tourCategoryVal = "Adventure";
 
-  // Language code to flag emoji mapping (using Unicode for proper rendering)
-  const languageFlags: Record<string, { flag: string; name: string }> = {
-    en: { flag: "\u{1F1EC}\u{1F1E7}", name: "English" },
-    th: { flag: "\u{1F1F9}\u{1F1ED}", name: "Thai" },
-    zh: { flag: "\u{1F1E8}\u{1F1F3}", name: "Chinese" },
-    ja: { flag: "\u{1F1EF}\u{1F1F5}", name: "Japanese" },
-    ko: { flag: "\u{1F1F0}\u{1F1F7}", name: "Korean" },
-    vi: { flag: "\u{1F1FB}\u{1F1F3}", name: "Vietnamese" },
-    fr: { flag: "\u{1F1EB}\u{1F1F7}", name: "French" },
-    de: { flag: "\u{1F1E9}\u{1F1EA}", name: "German" },
-    es: { flag: "\u{1F1EA}\u{1F1F8}", name: "Spanish" },
-    it: { flag: "\u{1F1EE}\u{1F1F9}", name: "Italian" },
-    ru: { flag: "\u{1F1F7}\u{1F1FA}", name: "Russian" },
-    ar: { flag: "\u{1F1F8}\u{1F1E6}", name: "Arabic" },
-    hi: { flag: "\u{1F1EE}\u{1F1F3}", name: "Hindi" },
+  // Language to country code mapping for flag images
+  const languageToCountry: Record<string, { code: string; name: string }> = {
+    en: { code: "gb", name: "English" },
+    th: { code: "th", name: "Thai" },
+    zh: { code: "cn", name: "Chinese" },
+    ja: { code: "jp", name: "Japanese" },
+    ko: { code: "kr", name: "Korean" },
+    vi: { code: "vn", name: "Vietnamese" },
+    fr: { code: "fr", name: "French" },
+    de: { code: "de", name: "German" },
+    es: { code: "es", name: "Spanish" },
+    it: { code: "it", name: "Italian" },
+    ru: { code: "ru", name: "Russian" },
+    ar: { code: "sa", name: "Arabic" },
+    hi: { code: "in", name: "Hindi" },
     // Legacy text support
-    english: { flag: "\u{1F1EC}\u{1F1E7}", name: "English" },
-    thai: { flag: "\u{1F1F9}\u{1F1ED}", name: "Thai" },
-    chinese: { flag: "\u{1F1E8}\u{1F1F3}", name: "Chinese" },
-    japanese: { flag: "\u{1F1EF}\u{1F1F5}", name: "Japanese" },
-    korean: { flag: "\u{1F1F0}\u{1F1F7}", name: "Korean" },
-    vietnamese: { flag: "\u{1F1FB}\u{1F1F3}", name: "Vietnamese" },
-    french: { flag: "\u{1F1EB}\u{1F1F7}", name: "French" },
-    german: { flag: "\u{1F1E9}\u{1F1EA}", name: "German" },
-    spanish: { flag: "\u{1F1EA}\u{1F1F8}", name: "Spanish" },
-    italian: { flag: "\u{1F1EE}\u{1F1F9}", name: "Italian" },
-    italiano: { flag: "\u{1F1EE}\u{1F1F9}", name: "Italian" },
-    russian: { flag: "\u{1F1F7}\u{1F1FA}", name: "Russian" },
-    arabic: { flag: "\u{1F1F8}\u{1F1E6}", name: "Arabic" },
-    hindi: { flag: "\u{1F1EE}\u{1F1F3}", name: "Hindi" },
+    english: { code: "gb", name: "English" },
+    thai: { code: "th", name: "Thai" },
+    chinese: { code: "cn", name: "Chinese" },
+    japanese: { code: "jp", name: "Japanese" },
+    korean: { code: "kr", name: "Korean" },
+    vietnamese: { code: "vn", name: "Vietnamese" },
+    french: { code: "fr", name: "French" },
+    german: { code: "de", name: "German" },
+    spanish: { code: "es", name: "Spanish" },
+    italian: { code: "it", name: "Italian" },
+    italiano: { code: "it", name: "Italian" },
+    russian: { code: "ru", name: "Russian" },
+    arabic: { code: "sa", name: "Arabic" },
+    hindi: { code: "in", name: "Hindi" },
   };
 
   const filteredIncluded = included.filter((item) => {
@@ -137,24 +137,27 @@ const InfomationTour = ({
               <h6 className="text-[#333333] font-normal text-xs xl:text-sm text-nowrap">
                 Guide Language
               </h6>
-              <div className="flex gap-1 items-center flex-wrap">
+              <div className="flex gap-2 items-center flex-wrap">
                 {languagesVal.split(",").map((lang, idx) => {
                   const langKey = lang.trim().toLowerCase();
-                  const langData = languageFlags[langKey];
+                  const langData = languageToCountry[langKey];
                   if (langData) {
                     return (
-                      <span
+                      <img
                         key={idx}
-                        className="text-lg"
+                        src={`https://flagcdn.com/24x18/${langData.code}.png`}
+                        srcSet={`https://flagcdn.com/48x36/${langData.code}.png 2x`}
+                        width="24"
+                        height="18"
+                        alt={langData.name}
                         title={langData.name}
-                      >
-                        {langData.flag}
-                      </span>
+                        className="rounded-sm shadow-sm"
+                      />
                     );
                   }
                   // Fallback for unrecognized languages
                   return (
-                    <span key={idx} className="text-xs text-[#717171]">
+                    <span key={idx} className="text-xs text-[#717171] bg-gray-100 px-2 py-0.5 rounded">
                       {lang.trim()}
                     </span>
                   );
