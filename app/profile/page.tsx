@@ -16,11 +16,23 @@ export default async function Page() {
   const mybookingData = mybooking.data;
 
   return (
-    <div className="container mx-auto max-w-7xl md:pt-[72px] px-4 md:p-0 flex flex-col gap-20">
-      <Profile />
-      <Tour myBooking={mybookingData ?? []} />
-      <PastTours tour={[]} />
-      <WishList wishlist={wishlistData ?? []} />
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto max-w-6xl py-8 md:py-12 px-4">
+        {/* Profile Section */}
+        <Profile />
+
+        {/* Content Sections */}
+        <div className="mt-12 space-y-12">
+          {/* My Bookings */}
+          <Tour myBooking={mybookingData ?? []} />
+
+          {/* Past Tours */}
+          <PastTours tour={[]} />
+
+          {/* Wishlist */}
+          <WishList wishlist={wishlistData ?? []} />
+        </div>
+      </div>
     </div>
   );
 }
