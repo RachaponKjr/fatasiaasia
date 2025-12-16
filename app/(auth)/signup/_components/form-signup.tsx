@@ -44,7 +44,7 @@ const FormSignUp = () => {
       return;
     }
     if (sign.password !== sign.confirmPassword) {
-      toast.error("รหัสไม่ตรงกันกรุณากรอกใหม่ !", {
+      toast.error("Passwords do not match. Please try again.", {
         className: "!text-red-500",
       });
       return;
@@ -59,14 +59,18 @@ const FormSignUp = () => {
       const signupRes = await api.auth.signup({ payload });
 
       if (signupRes.code !== 2000) {
-        toast.error(signupRes.message, { className: "!text-red-500" });
+        const errorMessage = signupRes.message || "Registration failed. Please try again.";
+        toast.error(errorMessage, { className: "!text-red-500" });
         return;
       }
-      toast.success("สมัครสมาชิกสำเร็จ", { className: "!text-green-500" });
+      toast.success("Registration successful! Please check your email for OTP.", { className: "!text-green-500" });
       setStep(1); // ไป OTP step
       setTimeLeft(300);
     } catch (err) {
       console.error(err, "ERROR!");
+      toast.error("A network error occurred. Please check your connection and try again.", {
+        className: "!text-red-500",
+      });
     }
   };
 

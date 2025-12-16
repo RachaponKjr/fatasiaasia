@@ -33,13 +33,15 @@ const FormLogin = () => {
       const res = await api.auth.login({ payload });
 
       if (res.code !== 2000) {
-        toast.error("เข้าสู่ระบบไม่สำเร็จ กรุณาลองใหม่อีกครั้ง", {
+        // Show the actual error message from the API
+        const errorMessage = res.message || "Login failed. Please try again.";
+        toast.error(errorMessage, {
           className: "!text-red-500",
         });
         return;
       }
 
-      toast.success("เข้าสู่ระบบสำเร็จ", { className: "!text-green-500" });
+      toast.success("Login successful!", { className: "!text-green-500" });
 
       if (res?.data?.sessionToken) {
         Cookies.set("access_token", res.data.sessionToken, {
@@ -59,7 +61,7 @@ const FormLogin = () => {
       router.push("/");
     } catch (err) {
       console.error("Login error:", err);
-      toast.error("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง", {
+      toast.error("A network error occurred. Please check your connection and try again.", {
         className: "!text-red-500",
       });
     }

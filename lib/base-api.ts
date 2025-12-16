@@ -54,10 +54,23 @@ export async function BaseApi<T>(
     headers: requestHeaders,
   });
 
+  // Parse response body regardless of status
+  const responseData = await res.json().catch(() => ({
+    code: 5000,
+    message: "An unexpected response was received from the server.",
+    data: null,
+  }));
+
+  // For non-OK responses, return the error response from API instead of throwing
+  // This allows the frontend to show proper error messages
   if (!res.ok) {
-    const error = await res.json().catch(() => ({}));
-    throw new Error(error.message || "API Error");
+    return {
+      code: responseData.code || res.status,
+      message: responseData.message || "An error occurred. Please try again.",
+      data: responseData.data || null,
+    } as ApiResponse<T>;
   }
 
-  return res.json();
+  return responseData;
 }
+
