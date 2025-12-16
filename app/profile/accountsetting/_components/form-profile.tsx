@@ -129,7 +129,7 @@ const FormProfile = () => {
             <SelectTrigger className="w-full !h-[50px] rounded-[12px] border border-[#B2B2B2]">
               <SelectValue placeholder="Select language" />
             </SelectTrigger>
-            <SelectContent className="max-h-[300px]">
+            <SelectContent className="max-h-[300px] overflow-y-auto">
               {languages.sort().map((lang) => (
                 <SelectItem key={lang} value={lang}>
                   {lang}
@@ -151,7 +151,7 @@ const FormProfile = () => {
             <SelectTrigger className="w-full !h-[50px] rounded-[12px] border border-[#B2B2B2]">
               <SelectValue placeholder="Select country" />
             </SelectTrigger>
-            <SelectContent className="max-h-[300px]">
+            <SelectContent className="max-h-[300px] overflow-y-auto">
               {countries.sort().map((country) => (
                 <SelectItem key={country} value={country}>
                   {country}
@@ -173,7 +173,7 @@ const FormProfile = () => {
             <SelectTrigger className="w-full !h-[50px] rounded-[12px] border border-[#B2B2B2]">
               <SelectValue placeholder="Select timezone" />
             </SelectTrigger>
-            <SelectContent className="max-h-[300px]">
+            <SelectContent className="max-h-[300px] overflow-y-auto">
               <SelectItem value="Asia/Bangkok">Asia/Bangkok (UTC+7)</SelectItem>
               <SelectItem value="UTC">UTC (UTC+0)</SelectItem>
               <SelectItem value="America/New_York">America/New York (UTC-5)</SelectItem>
