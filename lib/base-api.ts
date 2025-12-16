@@ -30,14 +30,21 @@ export async function BaseApi<T>(
 
   let finalToken: string | undefined = optionToken;
 
-  // ⛔ ไม่มี token แต่ต้องใช้ auth → ตัดไฟตั้งแต่ต้นลม
-  if (requiresAuth) {
-    try {
-      const cookieStore = cookies();
-      finalToken = (await cookieStore).get("access_token")?.value;
-    } catch (err) {
-      console.warn("Cannot read auth token from cookies:", err);
+  // Always try to get token from cookies for optional auth (e.g. tour agency pricing)
+  try {
+    const cookieStore = cookies();
+    const storedToken = (await cookieStore).get("access_token")?.value;
+    if (storedToken && !finalToken) {
+      finalToken = storedToken;
     }
+  } catch (err) {
+    // Ignore error if cookies cannot be accessed (e.g. in some contexts)
+  }
+
+  // If auth is strictly required but no token found, we could throw here, 
+  // but current logic just proceeds without header (which will likely result in 401 from API)
+  if (requiresAuth && !finalToken) {
+    // warning or handle if needed
   }
 
   const requestHeaders: Record<string, string> = {
@@ -45,7 +52,7 @@ export async function BaseApi<T>(
     ...(headers as Record<string, string>),
   };
 
-  if (requiresAuth && finalToken) {
+  if (finalToken) {
     requestHeaders["Authorization"] = `Bearer ${finalToken}`;
   }
 
