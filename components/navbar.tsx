@@ -512,6 +512,78 @@ const Navbar = () => {
             );
           })}
 
+          {/* Become an Agency Mobile Item */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <span className="font-medium text-lg cursor-pointer text-gray-700 hover:text-[#BD3E2B]">Become an Agency</span>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold text-[#BD3E2B]">Become a Partner</DialogTitle>
+                <DialogDescription className="text-[16px] pt-4">
+                  Join our network of tour operators and unlock exclusive benefits.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="flex flex-col gap-4 text-sm text-gray-600">
+                  <div className="flex gap-3 items-start">
+                    <div className="bg-[#BD3E2B]/10 p-2 rounded-lg mt-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#BD3E2B"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="8.5" cy="7" r="4"></circle>
+                        <line x1="20" y1="8" x2="20" y2="14"></line>
+                        <line x1="23" y1="11" x2="17" y2="11"></line>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">Exclusive Access</h4>
+                      <p>Tour operators will receive their dedicated logins once approved by our team.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3 items-start">
+                    <div className="bg-[#BD3E2B]/10 p-2 rounded-lg mt-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#BD3E2B"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">Special Pricing</h4>
+                      <p>Enjoy agency-specific pricing and benefits designed to help your business grow.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button asChild className="w-full bg-[#BD3E2B] hover:bg-[#a5352a] text-white py-6 text-lg">
+                  <Link href="mailto:enquiry@fantasiaasia.com">
+                    Send Email
+                  </Link>
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
           {authStatus === "true" ? (
             <div className="flex flex-col gap-3 mt-4 border-t pt-4">
               {[
