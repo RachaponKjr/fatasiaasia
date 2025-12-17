@@ -56,10 +56,10 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
               spaceBetween: 30,
             },
           }}
-          className="w-full"
+          className="w-full h-full relative"
         >
           {displayTours.map((item, i) => (
-            <SwiperSlide key={`${item.tourId}-${i}`}>
+            <SwiperSlide key={`${item.tourId}-${i}`} className="p-3 !h-full relative">
               <TourCard wishlist={item} />
             </SwiperSlide>
           ))}

@@ -113,7 +113,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
     <>
       <Link
         href={`/tours/${wishlist.tourId}`}
-        className="bg-white shadow-[0px_4px_20px_-3px_#000000]/25 w-full rounded-xl xl:rounded-3xl flex flex-col items-start overflow-hidden"
+        className="bg-white shadow-[0px_4px_20px_-3px_#000000]/25 w-full h-full rounded-xl xl:rounded-3xl flex flex-col items-start overflow-hidden"
       >
         {/* Image */}
         <div className="bg-neutral-200 w-full aspect-[16/14] rounded-xl xl:rounded-3xl relative">
