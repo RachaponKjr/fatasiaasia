@@ -47,7 +47,15 @@ const Booking = ({
       removeFromWishlist(tourdetail?.tourId);
       setIsWishlisted(false);
     } else {
-      addToWishlist(tourdetail?.tourId);
+      addToWishlist({
+        tourId: tourdetail!.tourId,
+        title: tourdetail!.title,
+        country: tourdetail!.country,
+        estimateCostPerPerson: tourdetail!.estimateCostPerPerson,
+        thumbnail: tourdetail!.galleryUrls?.[0] || "",
+        itinerariesDays: tourdetail!.itineraries?.length || 0,
+        isWishlist: true,
+      });
       setIsWishlisted(true);
     }
   };

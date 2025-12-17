@@ -65,7 +65,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
     if (isInWishlist) {
       removeFromWishlist(wishlist.tourId);
     } else {
-      addToWishlist(wishlist.tourId);
+      addToWishlist(wishlist);
     }
   };
 
