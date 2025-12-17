@@ -11,21 +11,74 @@ import {
 import { useProfile } from "@/hooks/useProfile";
 import { Profile, ProfileEdit } from "@/types/profile.type";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState, useRef } from "react";
 import api from "@/server";
 import { toast } from "sonner";
 import { countries } from "@/lib/countries";
 import { languages } from "@/lib/languages";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Camera, Upload } from "lucide-react";
 
 const FormProfile = () => {
   const router = useRouter();
   const { user, refresh } = useProfile();
   const [editUser, setEditUser] = useState<ProfileEdit | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Load avatar from localStorage on mount
+  useEffect(() => {
+    if (user?.userId) {
+      const savedAvatar = localStorage.getItem(`avatar_${user.userId}`);
+      if (savedAvatar) {
+        setAvatarUrl(savedAvatar);
+      }
+    }
+  }, [user?.userId]);
 
   // sync user -> editUser
   useEffect(() => {
     if (user) setEditUser(user);
   }, [user]);
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast.error("Please select an image file", { className: "!text-red-500" });
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image size must be less than 5MB", { className: "!text-red-500" });
+      return;
+    }
+
+    // Convert to base64 and save to localStorage
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result as string;
+      if (user?.userId) {
+        localStorage.setItem(`avatar_${user.userId}`, base64String);
+        setAvatarUrl(base64String);
+        toast.success("Avatar updated successfully!", { className: "!text-green-500" });
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const getInitials = () => {
+    if (editUser?.firstName && editUser?.lastName) {
+      return `${editUser.firstName[0]}${editUser.lastName[0]}`.toUpperCase();
+    }
+    if (editUser?.name) {
+      return editUser.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    }
+    return "U";
+  };
 
   const updateProfile = async (e: FormEvent) => {
     e.preventDefault();
@@ -57,6 +110,46 @@ const FormProfile = () => {
 
   return (
     <form onSubmit={updateProfile} className="flex flex-col gap-8">
+      {/* Avatar Upload Section */}
+      <div className="flex flex-col gap-3 w-full">
+        <label className="text-lg font-normal text-[#1A1A1A]">Profile Photo</label>
+        <div className="flex items-center gap-6">
+          <div className="relative group">
+            <Avatar className="w-24 h-24 border-4 border-gray-200">
+              <AvatarImage src={avatarUrl || undefined} />
+              <AvatarFallback className="text-2xl font-bold bg-[#BD3E2B] text-white">
+                {getInitials()}
+              </AvatarFallback>
+            </Avatar>
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+            >
+              <Camera className="w-8 h-8 text-white" />
+            </button>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="bg-[#BD3E2B] hover:bg-[#a5352a] text-white rounded-full px-6"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Upload Photo
+            </Button>
+            <p className="text-sm text-gray-500">JPG, PNG or GIF. Max 5MB.</p>
+          </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleAvatarChange}
+            className="hidden"
+          />
+        </div>
+      </div>
+
       {/* First Name */}
       <div className="flex flex-col gap-3 w-full">
         <label className="text-lg font-normal text-[#1A1A1A]">First Name</label>

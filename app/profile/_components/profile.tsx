@@ -1,7 +1,7 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useProfile } from "@/hooks/useProfile";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -23,6 +23,17 @@ import {
 const Profile = () => {
   const { user, logout, isLoading } = useProfile();
   const router = useRouter();
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+  // Load avatar from localStorage
+  useEffect(() => {
+    if (user?.userId) {
+      const savedAvatar = localStorage.getItem(`avatar_${user.userId}`);
+      if (savedAvatar) {
+        setAvatarUrl(savedAvatar);
+      }
+    }
+  }, [user?.userId]);
 
   const getInitials = () => {
     if (user?.firstName && user?.lastName) {
@@ -97,7 +108,7 @@ const Profile = () => {
           {/* Avatar */}
           <div className="relative">
             <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
-              <AvatarImage src={user?.profilePicture} />
+              <AvatarImage src={avatarUrl || undefined} />
               <AvatarFallback className="text-3xl font-bold bg-white text-[#BD3E2B]">
                 {getInitials()}
               </AvatarFallback>
