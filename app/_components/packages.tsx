@@ -14,10 +14,12 @@ const Packages = ({ tours }: { tours: Tour[] }) => {
 
   return (
     <LayoutSection link="/tours?category=popular" title="Popular Tour Packages">
-      <div className="w-full h-max relative group">
+      <div className="w-full h-auto relative group">
         <Swiper
           modules={[Autoplay, Navigation]}
           loop={true}
+          autoHeight={false}
+          watchSlidesProgress={true}
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
