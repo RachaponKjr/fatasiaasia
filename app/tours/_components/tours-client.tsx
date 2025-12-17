@@ -54,6 +54,7 @@ const ToursClient = ({
     const [selectedCategory, setSelectedCategory] = useState(categoryParam);
     const [selectedDuration, setSelectedDuration] = useState(durationParam);
     const [currentPage, setCurrentPage] = useState(pageParam);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         setSelectedCategory(categoryParam);
@@ -110,8 +111,30 @@ const ToursClient = ({
             });
         }
 
+        // Filter by search query
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase().trim();
+            result = result.filter((tour, index) => {
+                const detail = tourDetails[index];
+
+                // Search in tour title
+                if (tour.title?.toLowerCase().includes(query)) return true;
+
+                // Search in country
+                if (tour.country?.toLowerCase().includes(query)) return true;
+
+                // Search in overview/description
+                if (detail?.overview?.toLowerCase().includes(query)) return true;
+
+                // Search in highlight
+                if (detail?.highlight?.toLowerCase().includes(query)) return true;
+
+                return false;
+            });
+        }
+
         return result;
-    }, [tours, tourDetails, selectedCategory, selectedDuration]);
+    }, [tours, tourDetails, selectedCategory, selectedDuration, searchQuery]);
 
     // Pagination
     const totalPages = Math.ceil(filteredTours.length / TOURS_PER_PAGE);
@@ -143,6 +166,50 @@ const ToursClient = ({
             <div className="w-full xl:w-64 flex-shrink-0">
                 <div className="bg-white rounded-2xl p-6 shadow-lg xl:sticky xl:top-24">
                     <h3 className="font-bold text-lg text-[#333] mb-4">Filter Tours</h3>
+
+                    {/* Search Bar */}
+                    <div className="mb-6">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                placeholder="Search tours..."
+                                value={searchQuery}
+                                onChange={(e) => {
+                                    setSearchQuery(e.target.value);
+                                    setCurrentPage(1); // Reset to first page on search
+                                }}
+                                className="w-full px-4 py-2.5 pl-10 pr-10 rounded-lg border border-gray-200 focus:border-[#BD3E2B] focus:ring-2 focus:ring-[#BD3E2B]/20 outline-none transition-all text-sm"
+                            />
+                            <svg
+                                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                />
+                            </svg>
+                            {searchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery("")}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            )}
+                        </div>
+                        {searchQuery && (
+                            <p className="text-xs text-gray-500 mt-2">
+                                {filteredTours.length} tour{filteredTours.length !== 1 ? 's' : ''} found
+                            </p>
+                        )}
+                    </div>
 
                     {/* Category Filter */}
                     <div className="mb-6">
