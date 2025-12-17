@@ -36,6 +36,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
   const [countryImage, setCountryImage] = useState<string>(thai.src);
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Prevent Dialog from rendering during SSR to avoid hydration errors
   useEffect(() => {
@@ -60,6 +61,10 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
       setLoginDialogOpen(true);
       return;
     }
+
+    // Trigger heartbeat animation
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 300);
 
     // Toggle wishlist if authenticated
     if (isInWishlist) {
@@ -121,7 +126,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
           ) : null}
           <Heart
             onClick={handleWishlistToggle}
-            className="absolute top-6 right-6 cursor-pointer"
+            className={`absolute top-6 right-6 cursor-pointer transition-transform duration-150 hover:scale-110 ${isAnimating ? 'animate-heartbeat' : ''}`}
             size={34}
             fill={isInWishlist ? "red" : "transparent"}
             color={isInWishlist ? "red" : "white"}
