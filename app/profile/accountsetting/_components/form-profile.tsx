@@ -26,22 +26,24 @@ const FormProfile = () => {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Load avatar from localStorage on mount
+  // Load avatar from profile or localStorage
   useEffect(() => {
-    if (user?.userId) {
+    if (user?.profilePictureUrl) {
+      setAvatarUrl(user.profilePictureUrl);
+    } else if (user?.userId) {
       const savedAvatar = localStorage.getItem(`avatar_${user.userId}`);
       if (savedAvatar) {
         setAvatarUrl(savedAvatar);
       }
     }
-  }, [user?.userId]);
+  }, [user]);
 
   // sync user -> editUser
   useEffect(() => {
     if (user) setEditUser(user);
   }, [user]);
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -57,17 +59,34 @@ const FormProfile = () => {
       return;
     }
 
-    // Convert to base64 and save to localStorage
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64String = reader.result as string;
-      if (user?.userId) {
-        localStorage.setItem(`avatar_${user.userId}`, base64String);
-        setAvatarUrl(base64String);
-        toast.success("Avatar updated successfully!", { className: "!text-green-500" });
+    // Upload to server
+    const formData = new FormData();
+    formData.append("profile_picture", file);
+
+    const toastId = toast.loading("Uploading...");
+
+    try {
+      const res = await api.file.uploadProfilePicture(formData);
+      if (res.code === 2000) {
+        const url = res.data.profilePictureUrl;
+        setAvatarUrl(url);
+
+        // Clean up localStorage
+        if (user?.userId) {
+          localStorage.removeItem(`avatar_${user.userId}`);
+        }
+
+        toast.success("Avatar updated!", { id: toastId, className: "!text-green-500" });
+
+        // Refresh profile to sync data
+        refresh();
+      } else {
+        toast.error("Upload failed: " + res.message, { id: toastId, className: "!text-red-500" });
       }
-    };
-    reader.readAsDataURL(file);
+    } catch (err) {
+      console.error(err);
+      toast.error("Upload failed", { id: toastId, className: "!text-red-500" });
+    }
   };
 
   const getInitials = () => {

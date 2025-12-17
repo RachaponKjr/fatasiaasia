@@ -34,15 +34,17 @@ const Profile = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [userTestimonial, setUserTestimonial] = useState<Testimonial | null>(null);
 
-  // Load avatar from localStorage
+  // Load avatar from profile or localStorage
   useEffect(() => {
-    if (user?.userId) {
+    if (user?.profilePictureUrl) {
+      setAvatarUrl(user.profilePictureUrl);
+    } else if (user?.userId) {
       const savedAvatar = localStorage.getItem(`avatar_${user.userId}`);
       if (savedAvatar) {
         setAvatarUrl(savedAvatar);
       }
     }
-  }, [user?.userId]);
+  }, [user]);
 
   // Check if user already has a testimonial
   useEffect(() => {
@@ -287,16 +289,16 @@ const Profile = () => {
         <div className="p-6">
           {userTestimonial ? (
             <div className={`rounded-lg p-4 ${userTestimonial.status === "approved"
-                ? "bg-green-50 border border-green-200"
-                : userTestimonial.status === "pending"
-                  ? "bg-yellow-50 border border-yellow-200"
-                  : "bg-red-50 border border-red-200"
+              ? "bg-green-50 border border-green-200"
+              : userTestimonial.status === "pending"
+                ? "bg-yellow-50 border border-yellow-200"
+                : "bg-red-50 border border-red-200"
               }`}>
               <p className={`font-medium mb-2 ${userTestimonial.status === "approved"
-                  ? "text-green-800"
-                  : userTestimonial.status === "pending"
-                    ? "text-yellow-800"
-                    : "text-red-800"
+                ? "text-green-800"
+                : userTestimonial.status === "pending"
+                  ? "text-yellow-800"
+                  : "text-red-800"
                 }`}>
                 {userTestimonial.status === "approved" && "✓ Your testimonial is live!"}
                 {userTestimonial.status === "pending" && "⏳ Your testimonial is pending review"}

@@ -9,6 +9,7 @@ const BASE_URL =
 interface RequestOptions extends RequestInit {
   token?: string;
   requiresAuth?: boolean;
+  isMultipart?: boolean;
 }
 
 export interface ApiResponse<T> {
@@ -25,6 +26,7 @@ export async function BaseApi<T>(
     token: optionToken,
     headers,
     requiresAuth = false,
+    isMultipart = false,
     ...rest
   } = options;
 
@@ -48,7 +50,7 @@ export async function BaseApi<T>(
   }
 
   const requestHeaders: Record<string, string> = {
-    "Content-Type": "application/json",
+    ...(isMultipart ? {} : { "Content-Type": "application/json" }),
     ...(headers as Record<string, string>),
   };
 

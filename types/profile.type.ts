@@ -13,6 +13,7 @@ export const ProfileSchema = z.object({
   country: z.string(),
   timezone: z.string(),
   address: z.string(),
+  profilePictureUrl: z.string().optional(),
 });
 
 export const ProfileEditSchema = ProfileSchema.omit({
