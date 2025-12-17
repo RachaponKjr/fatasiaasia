@@ -156,7 +156,7 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
                 </span>
               </div>
             </div>
-            <h2 className="font-bold flex-1 text-[#2F2F2F] text-xs xl:text-base line-clamp-2">
+            <h2 className="font-bold flex-1 text-[#2F2F2F] text-xs xl:text-base line-clamp-2 min-h-[2.5rem] xl:min-h-[3rem]">
               {wishlist.title}
             </h2>
             <div className="text-[#7D7D7D] font-normal text-[13px] flex gap-2 mt-2">
