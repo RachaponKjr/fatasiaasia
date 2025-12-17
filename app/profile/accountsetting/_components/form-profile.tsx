@@ -53,9 +53,9 @@ const FormProfile = () => {
       return;
     }
 
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image size must be less than 5MB", { className: "!text-red-500" });
+    // Validate file size (max 2MB to match backend)
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error("Image size must be less than 2MB", { className: "!text-red-500" });
       return;
     }
 
