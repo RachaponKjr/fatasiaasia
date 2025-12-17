@@ -18,24 +18,33 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
   const router = useRouter();
   const submitBooking = async () => {
     try {
+      console.log("Submitting booking:", { tourId: tourDetail.tourId, booking });
       const bookingRes = await api.booking.booking({
         tourId: tourDetail.tourId,
         payload: booking,
       });
+      console.log("Booking response:", bookingRes);
+
       if (bookingRes.code === 2000) {
         setStep?.(4);
-      } else {
+        toast.success("Booking submitted successfully!");
+      } else if (bookingRes.code === 401 || bookingRes.code === 4001) {
+        // Only redirect to login for authentication errors
+        toast.error("Please log in to complete your booking", {
+          className: "!text-red-500",
+        });
         router.push("/login");
-        toast.error("เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง", {
+      } else {
+        // Show the actual error message for other errors
+        toast.error(bookingRes.message || "Failed to submit booking. Please try again.", {
           className: "!text-red-500",
         });
       }
     } catch (err) {
-      router.push("/login");
-      toast.error("เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง", {
+      console.error("Booking error:", err);
+      toast.error("An error occurred. Please try again.", {
         className: "!text-red-500",
       });
-      console.error(err);
     }
   };
 
