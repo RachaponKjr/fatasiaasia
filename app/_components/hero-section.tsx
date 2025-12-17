@@ -25,6 +25,44 @@ const quotes = [
 const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quoteIndex, setQuoteIndex] = useState(0);
+  const [travelerCount, setTravelerCount] = useState(0);
+
+  // Calculate travelers count based on time of day
+  const getTravelerCount = () => {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+
+    // Calculate how far through the day we are (0 to 1)
+    const dayProgress = (now.getTime() - startOfDay.getTime()) / (endOfDay.getTime() - startOfDay.getTime());
+
+    // Random target between 200-250
+    const today = now.toDateString();
+    const savedData = typeof window !== 'undefined' ? localStorage.getItem('traveler_counter') : null;
+    let targetCount = 225; // default
+
+    if (savedData) {
+      const parsed = JSON.parse(savedData);
+      if (parsed.date === today) {
+        targetCount = parsed.target;
+      } else {
+        // New day, generate new target
+        targetCount = Math.floor(Math.random() * 51) + 200; // 200-250
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('traveler_counter', JSON.stringify({ date: today, target: targetCount }));
+        }
+      }
+    } else {
+      // First time, generate target
+      targetCount = Math.floor(Math.random() * 51) + 200;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('traveler_counter', JSON.stringify({ date: today, target: targetCount }));
+      }
+    }
+
+    // Calculate current count based on day progress
+    return Math.floor(dayProgress * targetCount);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -38,6 +76,17 @@ const HeroSection = () => {
     const interval = setInterval(() => {
       setQuoteIndex((prev) => (prev + 1) % quotes.length);
     }, 4000); // Change quote every 4 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Update traveler count every minute
+  useEffect(() => {
+    setTravelerCount(getTravelerCount());
+
+    const interval = setInterval(() => {
+      setTravelerCount(getTravelerCount());
+    }, 60000); // Update every minute
 
     return () => clearInterval(interval);
   }, []);
@@ -69,11 +118,13 @@ const HeroSection = () => {
           No matter where you're going, we'll take you there.
         </h1>
 
-        {/* Social Proof */}
+        {/* Social Proof with Live Counter */}
         <div className="bg-white/10 backdrop-blur-sm rounded-full px-4 md:px-6 py-2 md:py-3 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
           <div className="flex items-center">
-            <Users className="w-4 h-4 md:w-5 md:h-5 text-white mr-2" />
-            <span className="text-white font-semibold text-sm md:text-base">200+ travelers</span>
+            <Users className="w-4 h-4 md:w-5 md:h-5 text-white mr-2 animate-pulse" />
+            <span className="text-white font-semibold text-sm md:text-base tabular-nums">
+              {travelerCount}+ travelers
+            </span>
           </div>
           <span className="text-white/80 text-xs md:text-sm text-center sm:text-left">
             booked a tour in the last 24 hours.
