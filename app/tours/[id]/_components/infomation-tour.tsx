@@ -108,7 +108,7 @@ const InfomationTour = ({
         <h1 className="font-bold text-xl xl:text-4xl text-[#333333]">
           {tourDetail?.title}
         </h1>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-4 xl:gap-8 xl:grid-cols-4">
+        <div className="flex flex-col gap-3 sm:grid sm:grid-cols-2 sm:gap-x-4 sm:gap-y-4 xl:gap-8 xl:grid-cols-4">
           <div className="flex gap-2 items-center">
             <Image src={duration} alt="" width={59} height={59} />
             <div>
