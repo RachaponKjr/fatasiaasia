@@ -16,12 +16,56 @@ type Props = {
 const ConBooking = ({ setStep, tourDetail }: Props) => {
   const { booking } = useBooking();
   const router = useRouter();
+
+  const validateBooking = () => {
+    const errors: string[] = [];
+
+    if (!booking.startDate || booking.startDate === 0) {
+      errors.push("Please select a visit date");
+    }
+    if (!booking.adultTickets && !booking.childTickets && !booking.infantTickets) {
+      errors.push("Please select at least one ticket");
+    }
+    if (!booking.bookingFirstname?.trim()) {
+      errors.push("Please enter your first name");
+    }
+    if (!booking.bookingSurname?.trim()) {
+      errors.push("Please enter your surname");
+    }
+    if (!booking.bookingEmail?.trim()) {
+      errors.push("Please enter your email");
+    }
+    if (!booking.bookingPhone?.trim()) {
+      errors.push("Please enter your phone number");
+    }
+    if (!booking.bookingAddress?.trim()) {
+      errors.push("Please enter your address");
+    }
+
+    return errors;
+  };
+
   const submitBooking = async () => {
+    // Validate first
+    const validationErrors = validateBooking();
+    if (validationErrors.length > 0) {
+      toast.error(validationErrors[0], {
+        className: "!text-red-500",
+      });
+      return;
+    }
+
     try {
-      console.log("Submitting booking:", { tourId: tourDetail.tourId, booking });
+      // Ensure visitTime has a default if not set
+      const bookingPayload = {
+        ...booking,
+        visitTime: booking.visitTime || Date.now(), // Default to current time if not set
+      };
+
+      console.log("Submitting booking:", { tourId: tourDetail.tourId, booking: bookingPayload });
       const bookingRes = await api.booking.booking({
         tourId: tourDetail.tourId,
-        payload: booking,
+        payload: bookingPayload,
       });
       console.log("Booking response:", bookingRes);
 
