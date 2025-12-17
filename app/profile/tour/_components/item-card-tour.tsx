@@ -43,10 +43,7 @@ const ItemCardTour = ({ active = false, tour }: { active?: boolean; tour: MyBook
 
         {!active && (
           <div className="flex justify-between text-base items-center mt-auto">
-            <span>You will be receiving a confirmation email with order details.</span>
-            <Button className="text-[#ED021A] bg-[#FEE9EE] cursor-pointer hover:bg-[#FEE9EE] rounded-full md:!py-6 md:px-6 py-2 px-2 text-sm md:text-base font-normal">
-              Cancel Booking
-            </Button>
+            <span className="text-[#666]">We are checking availability and will contact you within 24-48 hours.</span>
           </div>
         )}
 
@@ -77,12 +74,14 @@ const ItemCardTour = ({ active = false, tour }: { active?: boolean; tour: MyBook
             </div>
 
             <div className="flex gap-6 justify-end items-center mt-4">
-              <Button className="text-[#ED021A] bg-[#FEE9EE] cursor-pointer hover:bg-[#FEE9EE] rounded-full md:!py-6 md:px-6 py-2 px-2 text-sm md:text-base font-normal">
-                Cancel Booking
-              </Button>
-              <Button className="text-white font-bold bg-[#4992E1] cursor-pointer hover:bg-[#3671C6] rounded-full md:!py-6 md:px-6 py-2 px-2 text-sm md:text-base min-w-[160px]">
-                Book Now
-              </Button>
+              {tour.paymentURL && (
+                <Button
+                  className="text-white font-bold bg-[#4992E1] cursor-pointer hover:bg-[#3671C6] rounded-full md:!py-6 md:px-6 py-2 px-2 text-sm md:text-base min-w-[160px]"
+                  onClick={() => window.open(tour.paymentURL || '', '_blank')}
+                >
+                  Pay Now
+                </Button>
+              )}
             </div>
           </>
         )}
