@@ -17,7 +17,7 @@ const page = async () => {
         </div>
         <div className="flex flex-col gap-20">
           {mybooking.map((item, key) => (
-            <ItemCardTour tour={item} active={item.bookingStatus !== 'confirmed' ? false : true} />
+            <ItemCardTour key={item.bookingId || key} tour={item} active={item.bookingStatus !== 'confirmed' ? false : true} />
           ))}
         </div>
       </div>
