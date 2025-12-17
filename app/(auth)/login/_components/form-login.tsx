@@ -11,7 +11,11 @@ import { toast } from "sonner";
 import Cookies from "js-cookie";
 import { useProfile } from "@/hooks/useProfile";
 
-const FormLogin = () => {
+interface FormLoginProps {
+  onSuccess?: () => void;
+}
+
+const FormLogin = ({ onSuccess }: FormLoginProps) => {
   const router = useRouter();
   const { refresh } = useProfile();
   const [payload, setPayload] = useState<Omit<Auth, "firstName" | "lastName">>({
@@ -66,8 +70,13 @@ const FormLogin = () => {
       }
       await refresh();
 
-      // Redirect to homepage after successful login
-      router.push("/");
+      // If onSuccess callback is provided, call it (for modal usage)
+      // Otherwise redirect to homepage
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.push("/");
+      }
     } catch (err) {
       console.error("Login error:", err);
       const networkError = "A network error occurred. Please check your connection and try again.";

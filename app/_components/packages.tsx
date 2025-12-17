@@ -13,7 +13,7 @@ const Packages = ({ tours }: { tours: Tour[] }) => {
   const displayTours = tours ? [...tours, ...tours] : [];
 
   return (
-    <LayoutSection link="/tours" title="Popular Tour Packages">
+    <LayoutSection link="/tours?category=popular" title="Popular Tour Packages">
       <div className="w-full h-max relative group">
         <Swiper
           modules={[Autoplay, Navigation]}

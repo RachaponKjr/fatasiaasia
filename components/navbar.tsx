@@ -54,6 +54,7 @@ const countries = [
 ];
 
 const tourCategories = [
+  { name: "Popular", slug: "popular" },
   { name: "Sea, Beaches and Islands", slug: "beach" },
   { name: "Culture, History and Traditions", slug: "culture" },
   { name: "Nature", slug: "nature" },

@@ -177,7 +177,11 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
                 Please login to add tours to your wishlist
               </p>
             </DialogHeader>
-            <FormLogin />
+            <FormLogin onSuccess={() => {
+              setLoginDialogOpen(false);
+              // Add to wishlist after successful login
+              addToWishlist(wishlist);
+            }} />
           </DialogContent>
         </Dialog>
       )}

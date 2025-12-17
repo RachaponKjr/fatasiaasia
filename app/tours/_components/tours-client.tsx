@@ -11,6 +11,7 @@ const TOURS_PER_PAGE = 15;
 
 const tourCategories = [
     { name: "All Tours", slug: "" },
+    { name: "Popular", slug: "popular" },
     { name: "Sea, Beaches and Islands", slug: "beach" },
     { name: "Culture, History and Traditions", slug: "culture" },
     { name: "Nature", slug: "nature" },
@@ -28,6 +29,7 @@ const durationFilters = [
 
 // Map category slugs to META_CATEGORY values
 const categoryMap: Record<string, string[]> = {
+    popular: ["Popular", "popular", "Featured"],
     beach: ["Beach Tour", "Sea, Beaches and Islands", "beach"],
     culture: ["Culture, History and Traditions", "Culture", "culture", "History"],
     nature: ["Nature", "nature", "Adventure"],
