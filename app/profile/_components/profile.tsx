@@ -17,13 +17,22 @@ import {
   Heart,
   Plane,
   Clock,
-  ChevronRight
+  ChevronRight,
+  MessageSquare,
+  Send
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { addTestimonial, getTestimonials, Testimonial } from "@/lib/testimonials-api";
+import { toast } from "sonner";
 
 const Profile = () => {
   const { user, logout, isLoading } = useProfile();
   const router = useRouter();
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [testimonialText, setTestimonialText] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [userTestimonial, setUserTestimonial] = useState<Testimonial | null>(null);
 
   // Load avatar from localStorage
   useEffect(() => {
@@ -34,6 +43,63 @@ const Profile = () => {
       }
     }
   }, [user?.userId]);
+
+  // Check if user already has a testimonial
+  useEffect(() => {
+    const checkExistingTestimonial = async () => {
+      if (user?.userId) {
+        const testimonials = await getTestimonials();
+        const existing = testimonials.find(t => t.userId === user.userId);
+        if (existing) {
+          setUserTestimonial(existing);
+          setTestimonialText(existing.review);
+        }
+      }
+    };
+    checkExistingTestimonial();
+  }, [user?.userId]);
+
+  const handleSubmitTestimonial = async () => {
+    if (!testimonialText.trim()) {
+      toast.error("Please write a testimonial first", { className: "!text-red-500" });
+      return;
+    }
+
+    if (!user) {
+      toast.error("You must be logged in to submit a testimonial", { className: "!text-red-500" });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const success = await addTestimonial({
+        name: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.name || "Anonymous",
+        review: testimonialText.trim(),
+        location: user.country || "Unknown",
+        avatar: avatarUrl || undefined,
+        userId: user.userId,
+      });
+
+      if (success) {
+        toast.success("Thank you for your testimonial! It will appear on our homepage.", { className: "!text-green-500" });
+        setUserTestimonial({
+          id: Date.now().toString(),
+          name: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.name || "Anonymous",
+          review: testimonialText.trim(),
+          location: user.country || "Unknown",
+          createdAt: new Date().toISOString(),
+          userId: user.userId,
+        });
+      } else {
+        toast.error("Failed to submit testimonial. Please try again.", { className: "!text-red-500" });
+      }
+    } catch (error) {
+      console.error("Error submitting testimonial:", error);
+      toast.error("An error occurred. Please try again.", { className: "!text-red-500" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const getInitials = () => {
     if (user?.firstName && user?.lastName) {
@@ -203,6 +269,57 @@ const Profile = () => {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Testimonial Section */}
+      <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+        <div className="px-6 py-4 bg-gray-50 border-b border-gray-100">
+          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <MessageSquare className="w-5 h-5 text-[#BD3E2B]" />
+            Share Your Experience
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Tell others about your experience with Fantasia Asia
+          </p>
+        </div>
+        <div className="p-6">
+          {userTestimonial ? (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <p className="text-green-800 font-medium mb-2">✓ Thank you for your testimonial!</p>
+              <p className="text-gray-600 text-sm italic">"{userTestimonial.review}"</p>
+              <p className="text-xs text-gray-400 mt-2">Your testimonial is displayed on our homepage.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <Textarea
+                placeholder="Share your experience with Fantasia Asia Tours... What made your trip special? Would you recommend us to others?"
+                value={testimonialText}
+                onChange={(e) => setTestimonialText(e.target.value)}
+                className="min-h-[120px] resize-none border-gray-300 focus:border-[#BD3E2B] focus:ring-[#BD3E2B]"
+                maxLength={500}
+              />
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-400">
+                  {testimonialText.length}/500 characters
+                </span>
+                <Button
+                  onClick={handleSubmitTestimonial}
+                  disabled={isSubmitting || !testimonialText.trim()}
+                  className="bg-[#BD3E2B] hover:bg-[#a5352a] text-white rounded-full px-6"
+                >
+                  {isSubmitting ? (
+                    "Submitting..."
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4 mr-2" />
+                      Submit Testimonial
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
