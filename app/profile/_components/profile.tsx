@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { addTestimonial, getTestimonials, Testimonial } from "@/lib/testimonials-api";
+import { addTestimonial, getAllTestimonials, Testimonial } from "@/lib/testimonials-api";
 import { toast } from "sonner";
 
 const Profile = () => {
@@ -48,8 +48,8 @@ const Profile = () => {
   useEffect(() => {
     const checkExistingTestimonial = async () => {
       if (user?.userId) {
-        const testimonials = await getTestimonials();
-        const existing = testimonials.find(t => t.userId === user.userId);
+        const testimonials = await getAllTestimonials();
+        const existing = testimonials.find((t: Testimonial) => t.userId === user.userId);
         if (existing) {
           setUserTestimonial(existing);
           setTestimonialText(existing.review);
@@ -81,7 +81,7 @@ const Profile = () => {
       });
 
       if (success) {
-        toast.success("Thank you for your testimonial! It will appear on our homepage.", { className: "!text-green-500" });
+        toast.success("Thank you! Your testimonial is pending review.", { className: "!text-green-500" });
         setUserTestimonial({
           id: Date.now().toString(),
           name: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.name || "Anonymous",
@@ -89,6 +89,7 @@ const Profile = () => {
           location: user.country || "Unknown",
           createdAt: new Date().toISOString(),
           userId: user.userId,
+          status: "pending",
         });
       } else {
         toast.error("Failed to submit testimonial. Please try again.", { className: "!text-red-500" });
@@ -285,10 +286,28 @@ const Profile = () => {
         </div>
         <div className="p-6">
           {userTestimonial ? (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <p className="text-green-800 font-medium mb-2">✓ Thank you for your testimonial!</p>
+            <div className={`rounded-lg p-4 ${userTestimonial.status === "approved"
+                ? "bg-green-50 border border-green-200"
+                : userTestimonial.status === "pending"
+                  ? "bg-yellow-50 border border-yellow-200"
+                  : "bg-red-50 border border-red-200"
+              }`}>
+              <p className={`font-medium mb-2 ${userTestimonial.status === "approved"
+                  ? "text-green-800"
+                  : userTestimonial.status === "pending"
+                    ? "text-yellow-800"
+                    : "text-red-800"
+                }`}>
+                {userTestimonial.status === "approved" && "✓ Your testimonial is live!"}
+                {userTestimonial.status === "pending" && "⏳ Your testimonial is pending review"}
+                {userTestimonial.status === "declined" && "✗ Your testimonial was not approved"}
+              </p>
               <p className="text-gray-600 text-sm italic">"{userTestimonial.review}"</p>
-              <p className="text-xs text-gray-400 mt-2">Your testimonial is displayed on our homepage.</p>
+              <p className="text-xs text-gray-400 mt-2">
+                {userTestimonial.status === "approved" && "Your testimonial is displayed on our homepage."}
+                {userTestimonial.status === "pending" && "Our team will review your testimonial shortly."}
+                {userTestimonial.status === "declined" && "Please contact support if you have questions."}
+              </p>
             </div>
           ) : (
             <div className="space-y-4">
