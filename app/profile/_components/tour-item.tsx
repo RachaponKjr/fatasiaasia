@@ -1,14 +1,36 @@
+'use client'
 import { Badge } from "@/components/ui/badge";
 import { MyBooking } from "@/types/booking.type";
 import { formatTourDateRange } from "@/utils/format";
 import Image from "next/image";
 import React from "react";
+import api from "@/server";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const TourItem = ({ booking }: { booking: MyBooking }) => {
+  const router = useRouter();
   // เช็คสถานะและเลือกสี
   const isConfirmed = booking?.bookingStatus === "confirmed";
   const badgeColor = isConfirmed ? "bg-[#28A745]" : "bg-[#666666]";
   const badgeText = isConfirmed ? "Confirmed" : "In Progress";
+
+  const handleCancel = async () => {
+    if (window.confirm("Are you sure you want to cancel this booking?")) {
+      try {
+        const res = await api.booking.cancelBooking(booking.bookingId);
+        if (res.code === 2000) {
+          toast.success("Booking cancelled successfully");
+          router.refresh();
+        } else {
+          toast.error(res.message || "Failed to cancel booking");
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("An error occurred");
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 relative">
@@ -32,6 +54,12 @@ const TourItem = ({ booking }: { booking: MyBooking }) => {
         <span className="text-[#33333380] text-sm md:text-base">
           {formatTourDateRange(booking?.startDate, booking?.endDate)}
         </span>
+        <button
+          onClick={handleCancel}
+          className="text-red-500 text-sm font-medium hover:underline text-left w-fit"
+        >
+          Cancel Booking
+        </button>
       </div>
     </div>
   );

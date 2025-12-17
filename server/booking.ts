@@ -23,8 +23,8 @@ const getMyBooking = async () => {
 };
 
 const cancelBooking = async (bookingId: number) => {
-  return BaseApi(`/tour/booking/${bookingId}/cancel`, {
-    method: "POST",
+  return BaseApi(`/tour/booking/${bookingId}`, {
+    method: "DELETE",
     requiresAuth: true,
   });
 };
