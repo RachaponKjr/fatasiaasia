@@ -183,20 +183,23 @@ const Navbar = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // อ่าน cookie ตอน component mount
+    // Read cookie on mount
     const status = Cookies.get("authStatus");
     setAuthStatus(status as string);
 
-    // ถ้าต้องการฟังการเปลี่ยนแปลง cookie ก็สามารถใช้ interval หรือ event listener
+    // Poll for cookie changes
     const interval = setInterval(() => {
       const updatedStatus = Cookies.get("authStatus");
-      if (updatedStatus !== authStatus) {
-        setAuthStatus(updatedStatus as string);
-      }
-    }, 1000); // ตรวจทุก 1 วินาที (สามารถปรับลด)
+      setAuthStatus((prev) => {
+        if (updatedStatus !== prev) {
+          return updatedStatus as string;
+        }
+        return prev;
+      });
+    }, 1000);
 
     return () => clearInterval(interval);
-  }, [authStatus]);
+  }, []);
   return (
     <div className="flex items-center container mx-auto px-4 md:px-0 py-6 z-50 relative">
       {/* Logo */}

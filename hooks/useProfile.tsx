@@ -3,7 +3,7 @@
 import { ApiResponse } from "@/lib/base-api";
 import api from "@/server";
 import { Profile } from "@/types/profile.type";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
@@ -13,9 +13,10 @@ export const useProfile = () => {
   const [error, setError] = useState<string | null>(null);
   const [authStatus, setAuthStatus] = useState<string | null>(null);
   const router = useRouter();
-  const authCookie = Cookies.get("access_token");
+  const hasFetched = useRef(false);
 
-  const fetchProfile = async () => {
+  const fetchProfile = useCallback(async () => {
+    const authCookie = Cookies.get("access_token");
     setIsLoading(true);
     setError(null);
     try {
@@ -28,7 +29,8 @@ export const useProfile = () => {
           sameSite: 'lax'
         });
         setAuthStatus("true");
-        // Don't reset the access_token cookie here, keep the original
+      } else {
+        setIsLoading(false);
       }
     } catch (err: any) {
       // Only clear cookies if it's an authentication error (401)
@@ -42,21 +44,23 @@ export const useProfile = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const logout = async () => {
-    Cookies.remove("access_token", { path: '/' }); // clear token with path
+  const logout = useCallback(async () => {
+    Cookies.remove("access_token", { path: '/' });
     Cookies.remove("authStatus", { path: '/' });
-    setUser(null); // clear state
+    setUser(null);
     setAuthStatus(null);
-    router.push("/login"); // redirect
-  };
+    router.push("/login");
+  }, [router]);
 
   useEffect(() => {
-    if (!user) {
+    // Only fetch once on mount
+    if (!hasFetched.current) {
+      hasFetched.current = true;
       fetchProfile();
     }
-  }, []);
+  }, [fetchProfile]);
 
   return {
     user,
