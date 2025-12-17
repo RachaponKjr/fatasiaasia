@@ -28,11 +28,11 @@ const Packages = ({ tours }: { tours: Tour[] }) => {
             prevEl: ".package-prev",
           }}
           slidesPerView={3}
-          spaceBetween={102}
+          spaceBetween={30}
           breakpoints={{
             320: {
               slidesPerView: 1.2,
-              spaceBetween: 4,
+              spaceBetween: 16,
             },
             480: {
               slidesPerView: 1.5,
@@ -48,7 +48,7 @@ const Packages = ({ tours }: { tours: Tour[] }) => {
             },
             1024: {
               slidesPerView: 3,
-              spaceBetween: 102,
+              spaceBetween: 30,
             },
           }}
           className="w-full h-full relative"
