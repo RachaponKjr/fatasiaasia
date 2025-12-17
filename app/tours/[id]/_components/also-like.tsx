@@ -18,12 +18,14 @@ const AlsoLike = () => {
 
   return (
     <LayoutSection link="/tours" title="You might also like...">
-      <div className="w-full h-max relative">
+      <div className="w-full h-auto relative">
         <Swiper
           modules={[Navigation, Autoplay]}
-          spaceBetween={100}
+          spaceBetween={30}
           slidesPerView={3}
           loop={tours.length > 3}
+          autoHeight={false}
+          watchSlidesProgress={true}
           autoplay={{
             delay: 4000,
             disableOnInteraction: false,
@@ -35,26 +37,30 @@ const AlsoLike = () => {
           }}
           breakpoints={{
             0: {
-              slidesPerView: 1.5,
+              slidesPerView: 1.2,
               spaceBetween: 16,
             },
+            480: {
+              slidesPerView: 1.5,
+              spaceBetween: 20,
+            },
             640: {
-              slidesPerView: 2.2,
+              slidesPerView: 2,
               spaceBetween: 24,
+            },
+            768: {
+              slidesPerView: 2.5,
+              spaceBetween: 28,
             },
             1024: {
               slidesPerView: 3,
-              spaceBetween: 50,
-            },
-            1440: {
-              slidesPerView: 3,
-              spaceBetween: 100,
+              spaceBetween: 30,
             },
           }}
-          className="w-full"
+          className="w-full h-full relative"
         >
           {tours.map((item, i) => (
-            <SwiperSlide key={i} className="p-3">
+            <SwiperSlide key={i} className="p-3 !h-full relative">
               <TourCard wishlist={item} />
             </SwiperSlide>
           ))}
