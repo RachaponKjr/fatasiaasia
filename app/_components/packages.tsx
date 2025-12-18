@@ -14,10 +14,12 @@ const Packages = ({ tours }: { tours: Tour[] }) => {
 
   return (
     <LayoutSection link="/tours?category=popular" title="Popular Tour Packages">
-      <div className="w-full h-max relative group">
+      <div className="w-full h-auto relative group">
         <Swiper
           modules={[Autoplay, Navigation]}
           loop={true}
+          autoHeight={false}
+          watchSlidesProgress={true}
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
@@ -28,11 +30,11 @@ const Packages = ({ tours }: { tours: Tour[] }) => {
             prevEl: ".package-prev",
           }}
           slidesPerView={3}
-          spaceBetween={102}
+          spaceBetween={30}
           breakpoints={{
             320: {
               slidesPerView: 1.2,
-              spaceBetween: 4,
+              spaceBetween: 16,
             },
             480: {
               slidesPerView: 1.5,
@@ -48,7 +50,7 @@ const Packages = ({ tours }: { tours: Tour[] }) => {
             },
             1024: {
               slidesPerView: 3,
-              spaceBetween: 102,
+              spaceBetween: 30,
             },
           }}
           className="w-full h-full relative"

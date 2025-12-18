@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasia Asia - Complete Documentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #BD3E2B;
+            --secondary: #2C3E50;
+            --accent: #E67E22;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #212529;
+            background: white;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        @media print {
+            body {
+                font-size: 11pt;
+                padding: 20px;
+            }
+
+            .no-print {
+                display: none;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin: 40px 0 20px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin: 30px 0 15px;
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            margin-bottom: 12px;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.85rem;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .cover {
+            text-align: center;
+            padding: 100px 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            margin: -40px -40px 40px;
+        }
+
+        .cover h1 {
+            color: white;
+            border: none;
+            font-size: 3rem;
+        }
+
+        .section-divider {
+            background: var(--primary);
+            color: white;
+            padding: 30px;
+            margin: 40px -40px;
+            text-align: center;
+        }
+
+        .section-divider h1 {
+            color: white;
+            border: none;
+            margin: 0;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background: #9a3223;
+        }
+
+        #content section {
+            margin-bottom: 60px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cover">
+        <div style="font-size: 4rem; margin-bottom: 20px;">🌏</div>
+        <h1>Fantasia Asia</h1>
+        <h2 style="color: white; border: none; font-weight: 400; opacity: 0.9;">Complete Platform Documentation</h2>
+        <p style="max-width: 600px; margin: 30px auto; opacity: 0.85;">
+            Comprehensive technical and user documentation including system architecture,
+            API references, user guides, database schema, deployment procedures, and security operations.
+        </p>
+        <p style="margin-top: 50px; opacity: 0.7;"><strong>Version 1.0</strong> | December 2025 | Nightwing Development
+            Team</p>
+    </div>
+
+    <div class="no-print"
+        style="text-align: center; margin-bottom: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+        <h3>📄 Export Options</h3>
+        <p>Click the button below or press <strong>Ctrl+P</strong> to print/save as PDF</p>
+        <button class="btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+        <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">Tip: In print dialog, select "Save as PDF" as
+            destination</p>
+    </div>
+
+    <div id="content">
+        <div class="loading">Loading documentation...</div>
+    </div>
+
+    <script>
+        // All documentation content embedded
+        const docs = [
+            {
+                title: "1. System Manual", content: `# Fantasia Asia Tour Booking Platform
+## Comprehensive System Documentation Manual
+
+**Version:** 1.0 | **Last Updated:** December 2025 | **Prepared by:** Nightwing Development Team
+
+---
+
+# 1. Executive Summary
+
+## 1.1 Platform Overview
+
+Fantasia Asia is a comprehensive tour booking platform designed to connect travelers with curated Asian tour experiences. The platform consists of three main components:
+
+1. **User Website** (\`fatasiaasia\`) - A Next.js-based customer-facing website where users can browse tours, create accounts, manage wishlists, and make bookings.
+
+2. **Admin Dashboard** (\`eee\`) - A React-based content management system for administrators to manage tours, bookings, clients, and business operations.
+
+3. **Backend APIs** - Two Go-based API services:
+   - \`tour-user-api\` - Handles user authentication, tour browsing, bookings, and profile management
+   - \`tour-admin-api\` - Handles admin authentication, tour CRUD operations, booking management, and payment processing
+
+## 1.2 Key Features
+
+### For Users
+- Browse and search tours by country, category, and duration
+- User registration with email verification (OTP)
+- Secure login with JWT authentication
+- Wishlist management
+- Tour booking with traveler details
+- Profile management with avatar upload
+- Booking history and past tours view
+- Password reset functionality
+
+### For Administrators
+- Complete tour management (CRUD operations)
+- Booking confirmation and pricing
+- Client management
+- Payment link generation via Omise
+- User account management (tour agencies)
+- File upload to cloud storage
+
+## 1.3 Technology Stack
+
+| Component | Technology |
+|-----------|------------|
+| User Website | Next.js 15, React 18, TypeScript, Tailwind CSS |
+| Admin Dashboard | React 18, Vite, JavaScript, CSS3 |
+| User API | Go 1.21+, Gin Framework, PostgreSQL |
+| Admin API | Go 1.21+, Gin Framework, PostgreSQL |
+| Database | PostgreSQL |
+| File Storage | DigitalOcean Spaces (S3-compatible) |
+| Payment Gateway | Omise |
+| Email Service | SMTP (Gmail/Custom) |
+| Hosting | DigitalOcean App Platform |
+
+---
+
+# 2. System Architecture Overview
+
+## 2.1 High-Level Architecture
+
+\`\`\`
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           INTERNET                                       │
+└─────────────────────────────────────────────────────────────────────────┘
+                    │                           │
+                    ▼                           ▼
+    ┌───────────────────────────┐   ┌───────────────────────────┐
+    │    User Website           │   │    Admin Dashboard        │
+    │    (fatasiaasia)          │   │    (eee)                  │
+    │    Next.js 15             │   │    React + Vite           │
+    │    Port: 3000             │   │    Port: 5173             │
+    └───────────────────────────┘   └───────────────────────────┘
+                    │                           │
+                    ▼                           ▼
+    ┌───────────────────────────┐   ┌───────────────────────────┐
+    │    Tour User API          │   │    Tour Admin API         │
+    │    (tour-user-api)        │   │    (tour-admin-api)       │
+    │    Go + Gin               │   │    Go + Gin               │
+    │    Port: 9090             │   │    Port: 9091             │
+    └───────────────────────────┘   └───────────────────────────┘
+                    │                           │
+                    └───────────┬───────────────┘
+                                ▼
+                ┌───────────────────────────┐
+                │       PostgreSQL          │
+                │       Database            │
+                └───────────────────────────┘
+\`\`\`
+
+## 2.2 Data Flow
+
+### User Booking Flow
+1. User browses tours → User Website → User API → Database
+2. User creates booking → User Website → User API → Database
+3. Admin confirms booking → Admin Dashboard → Admin API → Database + Omise
+4. User receives payment link → Email Service
+5. User completes payment → Omise Webhook → Admin API → Database
+6. Booking status updated to "paid"
+
+### Authentication Flow
+1. User registers → OTP sent via email
+2. User verifies OTP → Account created
+3. User logs in → JWT token issued
+4. Token stored in cookies → Used for authenticated requests
+5. Token expires after 1 hour → User must re-login
+
+---
+
+# 3. Getting Started
+
+## 3.1 Prerequisites
+
+- **Node.js** 18+ (for frontend applications)
+- **Go** 1.21+ (for backend APIs)
+- **Docker** and Docker Compose (for local database)
+- **PostgreSQL** client (optional, for direct DB access)
+- **Git** for version control
+
+## 3.2 Environment Setup
+
+### User Website (fatasiaasia)
+
+\`\`\`bash
+git clone https://github.com/RachaponKjr/fatasiaasia.git
+cd fatasiaasia
+npm install
+# Create .env.local file
+NEXT_PUBLIC_API_BASE_URL=https://tour-user-api-27tvf.ondigitalocean.app
+npm run dev
+\`\`\`
+
+### Admin Dashboard (eee)
+
+\`\`\`bash
+git clone https://github.com/nightwingteam/eee.git
+cd eee
+npm install
+# Create .env file
+VITE_API_URL=https://tour-admin-api.ondigitalocean.app
+npm run dev
+\`\`\`
+
+### Backend APIs
+
+\`\`\`bash
+git clone https://github.com/Lect1val/tour-user-api.git
+git clone https://github.com/Lect1val/tour-admin-api.git
+cd tour-user-api
+make start-local
+\`\`\`
+
+---
+
+# 4. User Website Features
+
+## 4.1 Public Pages
+
+### Homepage
+- Hero banner with call-to-action
+- Featured destinations (Thailand, Japan, Vietnam, etc.)
+- Popular tours section (top 4 by booking count)
+- Beach tours highlight
+- Newsletter subscription
+
+### Tours Page (/tours)
+- Complete tour listing with pagination (15 per page)
+- Filter by category: All Tours, Popular, Sea/Beaches, Culture, Nature, Local Experiences, Cities, Wellness
+- Filter by duration: Half-Day, Full-Day, Multi-Day
+- Search functionality
+- Wishlist toggle (logged-in users)
+
+### Tour Detail Page (/tours/[id])
+- Tour gallery with image slider
+- Tour title and country
+- Pricing information
+- Overview and highlights
+- Day-by-day itinerary
+- What's included/not included
+- What to bring
+- Booking button
+- Wishlist toggle
+
+## 4.2 Authentication
+
+### Login
+- Email and password fields
+- "Remember me" option
+- Forgot password link
+
+### Register
+- Email, Password (8+ characters), First name, Last name
+- OTP verification step (6-digit code, 5-minute expiry)
+
+### Forgot Password
+- Email input
+- Reset link sent to email (1-hour expiration)
+
+## 4.3 Protected Pages
+
+### Profile Page (/profile)
+- User information summary
+- Recent bookings (up to 3)
+- Quick links to other sections
+
+### Account Settings (/profile/accountsetting)
+- First name, Last name, Phone number
+- Language, Birthday, Country, Timezone, Address
+- Profile picture upload (max 2MB)
+
+### My Tours (/profile/tour)
+- All user bookings with tour thumbnail, title, date range, status badge
+- Cancel booking button
+
+### Wishlist (/profile/wishlist)
+- Saved tours with quick actions
+
+## 4.4 Booking Flow
+
+1. User clicks "Book Now" on tour detail page
+2. User enters: Start date, Visit time, Tickets (adult/child/infant), Contact info
+3. Booking created with "pending" status, Admin notified via email
+4. Admin sets price and confirms, Payment link generated via Omise
+5. User pays, Status updated to "paid"
+
+---
+
+# 5. Admin Dashboard (CMS)
+
+## 5.1 Dashboard Overview
+
+- Total tours count
+- Total bookings count
+- Total clients count
+- Recent activity feed
+- Quick action buttons
+
+## 5.2 Tours Management
+
+### Create Tour (4 tabs)
+**Tab 1: Basic Information** - Title, Country, Price, Currency, Overview, Highlights, Brochure URL
+**Tab 2: Gallery** - Image upload (drag & drop), Multiple images, Reorder
+**Tab 3: Itinerary** - Day-by-day breakdown with title, description, images
+**Tab 4: Tour Details** - Included items (with icons), Not included, What to bring
+
+### Edit/Delete Tour
+- Same interface as create
+- Cannot delete tours with bookings
+- Toggle display status to show/hide
+
+## 5.3 Bookings Management
+
+### Booking Statuses
+- **Pending** (Yellow): Awaiting confirmation
+- **Confirmed** (Blue): Price set, payment link sent
+- **Paid** (Green): Payment completed
+- **Declined** (Red): Booking rejected
+
+### Confirming a Booking
+1. Review customer and tour details
+2. Set final price
+3. Click "Confirm Booking"
+4. System generates Omise payment link
+5. Email sent to customer
+
+## 5.4 Clients Management
+
+- View all registered users
+- Create new clients manually
+- Create tour agency accounts (special pricing)
+- Edit client information
+
+---
+
+# 6. Backend APIs
+
+## 6.1 Tour User API
+
+**Base URL:** https://tour-user-api-27tvf.ondigitalocean.app
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | /readiness | No | Health check |
+| GET | /liveness | No | Liveness probe |
+| POST | /auth/register | No | Initiate registration |
+| POST | /auth/verify-otp | No | Verify OTP |
+| POST | /auth/login | No | User login |
+| POST | /auth/forgot-password | No | Request password reset |
+| GET | /tour | No* | List all tours |
+| GET | /tour/:id | No* | Get tour details |
+| GET | /tour/wishlist | Yes | Get user's wishlist |
+| POST | /tour/:id/wishlist | Yes | Add to wishlist |
+| DELETE | /tour/:id/wishlist | Yes | Remove from wishlist |
+| GET | /tour/booking | Yes | Get user's bookings |
+| POST | /tour/:id/booking | Yes | Create booking |
+| DELETE | /tour/booking/:id | Yes | Cancel booking |
+| GET | /user/profile | Yes | Get user profile |
+| PUT | /user/profile | Yes | Update user profile |
+| POST | /user/profile/avatar | Yes | Upload avatar |
+
+## 6.2 Tour Admin API
+
+**Base URL:** https://tour-admin-api.ondigitalocean.app
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | /auth/login | No | Admin login |
+| POST | /auth/register | No | Register admin (whitelisted) |
+| GET | /tour | Yes | List all tours |
+| POST | /tour/create-from-urls | Yes | Create tour |
+| PUT | /tour/update-from-urls/:id | Yes | Update tour |
+| DELETE | /tour/:id | Yes | Delete tour |
+| GET | /booking | Yes | List bookings |
+| POST | /booking/:id/confirm | Yes | Confirm booking |
+| DELETE | /booking/:id | Yes | Delete booking |
+| POST | /file/upload | Yes | Upload file |
+| POST | /user/tour-agency | Yes | Create tour agency |
+| GET | /user/clients | Yes | List clients |
+
+## 6.3 Response Format
+
+\`\`\`json
+{
+  "code": 2000,
+  "message": "Success.",
+  "data": { ... }
+}
+\`\`\`
+
+### Error Codes
+- 2000: Success
+- 4000: General failure
+- 4002: Invalid parameter
+- 4010: Token expired/invalid
+- 4030: No permission
+- 4040: Not found
+- 4090: Conflict
+- 5001: Database error
+
+---
+
+# 7. Database Structure
+
+## 7.1 Core Tables
+
+### users
+\`\`\`sql
+CREATE TABLE users (
+    user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    user_type VARCHAR(50) NOT NULL DEFAULT 'general_user',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+\`\`\`
+
+### user_profiles
+\`\`\`sql
+CREATE TABLE user_profiles (
+    profile_id SERIAL PRIMARY KEY,
+    user_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    phone_number VARCHAR(20),
+    language VARCHAR(50) DEFAULT 'English',
+    birthday DATE,
+    country VARCHAR(100),
+    timezone VARCHAR(50),
+    address TEXT,
+    profile_picture_url TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+\`\`\`
+
+### tours
+\`\`\`sql
+CREATE TABLE tours (
+    tour_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    estimate_cost_per_person TEXT,
+    estimate_cost_per_person_tour_agency TEXT,
+    currency VARCHAR(10) DEFAULT 'USD',
+    overview TEXT,
+    highlight TEXT,
+    gallery_urls TEXT[],
+    brochure_url TEXT,
+    itineraries JSONB,
+    tour_details JSONB,
+    display_status BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+\`\`\`
+
+### bookings
+\`\`\`sql
+CREATE TABLE bookings (
+    booking_id SERIAL PRIMARY KEY,
+    user_id UUID REFERENCES users(user_id),
+    tour_id INTEGER REFERENCES tours(tour_id),
+    start_date DATE NOT NULL,
+    visit_time TIME,
+    adult_tickets INTEGER DEFAULT 0,
+    child_tickets INTEGER DEFAULT 0,
+    infant_tickets INTEGER DEFAULT 0,
+    booking_email VARCHAR(255) NOT NULL,
+    booking_firstname VARCHAR(100) NOT NULL,
+    booking_surname VARCHAR(100) NOT NULL,
+    booking_phone VARCHAR(20) NOT NULL,
+    booking_address TEXT,
+    booking_status VARCHAR(50) DEFAULT 'pending',
+    total_price DECIMAL(10, 2) DEFAULT 0,
+    currency VARCHAR(10) DEFAULT 'USD',
+    payment_url TEXT,
+    payment_ref TEXT,
+    booking_ref VARCHAR(100),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+\`\`\`
+
+### wishlists
+\`\`\`sql
+CREATE TABLE wishlists (
+    wishlist_id SERIAL PRIMARY KEY,
+    user_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
+    tour_id INTEGER REFERENCES tours(tour_id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE(user_id, tour_id)
+);
+\`\`\`
+
+### backoffice_users
+\`\`\`sql
+CREATE TABLE backoffice_users (
+    admin_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+\`\`\`
+
+---
+
+# 8. Payment Integration
+
+## 8.1 Omise Payment Gateway
+
+Omise is a Thailand-based payment gateway supporting credit/debit cards, online banking, and QR payments.
+
+### Configuration
+\`\`\`bash
+OMISE_PUBLIC_KEY=pkey_test_xxxxx
+OMISE_SECRET_KEY=skey_test_xxxxx
+\`\`\`
+
+### Payment Flow
+1. Admin confirms booking and sets price
+2. Admin API creates Omise payment link
+3. Link stored in database and emailed to customer
+4. Customer completes payment on Omise
+5. Omise sends webhook to /payment/webhook/omise
+6. Admin API updates booking status to "paid"
+
+---
+
+# 9. Email Notifications
+
+### Registration Verification
+Subject: Verify Your Fantasia Asia Account
+- 6-digit OTP code
+- 5-minute expiry
+
+### Password Reset
+Subject: Reset Your Password
+- Reset link (1-hour expiry)
+
+### Booking Notification (Admin)
+Subject: New Booking Received
+- Tour title, Customer name, Email, Ticket counts
+
+### SMTP Configuration
+\`\`\`bash
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USERNAME=your-email@gmail.com
+SMTP_PASSWORD=app-specific-password
+SMTP_FROM=noreply@fantasiaasia.com
+\`\`\`
+
+---
+
+# 10. Security & Authentication
+
+## 10.1 JWT Authentication
+
+### Token Structure
+\`\`\`json
+{
+  "user_id": "uuid",
+  "email": "user@example.com",
+  "user_type": "general_user",
+  "exp": 1234567890,
+  "iat": 1234567890
+}
+\`\`\`
+
+- Expires after 1 hour
+- Stored in HTTP-only cookies
+- Signature verified using secret key
+
+## 10.2 Password Security
+
+- Passwords hashed using bcrypt (cost factor: 10)
+- Minimum 8 characters, Maximum 64 characters
+
+## 10.3 OTP Security
+
+- 6-digit random numeric code
+- Max 3 OTP requests per email per 15 minutes
+- Max 5 verification attempts per OTP
+- OTP expires after 5 minutes
+
+## 10.4 Admin Security
+
+- Only whitelisted emails can register
+\`\`\`bash
+WHITELIST_EMAILS=admin@company.com,staff@company.com
+\`\`\`
+
+---
+
+# 11. Deployment Guide
+
+## 11.1 DigitalOcean App Platform
+
+### Environment Variables
+
+**User API:**
+\`\`\`
+DATABASE_URL=postgresql://...
+JWT_SECRET=your-secret
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USERNAME=...
+SMTP_PASSWORD=...
+\`\`\`
+
+**Admin API:**
+\`\`\`
+DATABASE_URL=postgresql://...
+JWT_SECRET=your-secret
+WHITELIST_EMAILS=admin@company.com
+OMISE_SECRET_KEY=skey_...
+DO_SPACES_KEY=...
+DO_SPACES_SECRET=...
+DO_SPACES_ENDPOINT=...
+DO_SPACES_BUCKET=...
+\`\`\`
+
+## 11.2 Database Migrations
+
+\`\`\`bash
+psql $DATABASE_URL -f migrations/001_initial.sql
+\`\`\`
+
+---
+
+# 12. Troubleshooting
+
+### "Session token expired"
+- User needs to log in again
+- Check JWT expiration settings
+
+### Tours not showing
+- Check API is running
+- Check tours have display_status enabled
+- Check for expired tokens being sent
+
+### Image upload fails
+- Check file size (max 2MB for avatar, 32MB for tour)
+- Check file format (JPG, PNG, WebP)
+- Check DO Spaces credentials
+
+### Payment link not working
+- Verify Omise keys are correct
+- Check if link has expired
+- Generate new payment link
+
+### OTP not received
+- Check SMTP credentials
+- Check spam folder
+- Verify email address format
+
+---
+
+# 13. Business Rules
+
+## 13.1 User Registration
+- Email must be unique
+- Password minimum 8 characters
+- OTP verification required
+- Max 3 OTP requests per 15 minutes
+
+## 13.2 Tour Visibility
+- Only tours with display_status = true are visible
+- Hidden tours maintain booking history
+
+## 13.3 Booking Rules
+- Users must be logged in
+- Start date must be in future
+- At least one ticket required
+- Price set by admin after creation
+
+## 13.4 Price Display
+- General users: See estimateCostPerPerson
+- Tour agencies: See estimateCostPerPersonTourAgency if available
+
+## 13.5 Admin Rules
+- Only whitelisted emails can register
+- Cannot delete tours with bookings
+
+---
+
+# 14. Appendix
+
+## Supported Countries
+Thailand, Japan, Vietnam, Cambodia, Indonesia, Malaysia, Singapore, Philippines, Myanmar, Laos, Nepal, India, Sri Lanka, Maldives, China, South Korea
+
+## Tour Categories
+1. Popular
+2. Sea, Beaches and Islands
+3. Culture, History and Traditions
+4. Nature
+5. Local Experiences
+6. Cities and Modernity
+7. Wellness and Spirituality
+
+## Booking Status Flow
+\`\`\`
+pending → confirmed → paid
+    ↓         ↓
+declined   declined
+\`\`\`
+
+## Rate Limits
+| Action | Limit |
+|--------|-------|
+| OTP Generation | 3 per 15 min per email |
+| OTP Verification | 5 attempts per code |
+| Password Reset | 1 per hour per email |
+
+## File Size Limits
+| File Type | Max Size |
+|-----------|----------|
+| Profile Avatar | 2 MB |
+| Tour Images | 32 MB |
+| Brochure PDF | 10 MB |
+
+---
+
+**End of System Manual**
+
+*© 2025 Nightwing Team. All rights reserved.*
+` }
+        ];
+
+        // Render content
+        document.getElementById('content').innerHTML = docs.map(doc =>
+            '<section class="page-break">' + marked.parse(doc.content) + '</section>'
+        ).join('');
+    </script>
+</body>
+
+</html>

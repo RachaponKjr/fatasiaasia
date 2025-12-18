@@ -19,10 +19,12 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
 
   return (
     <LayoutSection link="/beach-tours" title="Beach Tour Packages">
-      <div className="w-full h-max relative group">
+      <div className="w-full h-auto relative group">
         <Swiper
           modules={[Autoplay, Navigation]}
           loop={true}
+          autoHeight={false}
+          watchSlidesProgress={true}
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
@@ -56,10 +58,10 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
               spaceBetween: 30,
             },
           }}
-          className="w-full"
+          className="w-full h-full relative"
         >
           {displayTours.map((item, i) => (
-            <SwiperSlide key={`${item.tourId}-${i}`}>
+            <SwiperSlide key={`${item.tourId}-${i}`} className="p-3 !h-full relative">
               <TourCard wishlist={item} />
             </SwiperSlide>
           ))}

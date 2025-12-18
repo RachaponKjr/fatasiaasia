@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasia Asia - Complete Documentation</title>
+    <style>
+        :root {
+            --primary: #BD3E2B;
+            --primary-dark: #9a3223;
+            --secondary: #2C3E50;
+            --accent: #E67E22;
+            --success: #27AE60;
+            --warning: #F39C12;
+            --danger: #E74C3C;
+            --light: #F8F9FA;
+            --dark: #212529;
+            --gray: #6C757D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: white;
+        }
+
+        /* Print styles */
+        @media print {
+            body { font-size: 11pt; }
+            .page-break { page-break-before: always; }
+            .no-print { display: none; }
+            a { color: var(--dark); text-decoration: none; }
+        }
+
+        /* Cover Page */
+        .cover {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .cover h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .cover h2 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .cover .version {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-top: 60px;
+        }
+
+        .cover .logo {
+            font-size: 4rem;
+            margin-bottom: 30px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            padding: 60px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .toc h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .toc a {
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+        }
+
+        .toc .section-number {
+            color: var(--primary);
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        /* Content */
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 60px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            border-bottom: 4px solid var(--primary);
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        h3 {
+            color: var(--dark);
+            font-size: 1.4rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        /* Code blocks */
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: var(--primary);
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        /* Boxes */
+        .info-box {
+            background: #e3f2fd;
+            border-left: 5px solid #2196F3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 5px solid var(--warning);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .danger-box {
+            background: #ffebee;
+            border-left: 5px solid var(--danger);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #e8f5e9;
+            border-left: 5px solid var(--success);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-primary { background: var(--primary); color: white; }
+        .badge-success { background: var(--success); color: white; }
+        .badge-warning { background: var(--warning); color: white; }
+        .badge-danger { background: var(--danger); color: white; }
+        .badge-secondary { background: var(--secondary); color: white; }
+
+        /* Architecture Diagram */
+        .diagram {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 30px 0;
+            font-family: 'Consolas', monospace;
+            white-space: pre;
+            overflow-x: auto;
+            line-height: 1.3;
+        }
+
+        /* Cards */
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            padding: 10px 0 10px 35px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+        }
+
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+            border-top: 2px solid #eee;
+            margin-top: 60px;
+        }
+
+        /* Section header */
+        .section-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 60px;
+            text-align: center;
+            margin: 60px 0 40px 0;
+        }
+
+        .section-header h1 {
+            color: white;
+            border: none;
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .section-header p {
+            margin-top: 15px;
+            opacity: 0.9;
+            font-size: 1.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cover h1 { font-size: 2.5rem; }
+            .content { padding: 20px 30px; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover Page -->
+    <div class="cover">
+        <div class="logo">🌏</div>
+        <h1>Fantasia Asia</h1>
+        <h2>Complete Platform Documentation</h2>
+        <p style="max-width: 600px; opacity: 0.85; line-height: 1.8;">
+            Comprehensive technical and user documentation for the Fantasia Asia 
+            tour booking platform, including system architecture, API references, 
+            user guides, and operational procedures.
+        </p>
+        <div class="version">
+            <strong>Version 1.0</strong><br>
+            December 2025<br><br>
+            Prepared by Nightwing Development Team
+        </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="page-break"></div>
+    <div class="toc">
+        <h2>📚 Table of Contents</h2>
+        <ul>
+            <li>
+                <a href="#section1">
+                    <span><span class="section-number">1</span>Executive Summary</span>
+                    <span>3</span>
+                </a>
+            </li>
+            <li>
+                <a href="#section2">
+                    <span><span class="section-number">2</span>System Architecture</span>
+                    <span>5</span>
+                </a>
+            </li>
+            <li>
+                <a href="#section3">
+                    <span><span class="section-number">3</span>User Website Features</span>
+                    <span>10</span>
+                </a>
+            </li>
+            <li>
+                <a href="#section4">
+                    <span><span class="section-number">4</span>Admin Dashboard</span>
+                    <span>18</span>
+                </a>
+            </li>
+            <li>
+                <a href="#section5">
+                    <span><span class="section-number">5</span>API Reference</span>
+                    <span>28</span>
+                </a>
+            </li>
+            <li>
+                <a href="#section6">
+                    <span><span class="section-number">6</span>Database Schema</span>
+                    <span>45</span>
+                </a>
+            </li>
+            <li>
+                <a href="#section7">
+                    <span><span class="section-number">7</span>Security & Authentication</span>
+                    <span>55</span>
+                </a>
+            </li>
+            <li>
+                <a href="#section8">
+                    <span><span class="section-number">8</span>Payment Integration</span>
+                    <span>62</span>
+                </a>
+            </li>
+            <li>
+                <a href="#section9">
+                    <span><span class="section-number">9</span>Deployment Guide</span>
+                    <span>68</span>
+                </a>
+            </li>
+            <li>
+                <a href="#section10">
+                    <span><span class="section-number">10</span>Troubleshooting</span>
+                    <span>78</span>
+                </a>
+            </li>
+            <li>
+                <a href="#appendix">
+                    <span><span class="section-number">A</span>Appendix</span>
+                    <span>85</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Section 1: Executive Summary -->
+    <div class="page-break"></div>
+    <div class="section-header" id="section1">
+        <h1>1. Executive Summary</h1>
+        <p>Platform Overview and Key Features</p>
+    </div>
+    <div class="content">
+        <h2>1.1 Platform Overview</h2>
+        <p>
+            Fantasia Asia is a comprehensive tour booking platform designed to connect travelers 
+            with curated Asian tour experiences. The platform enables users to browse tours, 
+            create bookings, and manage their travel plans, while providing administrators with 
+            powerful tools to manage tours, process bookings, and handle payments.
+        </p>
+
+        <h3>Key Components</h3>
+        <table>
+            <tr>
+                <th>Component</th>
+                <th>Technology</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td>User Website</td>
+                <td>Next.js 15, React 18, TypeScript</td>
+                <td>Customer-facing booking platform</td>
+            </tr>
+            <tr>
+                <td>Admin Dashboard</td>
+                <td>React 18, Vite, JavaScript</td>
+                <td>Backoffice management system</td>
+            </tr>
+            <tr>
+                <td>User API</td>
+                <td>Go, Gin Framework</td>
+                <td>User authentication & tours</td>
+            </tr>
+            <tr>
+                <td>Admin API</td>
+                <td>Go, Gin Framework</td>
+                <td>Admin operations & payments</td>
+            </tr>
+            <tr>
+                <td>Database</td>
+                <td>PostgreSQL 15+</td>
+                <td>Data persistence</td>
+            </tr>
+            <tr>
+                <td>Storage</td>
+                <td>DigitalOcean Spaces</td>
+                <td>Images and files</td>
+            </tr>
+        </table>
+
+        <h2>1.2 Key Features</h2>
+        
+        <div class="card">
+            <div class="card-header">👤 User Features</div>
+            <ul>
+                <li>Browse and search tours by country, category, and duration</li>
+                <li>User registration with email verification (OTP)</li>
+                <li>Secure JWT authentication</li>
+                <li>Wishlist management</li>
+                <li>Tour booking with traveler details</li>
+                <li>Profile management with avatar upload</li>
+                <li>Booking history and cancellation</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">⚙️ Admin Features</div>
+            <ul>
+                <li>Complete tour CRUD operations</li>
+                <li>Booking confirmation and pricing</li>
+                <li>Payment link generation via Omise</li>
+                <li>Client management</li>
+                <li>Tour agency account creation</li>
+                <li>File upload to cloud storage</li>
+            </ul>
+        </div>
+
+        <h2>1.3 Deployment Architecture</h2>
+        <table>
+            <tr>
+                <th>Service</th>
+                <th>Hosting</th>
+                <th>URL</th>
+            </tr>
+            <tr>
+                <td>User Website</td>
+                <td>DigitalOcean App Platform</td>
+                <td>https://fantasiaasia.com</td>
+            </tr>
+            <tr>
+                <td>Admin Dashboard</td>
+                <td>DigitalOcean App Platform</td>
+                <td>https://admin.fantasiaasia.com</td>
+            </tr>
+            <tr>
+                <td>User API</td>
+                <td>DigitalOcean App Platform</td>
+                <td>https://tour-user-api-27tvf.ondigitalocean.app</td>
+            </tr>
+            <tr>
+                <td>Admin API</td>
+                <td>DigitalOcean App Platform</td>
+                <td>https://tour-admin-api.ondigitalocean.app</td>
+            </tr>
+            <tr>
+                <td>Database</td>
+                <td>DigitalOcean Managed DB</td>
+                <td>Private network</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Section 2: System Architecture -->
+    <div class="page-break"></div>
+    <div class="section-header" id="section2">
+        <h1>2. System Architecture</h1>
+        <p>Technical Infrastructure and Data Flow</p>
+    </div>
+    <div class="content">
+        <h2>2.1 High-Level Architecture</h2>
+        <div class="diagram">
+┌─────────────────────────────────────────────────────────────────────────┐
+│                              INTERNET                                    │
+└─────────────────────────────────────────────────────────────────────────┘
+                    │                           │
+                    ▼                           ▼
+    ┌───────────────────────────┐   ┌───────────────────────────┐
+    │    User Website           │   │    Admin Dashboard        │
+    │    (fatasiaasia)          │   │    (eee)                  │
+    │    Next.js 15             │   │    React + Vite           │
+    │    Port: 3000             │   │    Port: 5173             │
+    └───────────────────────────┘   └───────────────────────────┘
+                    │                           │
+                    ▼                           ▼
+    ┌───────────────────────────┐   ┌───────────────────────────┐
+    │    Tour User API          │   │    Tour Admin API         │
+    │    (tour-user-api)        │   │    (tour-admin-api)       │
+    │    Go + Gin               │   │    Go + Gin               │
+    │    Port: 9090             │   │    Port: 9091             │
+    └───────────────────────────┘   └───────────────────────────┘
+                    │                           │
+                    └───────────┬───────────────┘
+                                ▼
+                ┌───────────────────────────┐
+                │       PostgreSQL          │
+                │       Database            │
+                └───────────────────────────┘
+        </div>
+
+        <h2>2.2 Data Flow: Booking Process</h2>
+        <ol>
+            <li><strong>Browse:</strong> User visits website → Next.js fetches tours from User API</li>
+            <li><strong>Book:</strong> User submits booking → User API creates booking in database</li>
+            <li><strong>Notify:</strong> Admin receives email notification about new booking</li>
+            <li><strong>Confirm:</strong> Admin confirms booking → Admin API creates Omise payment link</li>
+            <li><strong>Pay:</strong> User clicks payment link → Completes payment on Omise</li>
+            <li><strong>Update:</strong> Omise sends webhook → Admin API updates booking to "paid"</li>
+        </ol>
+
+        <h2>2.3 Authentication Flow</h2>
+        <div class="info-box">
+            <strong>JWT-Based Authentication</strong>
+            <ol>
+                <li>User submits credentials to <code>/auth/login</code></li>
+                <li>API validates credentials against database</li>
+                <li>On success, API generates JWT token (1-hour expiry)</li>
+                <li>Token returned to client, stored in cookies</li>
+                <li>Client includes token in Authorization header for protected requests</li>
+                <li>API validates token on each request</li>
+            </ol>
+        </div>
+
+        <h2>2.4 Repository Structure</h2>
+        <table>
+            <tr>
+                <th>Repository</th>
+                <th>Technology</th>
+                <th>Key Directories</th>
+            </tr>
+            <tr>
+                <td>fatasiaasia</td>
+                <td>Next.js 15</td>
+                <td><code>app/</code>, <code>components/</code>, <code>server/</code></td>
+            </tr>
+            <tr>
+                <td>eee</td>
+                <td>React + Vite</td>
+                <td><code>src/pages/</code>, <code>src/components/</code></td>
+            </tr>
+            <tr>
+                <td>tour-user-api</td>
+                <td>Go + Gin</td>
+                <td><code>app/</code>, <code>cmd/</code>, <code>config/</code></td>
+            </tr>
+            <tr>
+                <td>tour-admin-api</td>
+                <td>Go + Gin</td>
+                <td><code>app/</code>, <code>cmd/</code>, <code>migrations/</code></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Section 3: User Website Features -->
+    <div class="page-break"></div>
+    <div class="section-header" id="section3">
+        <h1>3. User Website Features</h1>
+        <p>Customer-Facing Application</p>
+    </div>
+    <div class="content">
+        <h2>3.1 Public Pages</h2>
+        
+        <h3>Homepage</h3>
+        <ul>
+            <li>Hero banner with featured promotions</li>
+            <li>Popular tours section (top 4 by booking count)</li>
+            <li>Destinations by country</li>
+            <li>Beach tours highlight section</li>
+            <li>Newsletter subscription</li>
+        </ul>
+
+        <h3>Tours Page (/tours)</h3>
+        <table>
+            <tr>
+                <th>Feature</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>Tour Grid</td>
+                <td>15 tours per page with pagination</td>
+            </tr>
+            <tr>
+                <td>Category Filter</td>
+                <td>All Tours, Popular, Beach, Culture, Nature, etc.</td>
+            </tr>
+            <tr>
+                <td>Duration Filter</td>
+                <td>Half-Day, Full-Day, Multi-Day</td>
+            </tr>
+            <tr>
+                <td>Search</td>
+                <td>Keyword search across titles and descriptions</td>
+            </tr>
+            <tr>
+                <td>Wishlist Toggle</td>
+                <td>Heart icon for logged-in users</td>
+            </tr>
+        </table>
+
+        <h3>Tour Detail Page (/tours/[id])</h3>
+        <ul>
+            <li>Image gallery with slideshow</li>
+            <li>Tour title, country, pricing</li>
+            <li>Overview and highlights</li>
+            <li>Day-by-day itinerary</li>
+            <li>Included/excluded items</li>
+            <li>What to bring section</li>
+            <li>Book Now button</li>
+        </ul>
+
+        <h2>3.2 Authentication</h2>
+
+        <h3>Registration Flow</h3>
+        <ol>
+            <li>User enters email, password, first name, last name</li>
+            <li>System sends 6-digit OTP to email</li>
+            <li>User enters OTP (5-minute expiry)</li>
+            <li>Account created on successful verification</li>
+        </ol>
+
+        <div class="warning-box">
+            <strong>Rate Limits:</strong>
+            <ul>
+                <li>Max 3 OTP requests per email per 15 minutes</li>
+                <li>Max 5 verification attempts per OTP</li>
+            </ul>
+        </div>
+
+        <h3>Login Flow</h3>
+        <ol>
+            <li>User enters email and password</li>
+            <li>System validates credentials</li>
+            <li>JWT token issued (1-hour expiry)</li>
+            <li>Token stored in cookies</li>
+        </ol>
+
+        <h2>3.3 Booking Flow</h2>
+        <table>
+            <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>System Response</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>User clicks "Book Now"</td>
+                <td>Booking form displayed</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>User fills form</td>
+                <td>Real-time validation</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>User submits</td>
+                <td>Booking created (pending)</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Admin confirms</td>
+                <td>Payment link emailed</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>User pays</td>
+                <td>Status updated to "paid"</td>
+            </tr>
+        </table>
+
+        <h2>3.4 Profile Management</h2>
+        <ul>
+            <li><strong>Personal Info:</strong> Name, phone, birthday, country</li>
+            <li><strong>Preferences:</strong> Language, timezone</li>
+            <li><strong>Avatar:</strong> Upload profile picture (max 2MB)</li>
+            <li><strong>My Tours:</strong> View and cancel bookings</li>
+            <li><strong>Past Tours:</strong> Completed travel history</li>
+            <li><strong>Wishlist:</strong> Saved tours</li>
+        </ul>
+    </div>
+
+    <!-- Section 4: Admin Dashboard -->
+    <div class="page-break"></div>
+    <div class="section-header" id="section4">
+        <h1>4. Admin Dashboard</h1>
+        <p>Backoffice Operations</p>
+    </div>
+    <div class="content">
+        <h2>4.1 Dashboard Overview</h2>
+        <p>The admin dashboard provides a centralized control panel for managing all platform operations.</p>
+        
+        <h3>Key Metrics Displayed</h3>
+        <ul>
+            <li>Total active tours</li>
+            <li>Total bookings (all statuses)</li>
+            <li>Total registered clients</li>
+            <li>Revenue (confirmed bookings)</li>
+        </ul>
+
+        <h2>4.2 Tour Management</h2>
+        
+        <h3>Creating a Tour</h3>
+        <div class="card">
+            <div class="card-header">Tab 1: Basic Information</div>
+            <ul>
+                <li>Title (required)</li>
+                <li>Country (required, from preset list)</li>
+                <li>Price per person (general users)</li>
+                <li>Price per person (tour agencies)</li>
+                <li>Currency</li>
+                <li>Overview (rich text)</li>
+                <li>Highlights</li>
+                <li>Brochure URL</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Tab 2: Gallery</div>
+            <ul>
+                <li>Drag & drop image upload</li>
+                <li>Multiple images supported</li>
+                <li>First image = thumbnail</li>
+                <li>Reorder by dragging</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Tab 3: Itinerary</div>
+            <ul>
+                <li>Add days sequentially</li>
+                <li>Day number, title, description</li>
+                <li>Optional images per day</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Tab 4: Details</div>
+            <ul>
+                <li>What's included (with icons)</li>
+                <li>What's not included</li>
+                <li>What to bring</li>
+            </ul>
+        </div>
+
+        <h2>4.3 Booking Management</h2>
+        
+        <h3>Booking Statuses</h3>
+        <table>
+            <tr>
+                <th>Status</th>
+                <th>Color</th>
+                <th>Action Available</th>
+            </tr>
+            <tr>
+                <td><span class="badge badge-warning">Pending</span></td>
+                <td>Yellow</td>
+                <td>Confirm or Decline</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-primary">Confirmed</span></td>
+                <td>Blue</td>
+                <td>View payment status</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-success">Paid</span></td>
+                <td>Green</td>
+                <td>View details</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-danger">Declined</span></td>
+                <td>Red</td>
+                <td>Delete</td>
+            </tr>
+        </table>
+
+        <h3>Confirming a Booking</h3>
+        <ol>
+            <li>Review customer and tour details</li>
+            <li>Enter final price</li>
+            <li>Click "Confirm"</li>
+            <li>System generates Omise payment link</li>
+            <li>Email sent to customer with link</li>
+        </ol>
+
+        <h2>4.4 Client Management</h2>
+        <ul>
+            <li>View all registered users</li>
+            <li>Create new clients manually</li>
+            <li>Create tour agency accounts (special pricing)</li>
+            <li>Edit client information</li>
+            <li>View client booking history</li>
+        </ul>
+    </div>
+
+    <!-- Section 5: API Reference -->
+    <div class="page-break"></div>
+    <div class="section-header" id="section5">
+        <h1>5. API Reference</h1>
+        <p>Complete Endpoint Documentation</p>
+    </div>
+    <div class="content">
+        <h2>5.1 Base URLs</h2>
+        <table>
+            <tr>
+                <th>API</th>
+                <th>Production</th>
+                <th>Development</th>
+            </tr>
+            <tr>
+                <td>User API</td>
+                <td><code>https://tour-user-api-27tvf.ondigitalocean.app</code></td>
+                <td><code>http://localhost:9090</code></td>
+            </tr>
+            <tr>
+                <td>Admin API</td>
+                <td><code>https://tour-admin-api.ondigitalocean.app</code></td>
+                <td><code>http://localhost:9091</code></td>
+            </tr>
+        </table>
+
+        <h2>5.2 Response Format</h2>
+        <pre>{
+  "code": 2000,
+  "message": "Success.",
+  "data": { ... }
+}</pre>
+
+        <h2>5.3 Error Codes</h2>
+        <table>
+            <tr>
+                <th>Code</th>
+                <th>HTTP Status</th>
+                <th>Description</th>
+            </tr>
+            <tr><td>2000</td><td>200/201</td><td>Success</td></tr>
+            <tr><td>4000</td><td>400</td><td>General failure</td></tr>
+            <tr><td>4002</td><td>400</td><td>Invalid parameter</td></tr>
+            <tr><td>4010</td><td>401</td><td>Token expired/invalid</td></tr>
+            <tr><td>4030</td><td>403</td><td>No permission</td></tr>
+            <tr><td>4040</td><td>404</td><td>Not found</td></tr>
+            <tr><td>4090</td><td>409</td><td>Conflict</td></tr>
+            <tr><td>5001</td><td>500</td><td>Database error</td></tr>
+            <tr><td>5002</td><td>500</td><td>Operation error</td></tr>
+        </table>
+
+        <h2>5.4 Authentication Endpoints</h2>
+        
+        <h3>POST /auth/login</h3>
+        <pre>Request:
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+Response:
+{
+  "code": 2000,
+  "message": "Success.",
+  "data": {
+    "sessionToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+}</pre>
+
+        <h2>5.5 Tour Endpoints</h2>
+        
+        <h3>GET /tour</h3>
+        <p>List all visible tours. Optional <code>country</code> query parameter.</p>
+        
+        <h3>GET /tour/:id</h3>
+        <p>Get detailed tour information including itinerary and gallery.</p>
+
+        <h3>POST /tour/:id/booking</h3>
+        <p>Create a new booking. Requires authentication.</p>
+        <pre>Request:
+{
+  "startDate": 1735171200,
+  "visitTime": 1735200000,
+  "adultTickets": 2,
+  "childTickets": 1,
+  "infantTickets": 0,
+  "bookingEmail": "user@example.com",
+  "bookingFirstname": "John",
+  "bookingSurname": "Doe",
+  "bookingPhone": "+1234567890"
+}</pre>
+    </div>
+
+    <!-- Additional sections would continue... -->
+
+    <!-- Footer -->
+    <div class="page-break"></div>
+    <div class="footer">
+        <p><strong>Fantasia Asia - Complete Platform Documentation</strong></p>
+        <p>Version 1.0 | December 2025</p>
+        <p>© 2025 Nightwing Development Team. All rights reserved.</p>
+        <p style="margin-top: 20px; font-size: 0.9rem;">
+            This document is confidential and intended for authorized personnel only.
+        </p>
+    </div>
+
+    <!-- Print Button (hidden when printing) -->
+    <div class="no-print" style="position: fixed; bottom: 20px; right: 20px;">
+        <button onclick="window.print()" style="
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        ">
+            📄 Export to PDF
+        </button>
+    </div>
+</body>
+</html>

@@ -21,7 +21,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           <HereHelp />
         </div>
         <div className="mb-28">
-          <AlsoLike />
+          <AlsoLike currentTour={tour} />
         </div>
       </div>
       <JoinNewSletter />

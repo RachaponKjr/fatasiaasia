@@ -7,13 +7,21 @@ import WishList from "./_components/wishlist";
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  const [wishlist, mybooking] = await Promise.all([
-    api.wistlist.getTourWishlist(),
-    api.booking.getMyBooking(),
-  ]);
+  let wishlistData: any[] = [];
+  let mybookingData: any[] = [];
 
-  const wishlistData = wishlist.data;
-  const mybookingData = mybooking.data;
+  try {
+    const [wishlist, mybooking] = await Promise.all([
+      api.wistlist.getTourWishlist(),
+      api.booking.getMyBooking(),
+    ]);
+
+    wishlistData = wishlist.data ?? [];
+    mybookingData = mybooking.data ?? [];
+  } catch (error) {
+    console.error("Error fetching profile data:", error);
+    // Continue with empty arrays - the Profile component will handle the auth state
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -24,13 +32,13 @@ export default async function Page() {
         {/* Content Sections */}
         <div className="mt-12 space-y-12">
           {/* My Bookings */}
-          <Tour myBooking={mybookingData ?? []} />
+          <Tour myBooking={mybookingData} />
 
           {/* Past Tours */}
           <PastTours tour={[]} />
 
           {/* Wishlist */}
-          <WishList wishlist={wishlistData ?? []} />
+          <WishList wishlist={wishlistData} />
         </div>
       </div>
     </div>

@@ -22,4 +22,11 @@ const getMyBooking = async () => {
   });
 };
 
-export { booking, getMyBooking };
+const cancelBooking = async (bookingId: number) => {
+  return BaseApi(`/tour/booking/${bookingId}`, {
+    method: "DELETE",
+    requiresAuth: true,
+  });
+};
+
+export { booking, getMyBooking, cancelBooking };

@@ -178,9 +178,30 @@ const HoverDropdown = ({
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authStatus, setAuthStatus] = useState<string | null>(null);
-  const { logout } = useProfile();
+  const [navbarAvatar, setNavbarAvatar] = useState<string | null>(null);
+  const { logout, user } = useProfile();
   const { wishlist: wishlistItems } = useWishlist();
   const router = useRouter();
+
+  // Load avatar from localStorage
+  useEffect(() => {
+    if (user?.userId) {
+      const savedAvatar = localStorage.getItem(`avatar_${user.userId}`);
+      if (savedAvatar) {
+        setNavbarAvatar(savedAvatar);
+      }
+    }
+  }, [user?.userId]);
+
+  const getInitials = () => {
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
+    }
+    if (user?.name) {
+      return user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    }
+    return "U";
+  };
 
   useEffect(() => {
     // Read cookie on mount
@@ -361,9 +382,9 @@ const Navbar = () => {
           </Link>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Avatar className="bg-[#BD3E2B]">
-                <AvatarImage src="/user.jpg" />
-                <AvatarFallback className="bg-[#BD3E2B] text-white">CN</AvatarFallback>
+              <Avatar className="bg-[#BD3E2B] cursor-pointer">
+                <AvatarImage src={navbarAvatar || undefined} />
+                <AvatarFallback className="bg-[#BD3E2B] text-white">{getInitials()}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -373,7 +394,7 @@ const Navbar = () => {
               {authStatus === "true" ? (
                 <>
                   <DropdownMenuLabel className="font-bold text-xl">
-                    Hello, User
+                    Hello, {user?.firstName || "User"}
                   </DropdownMenuLabel>
 
                   <DropdownMenuItem>

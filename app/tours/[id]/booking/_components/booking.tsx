@@ -10,10 +10,10 @@ import ConBooking from "./con-booking";
 import CompleteBooking from "./complete-booking";
 import Image from "next/image";
 
-import imagetest from "@/assets/imagetest.webp";
 import { useBooking } from "@/store/booking-store";
 import { TourDetail } from "@/types/tour.type";
 import { formatDate, formatTime } from "@/utils/format";
+import { toast } from "sonner";
 
 const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
   const [step, setStep] = useState<number>(1);
@@ -23,6 +23,55 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
     { id: 2, title: "Your Details" },
     { id: 3, title: "Complete" },
   ];
+
+  const validateStep1 = () => {
+    const errors: string[] = [];
+
+    if (!booking.startDate || booking.startDate === 0) {
+      errors.push("Please select a visit date");
+    }
+
+    const totalTickets = (booking.adultTickets || 0) + (booking.childTickets || 0) + (booking.infantTickets || 0);
+    if (totalTickets === 0) {
+      errors.push("Please select at least one ticket");
+    }
+
+    return errors;
+  };
+
+  const validateStep2 = () => {
+    const errors: string[] = [];
+
+    if (!booking.bookingFirstname?.trim()) {
+      errors.push("Please enter your first name");
+    }
+    if (!booking.bookingSurname?.trim()) {
+      errors.push("Please enter your surname");
+    }
+    if (!booking.bookingEmail?.trim()) {
+      errors.push("Please enter your email");
+    }
+    if (!booking.bookingPhone?.trim()) {
+      errors.push("Please enter your phone number");
+    }
+    if (!booking.bookingAddress?.trim()) {
+      errors.push("Please enter your address");
+    }
+
+    return errors;
+  };
+
+  const handleNextStep = () => {
+    if (step === 1) {
+      const errors = validateStep1();
+      if (errors.length > 0) {
+        toast.error(errors[0], { className: "!text-red-500" });
+        return;
+      }
+    }
+    setStep(step + 1);
+  };
+
   return (
     <div className="flex flex-col w-full p-4 lg:p-0 gap-[20px] lg:gap-[130px]">
       <div className="max-w-3xl mx-auto w-full">
@@ -52,18 +101,19 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
                   />
                 </div>
                 <div className="flex-1 flex flex-col gap-2 lg:gap-4">
-                  <h4 className="font-bold text-2xl text-[#333333]"></h4>
-                  {tourDetail.title}
+                  <h4 className="font-bold text-2xl text-[#333333]">
+                    {tourDetail.title}
+                  </h4>
                   <div className="flex items-center gap-[14]">
                     <CalenderIcon opacity={1} color="#BD3E2B" size={24} />
                     <span className="font-semibold text-xs lg:text-lg text-[#333333]">
-                      {formatDate(booking.startDate)}
+                      {booking.startDate ? formatDate(booking.startDate) : "Select a date"}
                     </span>
                   </div>
                   <div className="flex items-center gap-4">
                     <Clock color="#BD3E2B" strokeWidth={1} size={24} />
                     <span className="font-semibold text-xs lg:text-lg text-[#333333]">
-                      {formatTime(booking.visitTime)}
+                      {booking.visitTime ? formatTime(booking.visitTime) : "Select a time"}
                     </span>
                   </div>
                 </div>
@@ -72,7 +122,7 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
                 <div className="flex items-center gap-2 py-4">
                   <div className="bg-[#EFEFEF] w-10 aspect-square rounded-full grid place-content-center">
                     <span className="font-semibold text-[#333333]/80 text-lg">
-                      2
+                      {booking.adultTickets}
                     </span>
                   </div>
                   <span>Adult (12+)</span>
@@ -80,7 +130,7 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
                 <div className="flex items-center gap-2 py-4">
                   <div className="bg-[#EFEFEF] w-10 aspect-square rounded-full grid place-content-center">
                     <span className="font-semibold text-[#333333]/80 text-lg">
-                      0
+                      {booking.childTickets}
                     </span>
                   </div>
                   <span>Child (3-11)</span>
@@ -88,7 +138,7 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
                 <div className="flex items-center gap-2 py-4">
                   <div className="bg-[#EFEFEF] w-10 aspect-square rounded-full grid place-content-center">
                     <span className="font-semibold text-[#333333]/80 text-lg">
-                      2
+                      {booking.infantTickets}
                     </span>
                   </div>
                   <span>Infant (0-3)</span>
@@ -96,7 +146,7 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
               </div>
             </div>
             <Button
-              onClick={() => setStep(step + 1)}
+              onClick={handleNextStep}
               className="bg-[#BD3E2B] hover:bg-[#BD3E2B] w-full h-[60px] rounded-full cursor-pointer text-white font-black text-lg"
             >
               Go to the Next Step

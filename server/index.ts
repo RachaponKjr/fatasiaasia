@@ -4,6 +4,7 @@ import * as auth from "./auth";
 import * as user from "./user";
 import * as wistlist from "./wistlist";
 import * as booking from "./booking";
+import * as file from "./file";
 
 const api = {
   tour,
@@ -11,6 +12,7 @@ const api = {
   user,
   wistlist,
   booking,
+  file,
 };
 
 export default api;
