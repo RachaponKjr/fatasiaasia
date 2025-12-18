@@ -17,7 +17,7 @@ import {
   Heart,
   Plane,
   Clock,
-  ChevronRight
+  ChevronRight,
 } from "lucide-react";
 
 const Profile = () => {
@@ -29,7 +29,12 @@ const Profile = () => {
       return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
     }
     if (user?.name) {
-      return user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+      return user.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2);
     }
     return "U";
   };
@@ -40,28 +45,28 @@ const Profile = () => {
       label: "My Bookings",
       href: "#tours",
       description: "View your upcoming tours",
-      color: "bg-blue-500"
+      color: "bg-blue-500",
     },
     {
       icon: Heart,
       label: "Wishlist",
       href: "#wishlist",
       description: "Tours you've saved",
-      color: "bg-pink-500"
+      color: "bg-pink-500",
     },
     {
       icon: Clock,
       label: "Past Tours",
       href: "#past-tours",
       description: "Your travel history",
-      color: "bg-green-500"
+      color: "bg-green-500",
     },
     {
       icon: Settings,
       label: "Settings",
       href: "/profile/accountsetting",
       description: "Manage your account",
-      color: "bg-gray-500"
+      color: "bg-gray-500",
     },
   ];
 
@@ -70,7 +75,11 @@ const Profile = () => {
     { icon: Phone, label: "Phone", value: user?.phoneNumber || "Not provided" },
     { icon: MapPin, label: "Address", value: user?.address || "Not provided" },
     { icon: Globe, label: "Country", value: user?.country || "Not provided" },
-    { icon: Calendar, label: "Birthday", value: user?.birthday || "Not provided" },
+    {
+      icon: Calendar,
+      label: "Birthday",
+      value: user?.birthday || "Not provided",
+    },
   ];
 
   if (isLoading) {
@@ -97,7 +106,7 @@ const Profile = () => {
           {/* Avatar */}
           <div className="relative">
             <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
-              <AvatarImage src={user?.profilePicture} />
+              <AvatarImage src={user?.profilePicture || ""} />
               <AvatarFallback className="text-3xl font-bold bg-white text-[#BD3E2B]">
                 {getInitials()}
               </AvatarFallback>
@@ -155,7 +164,9 @@ const Profile = () => {
             href={link.href}
             className="group bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition-all border border-gray-100 hover:border-[#BD3E2B]/20"
           >
-            <div className={`${link.color} w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+            <div
+              className={`${link.color} w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+            >
               <link.icon className="w-6 h-6 text-white" />
             </div>
             <h3 className="font-semibold text-gray-900 mb-1">{link.label}</h3>
@@ -180,7 +191,10 @@ const Profile = () => {
         </div>
         <div className="divide-y divide-gray-100">
           {profileInfo.map((info, index) => (
-            <div key={index} className="px-6 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
+            <div
+              key={index}
+              className="px-6 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors"
+            >
               <div className="w-10 h-10 rounded-full bg-[#BD3E2B]/10 flex items-center justify-center flex-shrink-0">
                 <info.icon className="w-5 h-5 text-[#BD3E2B]" />
               </div>
