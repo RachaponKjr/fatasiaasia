@@ -32,15 +32,17 @@ export async function BaseApi<T>(
 
   let finalToken: string | undefined = optionToken;
 
-  // Always try to get token from cookies for optional auth (e.g. tour agency pricing)
-  try {
-    const cookieStore = cookies();
-    const storedToken = (await cookieStore).get("access_token")?.value;
-    if (storedToken && !finalToken) {
-      finalToken = storedToken;
+  // Only try to get token from cookies when auth is required or optionally for pricing
+  if (requiresAuth) {
+    try {
+      const cookieStore = cookies();
+      const storedToken = (await cookieStore).get("access_token")?.value;
+      if (storedToken && !finalToken) {
+        finalToken = storedToken;
+      }
+    } catch (err) {
+      // Ignore error if cookies cannot be accessed (e.g. in some contexts)
     }
-  } catch (err) {
-    // Ignore error if cookies cannot be accessed (e.g. in some contexts)
   }
 
   // If auth is strictly required but no token found, we could throw here, 

@@ -9,11 +9,14 @@ import tourImage from "@/assets/images/banner/tour.webp";
 import ToursClient from "./_components/tours-client";
 
 const page = async () => {
-  const { data: tour } = await api.tour.getTour();
+  const response = await api.tour.getTour();
+  console.log("Tour API Response:", JSON.stringify(response, null, 2));
+  const tour = response.data ?? [];
+  console.log("Tour count:", tour.length);
 
   // Fetch tour details for category filtering
   let tourDetails: any[] = [];
-  if (tour && tour.length > 0) {
+  if (tour.length > 0) {
     const detailPromises = tour.map(async (t) => {
       try {
         const { data } = await api.tour.getTourDetail({ tourId: t.tourId });
