@@ -18,18 +18,23 @@ const ItemCardTour = ({ active = false, tour }: { active?: boolean; tour: MyBook
   const badgeText = isConfirmed ? "Confirmed" : "In Progress";
 
   const handleCancel = async () => {
-    if (window.confirm("Are you sure you want to cancel (delete) this booking?")) {
+    if (window.confirm("Are you sure you want to cancel this booking?")) {
       try {
         const res = await api.booking.cancelBooking(tour.bookingId);
         if (res.code === 2000) {
           toast.success("Booking cancelled successfully");
           router.refresh();
         } else {
-          toast.error(res.message || "Failed to cancel booking");
+          // Provide more specific error messages
+          if (res.message?.includes("Database") || res.message?.includes("database")) {
+            toast.error("Unable to cancel booking at this time. Please contact support.", { className: "!text-red-500" });
+          } else {
+            toast.error(res.message || "Failed to cancel booking", { className: "!text-red-500" });
+          }
         }
       } catch (error) {
         console.error(error);
-        toast.error("An error occurred");
+        toast.error("An error occurred. Please try again later.", { className: "!text-red-500" });
       }
     }
   };

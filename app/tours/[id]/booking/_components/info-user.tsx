@@ -3,6 +3,7 @@ import InputWithLabel from "@/components/input-with-lable";
 import { Button } from "@/components/ui/button";
 import { useBooking } from "@/store/booking-store";
 import React, { Dispatch, SetStateAction } from "react";
+import { toast } from "sonner";
 
 type Props = {
   setStep?: Dispatch<SetStateAction<number>>;
@@ -10,6 +11,34 @@ type Props = {
 
 const InfoUser = ({ setStep }: Props) => {
   const { booking, setBooking } = useBooking();
+
+  const validateAndProceed = () => {
+    const errors: string[] = [];
+
+    if (!booking.bookingFirstname?.trim()) {
+      errors.push("Please enter your first name");
+    }
+    if (!booking.bookingSurname?.trim()) {
+      errors.push("Please enter your surname");
+    }
+    if (!booking.bookingEmail?.trim()) {
+      errors.push("Please enter your email");
+    }
+    if (!booking.bookingPhone?.trim()) {
+      errors.push("Please enter your phone number");
+    }
+    if (!booking.bookingAddress?.trim()) {
+      errors.push("Please enter your address");
+    }
+
+    if (errors.length > 0) {
+      toast.error(errors[0], { className: "!text-red-500" });
+      return;
+    }
+
+    setStep?.(3);
+  };
+
   return (
     <div className="flex flex-col justify-around gap-4">
       <div className="flex flex-col gap-4">
@@ -73,16 +102,25 @@ const InfoUser = ({ setStep }: Props) => {
           />
         </div>
       </div>
-      <Button
-        onClick={() => {
-          setStep?.(1);
-        }}
-        className="bg-[#EFEFEF] hover:bg-[#EFEFEF] text-xl font-bold cursor-pointer w-[160px] h-[60px] rounded-full text-[#333333]"
-      >
-        Back
-      </Button>
+      <div className="flex gap-4">
+        <Button
+          onClick={() => {
+            setStep?.(1);
+          }}
+          className="bg-[#EFEFEF] hover:bg-[#EFEFEF] text-xl font-bold cursor-pointer w-[160px] h-[60px] rounded-full text-[#333333]"
+        >
+          Back
+        </Button>
+        <Button
+          onClick={validateAndProceed}
+          className="bg-[#BD3E2B] hover:bg-[#BD3E2B] text-xl font-bold cursor-pointer flex-1 h-[60px] rounded-full text-white"
+        >
+          Review & Confirm
+        </Button>
+      </div>
     </div>
   );
 };
 
 export default InfoUser;
+

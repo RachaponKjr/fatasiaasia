@@ -113,21 +113,21 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
               {tourDetail.title}
             </h6>
             <span className="text-xs lg:text-lg">
-              Durations : 7 Days 6 Nights
+              Duration : {tourDetail.itineraries?.length || 1} Day{(tourDetail.itineraries?.length || 1) > 1 ? 's' : ''} {Math.max(0, (tourDetail.itineraries?.length || 1) - 1)} Night{Math.max(0, (tourDetail.itineraries?.length || 1) - 1) !== 1 ? 's' : ''}
             </span>
           </div>
           <div>
             <span className="text-xs lg:text-lg">
-              Start at 5 -14 Febuary 2025
+              Start Date: {booking.startDate ? new Date(booking.startDate * 1000).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Not selected'}
             </span>
           </div>
           <div>
             <span className="text-xs lg:text-lg">
-              Durations : 7 Days 6 Nights
+              Visit Time: {booking.visitTime ? new Date(booking.visitTime * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Not specified'}
             </span>
           </div>
           <div>
-            <span className="text-xs lg:text-lg">3 Travellers</span>
+            <span className="text-xs lg:text-lg">{(booking.adultTickets || 0) + (booking.childTickets || 0) + (booking.infantTickets || 0)} Traveller{((booking.adultTickets || 0) + (booking.childTickets || 0) + (booking.infantTickets || 0)) !== 1 ? 's' : ''}</span>
           </div>
           <span className="text-xs lg:text-lg">
             You will be receiving a confirmation email with order details.

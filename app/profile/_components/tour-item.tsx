@@ -23,11 +23,16 @@ const TourItem = ({ booking }: { booking: MyBooking }) => {
           toast.success("Booking cancelled successfully");
           router.refresh();
         } else {
-          toast.error(res.message || "Failed to cancel booking");
+          // Provide more specific error messages
+          if (res.message?.includes("Database") || res.message?.includes("database")) {
+            toast.error("Unable to cancel booking at this time. Please contact support.", { className: "!text-red-500" });
+          } else {
+            toast.error(res.message || "Failed to cancel booking", { className: "!text-red-500" });
+          }
         }
       } catch (error) {
         console.error(error);
-        toast.error("An error occurred");
+        toast.error("An error occurred. Please try again later.", { className: "!text-red-500" });
       }
     }
   };

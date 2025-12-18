@@ -45,10 +45,13 @@ export async function BaseApi<T>(
     }
   }
 
-  // If auth is strictly required but no token found, we could throw here, 
-  // but current logic just proceeds without header (which will likely result in 401 from API)
+  // If auth is strictly required but no token found, return early with error response
   if (requiresAuth && !finalToken) {
-    // warning or handle if needed
+    return {
+      code: 4010,
+      message: "Authentication required. Please log in.",
+      data: null as T,
+    };
   }
 
   const requestHeaders: Record<string, string> = {
@@ -60,28 +63,51 @@ export async function BaseApi<T>(
     requestHeaders["Authorization"] = `Bearer ${finalToken}`;
   }
 
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    ...rest,
-    headers: requestHeaders,
-  });
+  try {
+    // Add 10 second timeout to prevent hanging
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-  // Parse response body regardless of status
-  const responseData = await res.json().catch(() => ({
-    code: 5000,
-    message: "An unexpected response was received from the server.",
-    data: null,
-  }));
+    const res = await fetch(`${BASE_URL}${endpoint}`, {
+      ...rest,
+      headers: requestHeaders,
+      signal: controller.signal,
+    });
 
-  // For non-OK responses, return the error response from API instead of throwing
-  // This allows the frontend to show proper error messages
-  if (!res.ok) {
+    clearTimeout(timeoutId);
+
+    // Parse response body regardless of status
+    const responseData = await res.json().catch(() => ({
+      code: 5000,
+      message: "An unexpected response was received from the server.",
+      data: null,
+    }));
+
+    // For non-OK responses, return the error response from API instead of throwing
+    // This allows the frontend to show proper error messages
+    if (!res.ok) {
+      return {
+        code: responseData.code || res.status,
+        message: responseData.message || "An error occurred. Please try again.",
+        data: responseData.data || null,
+      } as ApiResponse<T>;
+    }
+
+    return responseData;
+  } catch (error: any) {
+    // Handle timeout or network errors
+    if (error.name === 'AbortError') {
+      return {
+        code: 5000,
+        message: "Request timed out. Please try again.",
+        data: null as T,
+      };
+    }
+
     return {
-      code: responseData.code || res.status,
-      message: responseData.message || "An error occurred. Please try again.",
-      data: responseData.data || null,
-    } as ApiResponse<T>;
+      code: 5000,
+      message: error.message || "Network error. Please try again.",
+      data: null as T,
+    };
   }
-
-  return responseData;
 }
-
