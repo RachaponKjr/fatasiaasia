@@ -56,6 +56,10 @@ const ToursClient = ({
     const [currentPage, setCurrentPage] = useState(pageParam);
     const [searchQuery, setSearchQuery] = useState("");
 
+    // Ensure tours and tourDetails are arrays
+    const safeTours = tours ?? [];
+    const safeTourDetails = tourDetails ?? [];
+
     useEffect(() => {
         setSelectedCategory(categoryParam);
         setSelectedDuration(durationParam);
@@ -64,12 +68,12 @@ const ToursClient = ({
 
     // Filter tours based on category and duration
     const filteredTours = useMemo(() => {
-        let result = tours;
+        let result = safeTours;
 
         // Filter by category
         if (selectedCategory) {
             result = result.filter((tour, index) => {
-                const detail = tourDetails[index];
+                const detail = safeTourDetails[index];
                 if (!detail || !detail.tourDetails?.included) return false;
 
                 const categoryValues = categoryMap[selectedCategory] || [];
@@ -92,7 +96,7 @@ const ToursClient = ({
         // Filter by duration
         if (selectedDuration) {
             result = result.filter((tour, index) => {
-                const detail = tourDetails[index];
+                const detail = safeTourDetails[index];
                 if (!detail || !detail.tourDetails?.included) return false;
 
                 const durationItem = detail.tourDetails.included.find(
@@ -115,7 +119,7 @@ const ToursClient = ({
         if (searchQuery.trim()) {
             const query = searchQuery.toLowerCase().trim();
             result = result.filter((tour, index) => {
-                const detail = tourDetails[index];
+                const detail = safeTourDetails[index];
 
                 // Search in tour title
                 if (tour.title?.toLowerCase().includes(query)) return true;
@@ -134,7 +138,7 @@ const ToursClient = ({
         }
 
         return result;
-    }, [tours, tourDetails, selectedCategory, selectedDuration, searchQuery]);
+    }, [safeTours, safeTourDetails, selectedCategory, selectedDuration, searchQuery]);
 
     // Pagination
     const totalPages = Math.ceil(filteredTours.length / TOURS_PER_PAGE);
