@@ -228,8 +228,8 @@ world's most dynamic financial and cultural hubs.`,
 
       if (!regionItem) return false;
 
-      const tourRegion = regionItem.text.replace("META_REGION:", "");
-      return tourRegion === selectedRegion;
+      const tourRegions = regionItem.text.replace("META_REGION:", "").split(",");
+      return tourRegions.includes(selectedRegion);
     });
   }, [countryItem, tourDetails, selectedRegion]);
 
