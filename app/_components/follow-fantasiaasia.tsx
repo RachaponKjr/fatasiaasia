@@ -33,7 +33,6 @@ const FollowFantasiaasia = () => {
         );
 
         const channelData = await channelRes.json();
-        console.log("Channel API Response:", channelData);
 
         if (channelData.error) {
           console.error("Channel API Error:", channelData.error);
@@ -50,8 +49,8 @@ const FollowFantasiaasia = () => {
         }
 
         // Get the uploads playlist ID
-        const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
-        console.log("Uploads Playlist ID:", uploadsPlaylistId);
+        const uploadsPlaylistId =
+          channelData.items[0].contentDetails.relatedPlaylists.uploads;
 
         // Now get the videos from the uploads playlist
         const videosRes = await fetch(
@@ -60,7 +59,6 @@ const FollowFantasiaasia = () => {
         );
 
         const videosData = await videosRes.json();
-        console.log("Videos API Response:", videosData);
 
         if (videosData.error) {
           console.error("Videos API Error:", videosData.error);
@@ -77,7 +75,6 @@ const FollowFantasiaasia = () => {
             })
           );
 
-          console.log("Videos fetched:", videoList);
           setMainVideo(videoList[0].videoId);
           setVideos(videoList.slice(1, 5));
         } else {
@@ -94,10 +91,22 @@ const FollowFantasiaasia = () => {
 
     const setFallbackVideos = () => {
       setVideos([
-        { videoId: "YC3UtNPVL5Q", url: "https://www.youtube.com/watch?v=YC3UtNPVL5Q" },
-        { videoId: "t0pafVU3EhY", url: "https://www.youtube.com/watch?v=t0pafVU3EhY" },
-        { videoId: "3-UBBZwjn1M", url: "https://www.youtube.com/watch?v=3-UBBZwjn1M" },
-        { videoId: "5iIIE04DDhU", url: "https://www.youtube.com/watch?v=5iIIE04DDhU" },
+        {
+          videoId: "YC3UtNPVL5Q",
+          url: "https://www.youtube.com/watch?v=YC3UtNPVL5Q",
+        },
+        {
+          videoId: "t0pafVU3EhY",
+          url: "https://www.youtube.com/watch?v=t0pafVU3EhY",
+        },
+        {
+          videoId: "3-UBBZwjn1M",
+          url: "https://www.youtube.com/watch?v=3-UBBZwjn1M",
+        },
+        {
+          videoId: "5iIIE04DDhU",
+          url: "https://www.youtube.com/watch?v=5iIIE04DDhU",
+        },
       ]);
     };
 

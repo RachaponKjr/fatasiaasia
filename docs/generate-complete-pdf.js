@@ -1,31 +1,34 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Files to include (in order)
 const files = [
-    'FANTASIA_ASIA_MANUAL.md',
-    'USER_GUIDE.md',
-    'ADMIN_USER_GUIDE.md',
-    'API_DEVELOPER_GUIDE.md',
-    'DATABASE_SCHEMA.md',
-    'DEPLOYMENT_RUNBOOK.md',
-    'SECURITY_OPERATIONS_GUIDE.md'
+  "FANTASIA_ASIA_MANUAL.md",
+  "USER_GUIDE.md",
+  "ADMIN_USER_GUIDE.md",
+  "API_DEVELOPER_GUIDE.md",
+  "DATABASE_SCHEMA.md",
+  "DEPLOYMENT_RUNBOOK.md",
+  "SECURITY_OPERATIONS_GUIDE.md",
 ];
 
-const basePath = path.join(__dirname, '..');
+const basePath = path.join(__dirname, "..");
 
 // Read all markdown files
-let allContent = '';
+let allContent = "";
 files.forEach((file, index) => {
-    const filePath = path.join(basePath, file);
-    if (fs.existsSync(filePath)) {
-        const content = fs.readFileSync(filePath, 'utf8');
-        allContent += `\n\n<!-- PAGE BREAK - SECTION ${index + 1}: ${file} -->\n<div class="page-break"></div>\n<div class="section-header"><h1>📄 ${file.replace('.md', '').replace(/_/g, ' ')}</h1></div>\n\n`;
-        allContent += content;
-        console.log(`✅ Added: ${file}`);
-    } else {
-        console.log(`❌ Missing: ${file}`);
-    }
+  const filePath = path.join(basePath, file);
+  if (fs.existsSync(filePath)) {
+    const content = fs.readFileSync(filePath, "utf8");
+    allContent += `\n\n<!-- PAGE BREAK - SECTION ${
+      index + 1
+    }: ${file} -->\n<div class="page-break"></div>\n<div class="section-header"><h1>📄 ${file
+      .replace(".md", "")
+      .replace(/_/g, " ")}</h1></div>\n\n`;
+    allContent += content;
+  } else {
+    console.log(`❌ Missing: ${file}`);
+  }
 });
 
 // Create HTML template
@@ -143,9 +146,5 @@ const html = `<!DOCTYPE html>
 </html>`;
 
 // Write HTML file
-const outputPath = path.join(__dirname, 'COMPLETE_DOCUMENTATION.html');
-fs.writeFileSync(outputPath, html, 'utf8');
-
-console.log(`\n✅ Generated: ${outputPath}`);
-console.log(`📄 Open this file in a browser and print to PDF`);
-console.log(`📊 Total content size: ${(allContent.length / 1024).toFixed(1)} KB`);
+const outputPath = path.join(__dirname, "COMPLETE_DOCUMENTATION.html");
+fs.writeFileSync(outputPath, html, "utf8");

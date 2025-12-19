@@ -1,5 +1,5 @@
 # Stage 1: Builder
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # ติดตั้ง dependencies ที่จำเป็นสำหรับ Alpine
 RUN apk add --no-cache libc6-compat
@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Runner (Secure)
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 
 WORKDIR /app
 

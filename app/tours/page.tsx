@@ -10,9 +10,7 @@ import ToursClient from "./_components/tours-client";
 
 const page = async () => {
   const response = await api.tour.getTour();
-  console.log("Tour API Response:", JSON.stringify(response, null, 2));
   const tour = response.data ?? [];
-  console.log("Tour count:", tour.length);
 
   // Fetch tour details for category filtering
   let tourDetails: any[] = [];
@@ -40,11 +38,14 @@ const page = async () => {
             Find Your Next Unforgettable Journey
           </h2>
           <p className="text-lg text-gray-600">
-            Browse our carefully curated tours by category and find your perfect Asian adventure.
+            Browse our carefully curated tours by category and find your perfect
+            Asian adventure.
           </p>
         </div>
 
-        <Suspense fallback={<div className="text-center py-20">Loading tours...</div>}>
+        <Suspense
+          fallback={<div className="text-center py-20">Loading tours...</div>}
+        >
           <ToursClient tours={tour} tourDetails={tourDetails} />
         </Suspense>
       </div>
