@@ -8,6 +8,7 @@ import Client from "./_components/client";
 import BaseService from "./_components/base-service";
 import FollowFantasiaasia from "./_components/follow-fantasiaasia";
 import BeachPackages from "./_components/beach-packages";
+import FeaturedBlogs from "./_components/featured-blogs";
 import api from "@/server";
 import { Metadata } from "next";
 
@@ -72,6 +73,7 @@ export default async function Home() {
         <BaseService />
         <BeachPackages tours={beachTours} />
         <FollowFantasiaasia />
+        <FeaturedBlogs />
         <Client />
       </div>
       <JoinNewSletter />
