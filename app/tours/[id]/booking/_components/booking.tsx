@@ -16,9 +16,26 @@ import { parseTourMeta } from "@/utils/tour-meta";
 import { toast } from "sonner";
 
 const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
-  const [step, setStep] = useState<number>(1);
   const { booking, setBooking } = useBooking();
   const meta = parseTourMeta(tourDetail?.tourDetails?.included);
+
+  // If the user already picked a (non-past) date + at least one ticket
+  // in the tour detail dialog, skip the duplicate step 1 and land on
+  // "Your Details" so we never ask for the same date twice.
+  const todayMidnight = React.useMemo(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return Math.floor(d.getTime() / 1000);
+  }, []);
+  const totalTickets =
+    (booking.adultTickets || 0) +
+    (booking.childTickets || 0) +
+    (booking.infantTickets || 0);
+  const initialStep =
+    booking.startDate && booking.startDate >= todayMidnight && totalTickets > 0
+      ? 2
+      : 1;
+  const [step, setStep] = useState<number>(initialStep);
   const steps = [
     { id: 1, title: "Booking Details" },
     { id: 2, title: "Your Details" },
@@ -30,10 +47,15 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
 
     if (!booking.startDate || booking.startDate === 0) {
       errors.push("Please select a visit date");
+    } else if (booking.startDate < todayMidnight) {
+      errors.push("Please pick a future date — the selected date has already passed");
     }
 
-    const totalTickets = (booking.adultTickets || 0) + (booking.childTickets || 0) + (booking.infantTickets || 0);
-    if (totalTickets === 0) {
+    const total =
+      (booking.adultTickets || 0) +
+      (booking.childTickets || 0) +
+      (booking.infantTickets || 0);
+    if (total === 0) {
       errors.push("Please select at least one ticket");
     }
 

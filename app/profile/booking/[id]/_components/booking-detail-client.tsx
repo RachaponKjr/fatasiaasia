@@ -125,7 +125,7 @@ export default function BookingDetailClient({
   };
 
   const status = STATUS_LABEL[booking.bookingStatus] ?? STATUS_LABEL.pending;
-  const total = (booking.totalPrice ?? 0).toLocaleString(undefined, {
+  const total = (booking.totalPrice ?? 0).toLocaleString("en-US", {
     style: "currency",
     currency: booking.currency || "USD",
   });
@@ -167,7 +167,7 @@ export default function BookingDetailClient({
               <div>
                 <div className="text-gray-500">Start date</div>
                 <div className="font-medium">
-                  {new Date(booking.startDate).toLocaleDateString(undefined, {
+                  {new Date(booking.startDate).toLocaleDateString("en-GB", {
                     day: "numeric",
                     month: "short",
                     year: "numeric",
@@ -282,7 +282,7 @@ export default function BookingDetailClient({
                     mine ? "text-right" : "text-left"
                   }`}
                 >
-                  {new Date(m.createdAt).toLocaleString(undefined, {
+                  {new Date(m.createdAt).toLocaleString("en-GB", {
                     hour: "2-digit",
                     minute: "2-digit",
                     day: "numeric",

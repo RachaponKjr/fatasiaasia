@@ -20,8 +20,18 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
   const validateBooking = () => {
     const errors: string[] = [];
 
+    const todayMidnight = (() => {
+      const d = new Date();
+      d.setHours(0, 0, 0, 0);
+      return Math.floor(d.getTime() / 1000);
+    })();
+
     if (!booking.startDate || booking.startDate === 0) {
       errors.push("Please select a visit date");
+    } else if (booking.startDate < todayMidnight) {
+      errors.push(
+        "Please pick a future date — the selected date has already passed"
+      );
     }
     if (
       !booking.adultTickets &&

@@ -11,6 +11,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import FormBooking from "./form-booking";
 
 // Images
@@ -99,15 +105,57 @@ const Booking = ({
       <span className="text-xs block mt-1">
         *Please note that prices may vary based on circumstances.
       </span>
-      <div className="border border-[#DDDDDD] rounded-[12px] p-[10px] flex gap-[10px] my-4">
-        <div className="w-[50px] aspect-square rounded-[12px] bg-[#F5F5F5] grid place-content-center">
-          <Image src={calendar2} alt="" width={30} height={30} />
-        </div>
-        <div className="flex flex-col justify-center">
-          <h6 className="text-base font-medium">Availability</h6>
-          <span className="text-sm font-normal text-[#319E8B]">Flexible dates available</span>
-        </div>
-      </div>
+      <Popover>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            className="border border-[#DDDDDD] rounded-[12px] p-[10px] flex gap-[10px] my-4 w-full text-left hover:border-[#BD3E2B] transition-colors cursor-pointer"
+          >
+            <div className="w-[50px] aspect-square rounded-[12px] bg-[#F5F5F5] grid place-content-center">
+              <Image src={calendar2} alt="" width={30} height={30} />
+            </div>
+            <div className="flex flex-col justify-center">
+              <h6 className="text-base font-medium">Availability</h6>
+              <span className="text-sm font-normal text-[#319E8B]">
+                {booking.startDate
+                  ? new Date(booking.startDate * 1000).toLocaleDateString(
+                      "en-US",
+                      { weekday: "short", month: "short", day: "numeric", year: "numeric" }
+                    )
+                  : "Flexible dates available"}
+              </span>
+            </div>
+          </button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={
+              booking.startDate ? new Date(booking.startDate * 1000) : undefined
+            }
+            onSelect={(d) => {
+              if (!d) return;
+              const ts = Math.floor(d.getTime() / 1000);
+              setBooking((prev) => ({
+                ...prev,
+                startDate: ts,
+                visitTime: ts,
+              }));
+            }}
+            disabled={(date) => {
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              if (date < today) return true;
+              const disabledWeekdays = [0, 1, 2, 3, 4, 5, 6].filter(
+                (d) => !meta.availableWeekdays.includes(d)
+              );
+              if (disabledWeekdays.includes(date.getDay())) return true;
+              return false;
+            }}
+            captionLayout="dropdown"
+          />
+        </PopoverContent>
+      </Popover>
       <h6 className="text-lg font-medium">Tickets</h6>
       <div className="flex flex-col gap-4 my-[24px]">
         <div className="flex items-center ">
