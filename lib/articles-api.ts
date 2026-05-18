@@ -3,7 +3,7 @@
 
 const ADMIN_BASE_URL =
   process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL ||
-  "https://tour-admin-api-dl8qs.ondigitalocean.app";
+  "https://fantasia-tour-admin-36h77.ondigitalocean.app";
 
 export type Article = {
   articleId: number;
