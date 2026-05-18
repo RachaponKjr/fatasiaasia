@@ -71,8 +71,10 @@ function formatTourDateRange(startDate: string, endDate: string): string {
   return `${startDay} ${startMonth} - ${endDay} ${endMonth} ${year}`;
 }
 
-function formatNumber(amount: number) {
-  return amount.toLocaleString("en-US", {
+function formatNumber(amount: number | string | null | undefined) {
+  const n = Number(amount);
+  if (!Number.isFinite(n)) return "0.00";
+  return n.toLocaleString("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
