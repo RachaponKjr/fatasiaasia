@@ -12,24 +12,36 @@ export const metadata = {
     "Stories, tips and destination guides from the Fantasia Asia team.",
 };
 
-// Revalidate hourly so newly-published admin posts appear without redeploy.
 export const revalidate = 3600;
 
-const FALLBACK_COVER = "/assets/images/destination/Thai.webp";
+const FALLBACK_COVER = "/blog/thailand.webp";
+
+const formatDate = (d: string) =>
+  new Date(d).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
 const BlogIndex = async () => {
   const posts = await listBlogPosts();
+  const [featured, ...rest] = posts;
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <HeroLayout image={destinationhero.src} title="Travel Blog" />
-      <div className="container mx-auto xl:pt-[120px] xl:pb-[160px] py-10 px-4 xl:px-0">
-        <div className="flex flex-col items-center mb-12">
-          <h3 className="font-bold text-xl md:text-4xl mb-6 text-center">
+
+      <div className="container mx-auto xl:pt-[100px] xl:pb-[140px] py-10 px-4 xl:px-0">
+        <div className="flex flex-col items-center mb-12 text-center">
+          <span className="text-xs uppercase tracking-[0.3em] text-[#BD3E2B] font-semibold mb-3">
+            The Journal
+          </span>
+          <h3 className="font-bold text-2xl md:text-4xl mb-4">
             Stories &amp; Inspiration
           </h3>
-          <p className="font-light text-lg md:text-xl text-[#585858] leading-relaxed text-center max-w-3xl">
-            Insider tips, cultural deep-dives and travel stories from across Asia.
+          <p className="font-light text-base md:text-xl text-[#585858] leading-relaxed max-w-3xl">
+            Insider tips, cultural deep-dives and travel stories from across
+            Asia — written by the Fantasia Asia team.
           </p>
         </div>
 
@@ -38,49 +50,99 @@ const BlogIndex = async () => {
             New articles coming soon.
           </p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map((post) => {
-              const publishedAt = post.publishedAt || post.createdAt;
-              const readTime = estimateReadTime(post.content);
-              return (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="group rounded-2xl overflow-hidden border border-[#E7E6E6] hover:shadow-lg transition"
-                >
-                  <div className="relative w-full aspect-[16/10] bg-[#F5F5F5]">
+          <>
+            {/* Featured */}
+            {featured && (
+              <Link
+                href={`/blog/${featured.slug}`}
+                className="group block rounded-3xl overflow-hidden border border-[#E7E6E6] hover:shadow-xl transition mb-12 bg-white"
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                  <div className="relative w-full aspect-[16/10] lg:aspect-auto lg:min-h-[420px] bg-[#F5F5F5]">
                     <Image
-                      src={post.coverImageUrl || FALLBACK_COVER}
-                      alt={post.title}
+                      src={featured.coverImageUrl || FALLBACK_COVER}
+                      alt={featured.title}
                       fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                       style={{ objectFit: "cover" }}
                     />
                   </div>
-                  <div className="p-5 flex flex-col gap-2">
-                    <span className="text-xs uppercase tracking-wide text-[#BD3E2B] font-semibold">
-                      {post.tags?.join(" · ") || "Article"}
-                    </span>
-                    <h4 className="text-lg font-bold text-[#333333] group-hover:text-[#BD3E2B] transition">
-                      {post.title}
-                    </h4>
-                    <p className="text-sm text-[#585858] line-clamp-3">
-                      {post.excerpt}
+                  <div className="p-8 lg:p-12 flex flex-col justify-center gap-4">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[11px] uppercase tracking-wide font-semibold text-[#BD3E2B] bg-[#FBEFEC] px-2.5 py-1 rounded-full">
+                        Featured
+                      </span>
+                      {featured.destination && (
+                        <span className="text-xs uppercase tracking-wide text-[#888] font-semibold">
+                          {featured.destination}
+                        </span>
+                      )}
+                    </div>
+                    <h2 className="text-2xl md:text-3xl xl:text-4xl font-bold text-[#222] group-hover:text-[#BD3E2B] transition leading-snug">
+                      {featured.title}
+                    </h2>
+                    <p className="text-base md:text-lg text-[#585858] leading-relaxed line-clamp-4">
+                      {featured.excerpt}
                     </p>
                     <div className="text-xs text-[#888] mt-2">
-                      {new Date(publishedAt).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
+                      {featured.authorName ? `By ${featured.authorName} · ` : ""}
+                      {formatDate(featured.publishedAt || featured.createdAt)}
                       {" · "}
-                      {readTime} min read
+                      {estimateReadTime(featured.content)} min read
                     </div>
+                    <span className="text-[#BD3E2B] font-semibold mt-2 inline-flex items-center gap-1">
+                      Read article
+                      <span className="transition-transform group-hover:translate-x-1">→</span>
+                    </span>
                   </div>
-                </Link>
-              );
-            })}
-          </div>
+                </div>
+              </Link>
+            )}
+
+            {/* Rest grid */}
+            {rest.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {rest.map((post) => {
+                  const publishedAt = post.publishedAt || post.createdAt;
+                  const readTime = estimateReadTime(post.content);
+                  return (
+                    <Link
+                      key={post.slug}
+                      href={`/blog/${post.slug}`}
+                      className="group rounded-2xl overflow-hidden border border-[#E7E6E6] hover:shadow-lg transition flex flex-col bg-white"
+                    >
+                      <div className="relative w-full aspect-[16/10] bg-[#F5F5F5]">
+                        <Image
+                          src={post.coverImageUrl || FALLBACK_COVER}
+                          alt={post.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          style={{ objectFit: "cover" }}
+                        />
+                      </div>
+                      <div className="p-5 flex flex-col gap-2 flex-1">
+                        <span className="text-xs uppercase tracking-wide text-[#BD3E2B] font-semibold">
+                          {post.destination || post.tags?.[0] || "Article"}
+                        </span>
+                        <h4 className="text-lg font-bold text-[#333333] group-hover:text-[#BD3E2B] transition line-clamp-2">
+                          {post.title}
+                        </h4>
+                        <p className="text-sm text-[#585858] line-clamp-3 flex-1">
+                          {post.excerpt}
+                        </p>
+                        <div className="text-xs text-[#888] mt-2">
+                          {formatDate(publishedAt)}
+                          {" · "}
+                          {readTime} min read
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </>
         )}
       </div>
       <JoinNewSletter />

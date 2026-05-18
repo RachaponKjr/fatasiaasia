@@ -64,8 +64,9 @@ export async function getGuideBySlug(slug: string): Promise<Article | null> {
   return data && data.isPublished ? data : null;
 }
 
-/** Estimate read time from content (~200 wpm). */
+/** Estimate read time from content (~200 wpm). Strips HTML tags first. */
 export function estimateReadTime(content: string): number {
-  const words = String(content || "").trim().split(/\s+/).filter(Boolean).length;
+  const text = String(content || "").replace(/<[^>]+>/g, " ");
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
 }
