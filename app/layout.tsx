@@ -37,7 +37,6 @@ export default function RootLayout({
       >
         <SmoothScroll />
         <Navbar />
-        <div className="w-full h-[1px] bg-[#C5C5C5]" />
         {children}
         <Footer />
         <CookieConsent />

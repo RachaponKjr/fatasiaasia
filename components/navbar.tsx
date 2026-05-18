@@ -181,9 +181,40 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authStatus, setAuthStatus] = useState<string | null>(null);
   const [navbarAvatar, setNavbarAvatar] = useState<string | null>(null);
+  const [hidden, setHidden] = useState(false);
   const { logout, user } = useProfile();
   const { wishlist: wishlistItems } = useWishlist();
   const router = useRouter();
+
+  // Hide on scroll-down, reveal on scroll-up
+  useEffect(() => {
+    let lastY = typeof window !== "undefined" ? window.scrollY : 0;
+    let ticking = false;
+    const THRESHOLD = 8; // ignore tiny jitter
+    const REVEAL_AT_TOP = 80; // always show near the top
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const delta = y - lastY;
+
+        if (y < REVEAL_AT_TOP) {
+          setHidden(false);
+        } else if (Math.abs(delta) > THRESHOLD) {
+          // mobile menu open? always keep visible
+          setHidden((prev) => (mobileMenuOpen ? false : delta > 0));
+        }
+
+        lastY = y;
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [mobileMenuOpen]);
 
   // Load avatar from localStorage
   useEffect(() => {
@@ -224,7 +255,12 @@ const Navbar = () => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div className="flex items-center container mx-auto px-4 md:px-0 py-6 z-50 relative">
+    <header
+      className={`sticky top-0 z-50 bg-white border-b border-[#C5C5C5] transition-transform duration-300 ease-in-out will-change-transform ${
+        hidden ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
+      <div className="flex items-center container mx-auto px-4 md:px-0 py-6 z-50 relative">
       {/* Logo */}
       <div className="flex-1">
         <Image
@@ -686,6 +722,7 @@ const Navbar = () => {
         )
       }
     </div >
+    </header>
   );
 };
 
