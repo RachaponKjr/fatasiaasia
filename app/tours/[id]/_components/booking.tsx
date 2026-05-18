@@ -19,7 +19,9 @@ import { useRouter } from "next/navigation";
 import { useBooking } from "@/store/booking-store";
 import { TourDetail } from "@/types/tour.type";
 import { useWishlist } from "@/hooks/useWishlist";
+import { useProfile } from "@/hooks/useProfile";
 import { formatNumber } from "@/utils/format";
+import { computeBookingTotal, parseTourMeta } from "@/utils/tour-meta";
 
 const Booking = ({
   tourId,
@@ -30,6 +32,11 @@ const Booking = ({
 }) => {
   const router = useRouter();
   const { addToWishlist, removeFromWishlist, fetchWishlist } = useWishlist();
+  const { user } = useProfile();
+  // Backend pre-swaps `estimateCostPerPerson` to the THB tour-operator price
+  // when the authenticated user is a `tour_agency`. We only switch the symbol.
+  const isAgency = user?.userType === "tour_agency";
+  const sym = isAgency ? "\u0e3f" : "$";
   const [dialogBooking, setDialogBooking] = useState<boolean>(false);
   const { setBooking, booking, resetBooking } = useBooking();
   const [isWishlisted, setIsWishlisted] = useState(tourdetail?.isWishlist);
@@ -66,16 +73,30 @@ const Booking = ({
     );
   }
 
+  const meta = parseTourMeta(tourdetail?.tourDetails?.included);
+  const adultPrice = Number(tourdetail?.estimateCostPerPerson) || 0;
+  const total = computeBookingTotal({
+    adultTickets: booking.adultTickets || 0,
+    childTickets: booking.childTickets || 0,
+    adultPrice,
+    childPrice: isAgency ? undefined : meta.childPrice,
+  });
+
   return (
     <div className="p-7 border shrink-0 sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] h-max shadow-[0px_10px_40px_0px_#000000]/5">
       <h6 className="text-sm">
         Estimated cost{" "}
         <strong className="text-lg">
-          ${formatNumber(tourdetail?.estimateCostPerPerson)}{" "}
+          {sym}{formatNumber(adultPrice)}{" "}
         </strong>
         /per person
       </h6>
-      <span className="text-xs">
+      {isAgency && (
+        <div className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#0a0a0a] bg-[#FEF3C7] border border-[#FDE68A] rounded-full px-2 py-[2px]">
+          Tour-operator price (THB)
+        </div>
+      )}
+      <span className="text-xs block mt-1">
         *Please note that prices may vary based on circumstances.
       </span>
       <div className="border border-[#DDDDDD] rounded-[12px] p-[10px] flex gap-[10px] my-4">
@@ -130,13 +151,14 @@ const Booking = ({
       <div className="flex justify-between items-center mb-4">
         <h6 className="text-lg font-medium">Total</h6>
         <h6 className="text-2xl font-bold text-[#BD3E2B]">
-          $
-          {formatNumber(
-            (booking.adultTickets + booking.childTickets) *
-            (tourdetail?.estimateCostPerPerson || 0)
-          )}
+          {sym}{formatNumber(total)}
         </h6>
       </div>
+      {meta.childPrice !== undefined && !isAgency && (
+        <p className="text-xs text-[#585858] -mt-3 mb-3">
+          Child price: ${formatNumber(meta.childPrice)} per child
+        </p>
+      )}
 
       <div className="h-[1px] w-full bg-[#E7E6E6]" />
       <div className="flex items-center gap-6 mt-4">
@@ -162,7 +184,11 @@ const Booking = ({
               Bali on a Shoestring 7 Days 6 nights
             </DialogTitle>
             {/* Form */}
-            <FormBooking booking={booking} setBooking={setBooking} />
+            <FormBooking
+              booking={booking}
+              setBooking={setBooking}
+              availableWeekdays={meta.availableWeekdays}
+            />
             <DialogFooter className="h-14 flex flex-row lg:flex-col  font-medium [&>button]:rounded-[12px]">
               <Button
                 onClick={() => setDialogBooking(false)}

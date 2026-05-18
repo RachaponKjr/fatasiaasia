@@ -139,17 +139,6 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
           </div>
           <div>
             <span className="text-xs lg:text-lg">
-              Visit Time:{" "}
-              {booking.visitTime
-                ? new Date(booking.visitTime * 1000).toLocaleTimeString(
-                    "en-US",
-                    { hour: "2-digit", minute: "2-digit" }
-                  )
-                : "Not specified"}
-            </span>
-          </div>
-          <div>
-            <span className="text-xs lg:text-lg">
               {(booking.adultTickets || 0) +
                 (booking.childTickets || 0) +
                 (booking.infantTickets || 0)}{" "}

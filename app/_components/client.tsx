@@ -25,7 +25,7 @@ const defaultTestimonials = [
   {
     id: "default-2",
     name: "Nona Margareta",
-    review: "Nothing to complain. It's the best tour experience we had. Safety first priority and hospitality. Alice and Silvia took us to the beach. Sent us with warm smile. Meanwhile Pluto treated us just like a long time friends. Defenetly we left our heart here. Massive thanks to all team. We will come back again.",
+    review: "Nothing to complain. It's the best tour experience we had. Safety first priority and hospitality. Alice and Silvia took us to the beach. Sent us with warm smile. Meanwhile Pluto treated us just like a long time friends. Definitely we left our heart here. Massive thanks to all team. We will come back again.",
     location: "Netherlands",
     createdAt: "2024-01-02"
   },
@@ -46,7 +46,7 @@ const defaultTestimonials = [
   {
     id: "default-5",
     name: "Stefano P.",
-    review: "Brilliant bespoke service provided by skilled and fun-to-be with staff in Krabi. Highly reccomended for your trip!",
+    review: "Brilliant bespoke service provided by skilled and fun-to-be-with staff in Krabi. Highly recommended for your trip!",
     location: "Italy",
     createdAt: "2024-01-05"
   },

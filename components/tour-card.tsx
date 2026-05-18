@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Tour } from "@/types/tour.type";
 import { useWishlist } from "@/hooks/useWishlist";
+import { useProfile } from "@/hooks/useProfile";
 import Cookies from "js-cookie";
 import {
   Dialog,
@@ -33,6 +34,11 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
     addToWishlist,
     removeFromWishlist,
   } = useWishlist();
+  const { user } = useProfile();
+  // Backend pre-swaps `estimateCostPerPerson` to the THB tour-operator price
+  // for `tour_agency` users. Client just switches the currency symbol.
+  const isAgency = user?.userType === "tour_agency";
+  const priceSym = isAgency ? "\u0e3f" : "$";
   const [countryImage, setCountryImage] = useState<string>(thai.src);
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -162,9 +168,14 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
             <div className="text-[#7D7D7D] font-normal text-[13px] flex gap-2 mt-2">
               <h6>estimate</h6>
               <span className="text-sm font-medium text-[#2F2F2F]">
-                ${formatNumber(wishlist.estimateCostPerPerson)}
+                {priceSym}{formatNumber(wishlist.estimateCostPerPerson)}
               </span>
               <h6>/person</h6>
+              {isAgency && (
+                <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-[#0a0a0a] bg-[#FEF3C7] border border-[#FDE68A] rounded-full px-2 py-[1px] self-center">
+                  Operator
+                </span>
+              )}
             </div>
           </div>
         </div>

@@ -23,6 +23,8 @@ import Gallery from "./images-show";
 import Booking from "./booking";
 import { TourDetail } from "@/types/tour.type";
 import Link from "next/link";
+import { Star } from "lucide-react";
+import { parseTourMeta } from "@/utils/tour-meta";
 const InfomationTour = ({
   tourDetail,
   id,
@@ -31,6 +33,8 @@ const InfomationTour = ({
   id: string;
 }) => {
   const included = tourDetail?.tourDetails?.included || [];
+  const tourMeta = parseTourMeta(included);
+  const hotels = tourMeta.hotels || [];
   let durationVal = "Half-Day";
   let groupSizeVal = "Max 10 people";
   let agesVal = "18-65 yrs";
@@ -209,7 +213,7 @@ const InfomationTour = ({
             />
           </div>
         </div>
-        {/* ltinerary */}
+        {/* Itinerary */}
         <div className="flex flex-col gap-2 xl:gap-6 text-[#333333] w-full">
           <h4 className="font-bold text-xl xl:text-3xl">Itinerary</h4>
           <div className="w-full ">
@@ -227,11 +231,11 @@ const InfomationTour = ({
                     <div dangerouslySetInnerHTML={{ __html: item.detail }} />
                     {item.images && item.images.length > 0 && (
                       <div>
-                        {item.images.filter((img) => img && img.trim() !== "").map((image, index) => (
+                        {item.images.filter((img) => img && img.trim() !== "").map((image, imgIndex) => (
                           <Image
-                            key={index}
+                            key={imgIndex}
                             src={`${image}`}
-                            alt=""
+                            alt={`Day ${index + 1} itinerary photo ${imgIndex + 1}`}
                             width={500}
                             height={500}
                           />
@@ -290,6 +294,75 @@ const InfomationTour = ({
             </div>
           </div>
         </div>
+
+        {/* Accommodation */}
+        {hotels.length > 0 && (
+          <div className="flex flex-col gap-6 text-[#333333] w-full">
+            <div className="flex flex-col gap-2">
+              <h4 className="font-bold text-xl xl:text-3xl">Where You&apos;ll Stay</h4>
+              <p className="text-sm xl:text-base text-[#555555]">
+                These are the hotels we&apos;ve hand-picked for this tour. Pricing
+                varies by date and room type &mdash; please contact us and we&apos;ll
+                arrange the perfect stay for you.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 xl:gap-6">
+              {hotels.map((h, i) => (
+                <div
+                  key={h.id ?? `${h.name}-${i}`}
+                  className="flex flex-col rounded-2xl overflow-hidden bg-white border border-[#E5E7EB] shadow-sm"
+                >
+                  {h.image ? (
+                    <div className="relative w-full aspect-[4/3] bg-neutral-100">
+                      <Image
+                        src={h.image}
+                        alt={h.name}
+                        fill
+                        className="object-cover"
+                        sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      />
+                    </div>
+                  ) : null}
+                  <div className="flex flex-col gap-3 p-4 xl:p-5 flex-1">
+                    <div className="flex flex-col gap-1">
+                      <h5 className="font-bold text-lg xl:text-xl text-[#111827]">
+                        {h.name}
+                      </h5>
+                      {h.locationName || h.location ? (
+                        <p className="text-sm text-[#6B7280]">
+                          {h.locationName || h.location}
+                        </p>
+                      ) : null}
+                      {h.stars ? (
+                        <div className="flex items-center gap-0.5 mt-1">
+                          {Array.from({ length: Math.min(5, Number(h.stars) || 0) }).map((_, idx) => (
+                            <Star
+                              key={idx}
+                              size={16}
+                              className="fill-[#F5B301] text-[#F5B301]"
+                            />
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+                    {h.description ? (
+                      <p className="text-sm text-[#4B5563] line-clamp-3">
+                        {h.description}
+                      </p>
+                    ) : null}
+                    <div className="mt-auto pt-2">
+                      <Link href="/contact" className="inline-block w-full">
+                        <Button className="w-full bg-[#319E8B] hover:bg-[#27806f] text-white">
+                          Contact us to arrange your stay
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Tour Map */}
         {/* <div className="flex flex-col gap-6 text-[#333333] w-full">

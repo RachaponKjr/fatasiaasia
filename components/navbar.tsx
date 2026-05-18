@@ -39,6 +39,8 @@ const LinkList = [
   { link: "About", path: "/about" },
   { link: "Tours", path: "/tours" },
   { link: "Destinations", path: "/destinations" },
+  { link: "Blog", path: "/blog" },
+  { link: "Guides", path: "/guides" },
   { link: "Contact", path: "/contact" },
 ];
 

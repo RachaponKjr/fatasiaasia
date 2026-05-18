@@ -72,7 +72,10 @@ function formatTourDateRange(startDate: string, endDate: string): string {
 }
 
 function formatNumber(amount: number) {
-  return amount.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  return amount.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 }
 
 export { formatDate, formatTime, formatTourDateRange, formatNumber };

@@ -3,7 +3,6 @@ import { StepProgress } from "@/components/step-progress";
 import React, { useState } from "react";
 import FormBooking from "../../_components/form-booking";
 import CalenderIcon from "@/assets/icons/calender";
-import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import InfoUser from "./info-user";
 import ConBooking from "./con-booking";
@@ -12,12 +11,14 @@ import Image from "next/image";
 
 import { useBooking } from "@/store/booking-store";
 import { TourDetail } from "@/types/tour.type";
-import { formatDate, formatTime } from "@/utils/format";
+import { formatDate } from "@/utils/format";
+import { parseTourMeta } from "@/utils/tour-meta";
 import { toast } from "sonner";
 
 const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
   const [step, setStep] = useState<number>(1);
   const { booking, setBooking } = useBooking();
+  const meta = parseTourMeta(tourDetail?.tourDetails?.included);
   const steps = [
     { id: 1, title: "Booking Details" },
     { id: 2, title: "Your Details" },
@@ -79,7 +80,11 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
       </div>
       <div className="grid grid-cols-1 p-4 lg:p-0 lg:grid-cols-2 gap-[20px] lg:gap-[120px]">
         {step === 1 && (
-          <FormBooking booking={booking} setBooking={setBooking} />
+          <FormBooking
+            booking={booking}
+            setBooking={setBooking}
+            availableWeekdays={meta.availableWeekdays}
+          />
         )}
         {step === 2 && <InfoUser setStep={setStep} />}
         {step === 3 && <ConBooking tourDetail={tourDetail} setStep={setStep} />}
@@ -108,12 +113,6 @@ const BookingPage = ({ tourDetail }: { tourDetail: TourDetail }) => {
                     <CalenderIcon opacity={1} color="#BD3E2B" size={24} />
                     <span className="font-semibold text-xs lg:text-lg text-[#333333]">
                       {booking.startDate ? formatDate(booking.startDate) : "Select a date"}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <Clock color="#BD3E2B" strokeWidth={1} size={24} />
-                    <span className="font-semibold text-xs lg:text-lg text-[#333333]">
-                      {booking.visitTime ? formatTime(booking.visitTime) : "Select a time"}
                     </span>
                   </div>
                 </div>

@@ -17,12 +17,15 @@ export function DatePicker({
   label,
   value,
   onChange,
+  disabledWeekdays,
 }: {
   label?: string;
   /** รับค่า timestamp (วินาที) */
   value?: number;
   /** ส่งค่า timestamp (วินาที) ออกไปเมื่อเปลี่ยน */
   onChange?: (timestamp: number) => void;
+  /** Weekdays (0=Sun..6=Sat) that should NOT be selectable. */
+  disabledWeekdays?: number[];
 }) {
   const [date, setDate] = React.useState<Date | undefined>(
     value ? new Date(value * 1000) : undefined
@@ -74,7 +77,9 @@ export function DatePicker({
             disabled={(date) => {
               const today = new Date();
               today.setHours(0, 0, 0, 0);
-              return date < today;
+              if (date < today) return true;
+              if (disabledWeekdays && disabledWeekdays.includes(date.getDay())) return true;
+              return false;
             }}
             selected={date}
             onSelect={handleSelect}

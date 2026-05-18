@@ -70,7 +70,7 @@ const page = () => {
           </div>
           <div className="bg-white px-4 xl:px-12 py-10 xl:py-20 shadow-[0px_0px_25px_0px_#000000]/10  border border-[#BDBDBD] rounded-[8px] flex flex-col gap-[50px]">
             <div className="w-full [&>input]:rounded-xl [&>input]:h-[50px] h-max [&>input]:border [&>input]:border-[#828282] [&>input]:bg-[#F9F9F9] grid grid-cols-2 gap-6">
-              <Input placeholder="Firet Name*" size={30} />
+              <Input placeholder="First Name*" size={30} />
               <Input placeholder="Last Name*" />
               <Input placeholder="Email*" className="col-span-2" />
               <Input placeholder="Phone Number*" className="col-span-2" />

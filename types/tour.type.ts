@@ -49,6 +49,10 @@ export const TourDetailSchama = z.object({
     ages: z.string().optional(),
     languages: z.string().optional(),
     tourCategory: z.string().optional(),
+    /** Derived client-side from META_CHILDPRICE in `included`. */
+    childPrice: z.number().optional(),
+    /** Derived client-side from META_WEEKDAYS in `included`. */
+    availableWeekdays: z.array(z.number()).optional(),
   }),
 });
 

@@ -18,7 +18,7 @@ const Adventure = () => {
       slug: "beach",
     },
     {
-      name: "Culture History and Traditions",
+      name: "Culture, History and Traditions",
       icon: culture,
       slug: "culture",
     },
