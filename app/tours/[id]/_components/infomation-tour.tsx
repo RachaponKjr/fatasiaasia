@@ -103,6 +103,10 @@ const InfomationTour = ({
     if (item.text.startsWith("META_REGION:")) {
       return false;
     }
+    // Catch-all: hide any other META_* markers (CHILDPRICE, WEEKDAYS, HOTELS_JSON, etc.)
+    if (item.text.startsWith("META_")) {
+      return false;
+    }
     return true;
   });
 
