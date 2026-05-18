@@ -11,7 +11,6 @@ import ToursClient from "./_components/tours-client";
 const page = async () => {
   const response = await api.tour.getTour();
   const tour = response.data ?? [];
-
   // Fetch tour details for category filtering
   let tourDetails: any[] = [];
   if (tour.length > 0) {
@@ -25,7 +24,6 @@ const page = async () => {
     });
     tourDetails = await Promise.all(detailPromises);
   }
-
   return (
     <>
       <HeroLayout
