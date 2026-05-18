@@ -72,9 +72,15 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
       });
 
       if (bookingRes.code === 2000) {
-        setStep?.(4);
-        toast.success("Booking submitted successfully!");
-      } else if (bookingRes.code === 401 || bookingRes.code === 4001) {
+        toast.success("Booking submitted! Awaiting confirmation.");
+        const newId = bookingRes.data?.bookingId;
+        if (newId) {
+          router.push(`/profile/booking/${newId}`);
+        } else {
+          // Fallback if backend didn't return id (older deploy)
+          setStep?.(4);
+        }
+      } else if (bookingRes.code === 401 || bookingRes.code === 4001 || bookingRes.code === 4010) {
         // Only redirect to login for authentication errors
         toast.error("Please log in to complete your booking", {
           className: "!text-red-500",

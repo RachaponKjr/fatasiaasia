@@ -37,3 +37,43 @@ export const MyBookingSchema = z.object({
 
 export type BookingReq = z.infer<typeof BookingReqSchema>;
 export type MyBooking = z.infer<typeof MyBookingSchema>;
+
+export type BookingDetail = {
+  bookingId: number;
+  tourId: number;
+  tourTitle: string;
+  country: string;
+  thumbnail: string;
+  startDate: string;
+  visitTime?: string | null;
+  adultTickets: number;
+  childTickets: number;
+  infantTickets: number;
+  totalTravellers: number;
+  totalPrice: number | null;
+  currency: string;
+  bookingStatus:
+    | "pending"
+    | "confirmed"
+    | "paid"
+    | "completed"
+    | "declined"
+    | "cancelled";
+  paymentUrl: string | null;
+  declineReason: string | null;
+  bookingFirstname: string;
+  bookingSurname: string;
+  bookingEmail: string;
+  bookingPhone: string;
+  bookingAddress: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type BookingMessage = {
+  messageId: number;
+  bookingId: number;
+  senderType: "customer" | "admin" | "system";
+  body: string;
+  createdAt: string;
+};
