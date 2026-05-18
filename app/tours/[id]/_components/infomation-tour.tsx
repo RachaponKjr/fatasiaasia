@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/accordion";
 import Gallery from "./images-show";
 import Booking from "./booking";
+import Reviews from "./reviews";
 import { TourDetail } from "@/types/tour.type";
 import Link from "next/link";
 import { Star } from "lucide-react";
@@ -377,6 +378,80 @@ const InfomationTour = ({
                 />
               </div>
             </div> */}
+
+        {/* ---- v2 invoice scope: FAQs, Travel Tips, Packing List, Map, Reviews ---- */}
+        {Array.isArray(tourDetail?.tourDetails?.travelTips) &&
+          tourDetail.tourDetails.travelTips.length > 0 && (
+            <div className="flex flex-col gap-4 text-[#333333] w-full">
+              <h4 className="font-bold text-2xl xl:text-3xl">Travel Tips</h4>
+              <ul className="list-disc pl-6 flex flex-col gap-2">
+                {tourDetail.tourDetails.travelTips.map((t, i) => (
+                  <li key={i}>{t}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+        {Array.isArray(tourDetail?.tourDetails?.packingList) &&
+          tourDetail.tourDetails.packingList.length > 0 && (
+            <div className="flex flex-col gap-4 text-[#333333] w-full">
+              <h4 className="font-bold text-2xl xl:text-3xl">What to Pack</h4>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {tourDetail.tourDetails.packingList.map((item, i) => (
+                  <li key={i} className="flex gap-2 items-start">
+                    <Check className="w-5 h-5 text-[#319E8B] mt-0.5 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+        {Array.isArray(tourDetail?.tourDetails?.faqs) &&
+          tourDetail.tourDetails.faqs.length > 0 && (
+            <div className="flex flex-col gap-4 text-[#333333] w-full">
+              <h4 className="font-bold text-2xl xl:text-3xl">FAQs</h4>
+              <Accordion type="multiple" className="gap-3 flex flex-col w-full">
+                {tourDetail.tourDetails.faqs.map((faq, i) => (
+                  <AccordionItem
+                    key={i}
+                    value={`faq-${i}`}
+                    className="border rounded-2xl px-4"
+                  >
+                    <AccordionTrigger className="font-semibold">
+                      {faq.q}
+                    </AccordionTrigger>
+                    <AccordionContent>{faq.a}</AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          )}
+
+        {tourDetail?.tourDetails?.coordinates &&
+          typeof tourDetail.tourDetails.coordinates.lat === "number" &&
+          typeof tourDetail.tourDetails.coordinates.lng === "number" && (
+            <div className="flex flex-col gap-4 text-[#333333] w-full">
+              <h4 className="font-bold text-2xl xl:text-3xl">Tour Map</h4>
+              <div className="w-full aspect-[16/10] rounded-3xl overflow-hidden border">
+                <iframe
+                  title="Tour location"
+                  width="100%"
+                  height="100%"
+                  loading="lazy"
+                  src={`https://www.openstreetmap.org/export/embed.html?bbox=${
+                    tourDetail.tourDetails.coordinates.lng - 0.05
+                  }%2C${tourDetail.tourDetails.coordinates.lat - 0.05}%2C${
+                    tourDetail.tourDetails.coordinates.lng + 0.05
+                  }%2C${tourDetail.tourDetails.coordinates.lat + 0.05}&layer=mapnik&marker=${
+                    tourDetail.tourDetails.coordinates.lat
+                  }%2C${tourDetail.tourDetails.coordinates.lng}`}
+                />
+              </div>
+            </div>
+          )}
+
+        <Reviews tourId={Number(id)} />
       </div>
       {/* booking */}
       <Booking tourId={Number(id)} tourdetail={tourDetail as TourDetail} />

@@ -53,6 +53,18 @@ export const TourDetailSchama = z.object({
     childPrice: z.number().optional(),
     /** Derived client-side from META_WEEKDAYS in `included`. */
     availableWeekdays: z.array(z.number()).optional(),
+    // ---- v2 invoice scope additions ----
+    faqs: z
+      .array(z.object({ q: z.string(), a: z.string() }))
+      .optional(),
+    travelTips: z.array(z.string()).optional(),
+    packingList: z.array(z.string()).optional(),
+    coordinates: z
+      .object({ lat: z.number(), lng: z.number() })
+      .nullable()
+      .optional(),
+    operatorEmail: z.string().optional(),
+    hotelEmails: z.array(z.string()).optional(),
   }),
 });
 

@@ -28,6 +28,44 @@ const FormSignUp = () => {
     password: "",
     confirmPassword: "",
   });
+  // Optional B2B agency code. We validate against the public endpoint
+  // /agency-code/validate/:code on blur. If valid, the back-end will
+  // mark the new user as user_type=tour_agency on OTP verification so
+  // future bookings get the agency price tier.
+  const [agencyCode, setAgencyCode] = useState<string>("");
+  const [agencyCodeStatus, setAgencyCodeStatus] = useState<
+    null | { ok: true; label: string; discount: number } | { ok: false; reason: string }
+  >(null);
+  const [agencyCodeChecking, setAgencyCodeChecking] = useState(false);
+
+  const validateAgencyCode = async () => {
+    const code = agencyCode.trim().toUpperCase();
+    if (!code) {
+      setAgencyCodeStatus(null);
+      return;
+    }
+    setAgencyCodeChecking(true);
+    try {
+      const base =
+        process.env.NEXT_PUBLIC_API_BASE_URL ||
+        "https://tour-user-api-9wbcs.ondigitalocean.app";
+      const res = await fetch(`${base}/agency-code/validate/${encodeURIComponent(code)}`);
+      const json = await res.json();
+      if (json?.code === 2000 && json?.data?.code) {
+        setAgencyCodeStatus({
+          ok: true,
+          label: json.data.label || code,
+          discount: Number(json.data.discountPercent) || 0,
+        });
+      } else {
+        setAgencyCodeStatus({ ok: false, reason: json?.message || "Code not recognised" });
+      }
+    } catch {
+      setAgencyCodeStatus({ ok: false, reason: "Could not verify code right now" });
+    } finally {
+      setAgencyCodeChecking(false);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -97,6 +135,7 @@ const FormSignUp = () => {
         lastName: sign.lastName,
         email: sign.email,
         password: sign.password,
+        agencyCode: agencyCode.trim().toUpperCase(),
       };
       const signupRes = await api.auth.signup({ payload });
       if (signupRes.code !== 2000) {
@@ -166,6 +205,29 @@ const FormSignUp = () => {
               onChange={handleChange}
               placeholder="Confirm password"
             />
+            <div className="flex flex-col gap-1">
+              <Input
+                name="agencyCode"
+                value={agencyCode}
+                onChange={(e) => {
+                  setAgencyCode(e.target.value);
+                  setAgencyCodeStatus(null);
+                }}
+                onBlur={validateAgencyCode}
+                placeholder="Agency code (optional)"
+              />
+              {agencyCodeChecking && (
+                <span className="text-xs text-gray-500">Checking code…</span>
+              )}
+              {agencyCodeStatus?.ok && (
+                <span className="text-xs text-green-600">
+                  ✓ {agencyCodeStatus.label} — {agencyCodeStatus.discount}% agency rate
+                </span>
+              )}
+              {agencyCodeStatus && !agencyCodeStatus.ok && (
+                <span className="text-xs text-red-500">{agencyCodeStatus.reason}</span>
+              )}
+            </div>
 
             <Button
               type="submit"
