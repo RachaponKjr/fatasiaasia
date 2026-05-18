@@ -38,18 +38,26 @@ const Footer = () => {
         </div>
         <div className="grid grid-cols-2 md:flex md:flex-wrap lg:flex-nowrap gap-6 md:gap-8 lg:gap-0 justify-between flex-1 lg:ml-16 xl:ml-24">
           <div className="flex flex-col gap-5">
-            <span className="text-xl font-semibold">Quick Link</span>
-            <ul className="flex flex-col gap-3 font-normal [&>li]:cursor-pointer">
+            <span className="text-xl font-semibold">Quick Links</span>
+            <ul className="flex flex-col gap-3 font-normal [&>li>a]:transition-colors [&>li>a:hover]:text-main">
               <li>
-                <Link href="/about">About Us</Link>
+                <Link href="/">Home</Link>
+              </li>
+              <li>
+                <Link href="/tours">Tour Packages</Link>
               </li>
               <li>
                 <Link href="/destinations">Destinations</Link>
               </li>
               <li>
-                <Link href="/tours">Tour Package</Link>
+                <Link href="/guides">Travel Guides</Link>
               </li>
-
+              <li>
+                <Link href="/blog">Blog</Link>
+              </li>
+              <li>
+                <Link href="/about">About Us</Link>
+              </li>
               <li>
                 <Link href="/contact">Contact Us</Link>
               </li>
