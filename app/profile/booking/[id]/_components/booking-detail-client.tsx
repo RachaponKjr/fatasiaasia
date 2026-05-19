@@ -263,20 +263,92 @@ export default function BookingDetailClient({
               );
             }
             const mine = m.senderType === "customer";
+            const atts = Array.isArray(m.attachments) ? m.attachments : [];
+            const hasBody = !!(m.body && m.body.trim());
             return (
               <div
                 key={m.messageId}
-                className={`max-w-[78%] ${mine ? "self-end" : "self-start"}`}
+                className={`max-w-[78%] flex flex-col gap-1 ${
+                  mine ? "self-end items-end" : "self-start items-start"
+                }`}
               >
-                <div
-                  className={`px-4 py-2 rounded-2xl text-sm whitespace-pre-wrap ${
-                    mine
-                      ? "bg-[#BD3E2B] text-white rounded-br-sm"
-                      : "bg-white border border-gray-200 text-[#2F2F2F] rounded-bl-sm"
-                  }`}
-                >
-                  {m.body}
-                </div>
+                {hasBody && (
+                  <div
+                    className={`px-4 py-2 rounded-2xl text-sm whitespace-pre-wrap ${
+                      mine
+                        ? "bg-[#BD3E2B] text-white rounded-br-sm"
+                        : "bg-white border border-gray-200 text-[#2F2F2F] rounded-bl-sm"
+                    }`}
+                  >
+                    {m.body}
+                  </div>
+                )}
+                {atts.length > 0 && (
+                  <div className="flex flex-col gap-1.5 max-w-full">
+                    {atts.map((a) => {
+                      const isImage = (a.type || "").startsWith("image/");
+                      if (isImage) {
+                        return (
+                          <a
+                            key={`${m.messageId}-${a.url}`}
+                            href={a.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="block"
+                          >
+                            <img
+                              src={a.url}
+                              alt={a.name || "attachment"}
+                              className="max-w-[240px] max-h-[240px] rounded-xl border border-gray-200 object-cover"
+                            />
+                          </a>
+                        );
+                      }
+                      const sizeLabel = a.size
+                        ? (() => {
+                            const units = ["B", "KB", "MB", "GB"];
+                            let i = 0;
+                            let v = a.size;
+                            while (v >= 1024 && i < units.length - 1) {
+                              v /= 1024;
+                              i += 1;
+                            }
+                            return `${v.toFixed(
+                              v >= 10 || i === 0 ? 0 : 1
+                            )} ${units[i]}`;
+                          })()
+                        : "";
+                      return (
+                        <a
+                          key={`${m.messageId}-${a.url}`}
+                          href={a.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          download
+                          className={`inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm max-w-[280px] ${
+                            mine
+                              ? "bg-[#BD3E2B]/90 text-white border border-white/30"
+                              : "bg-white border border-gray-200 text-[#2F2F2F]"
+                          }`}
+                          title={a.name}
+                        >
+                          <span className="text-lg">📄</span>
+                          <span className="flex flex-col min-w-0 flex-1">
+                            <span className="truncate font-medium">
+                              {a.name || "Attachment"}
+                            </span>
+                            {sizeLabel && (
+                              <span className="text-[11px] opacity-70">
+                                {sizeLabel}
+                              </span>
+                            )}
+                          </span>
+                          <span className="text-xs opacity-80">↓</span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
                 <div
                   className={`text-[10px] text-gray-400 mt-1 ${
                     mine ? "text-right" : "text-left"

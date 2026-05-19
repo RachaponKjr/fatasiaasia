@@ -70,10 +70,18 @@ export type BookingDetail = {
   updatedAt: string;
 };
 
+export type MessageAttachment = {
+  url: string;
+  name: string;
+  type: string;
+  size: number;
+};
+
 export type BookingMessage = {
   messageId: number;
   bookingId: number;
   senderType: "customer" | "admin" | "system";
   body: string;
+  attachments?: MessageAttachment[] | null;
   createdAt: string;
 };
