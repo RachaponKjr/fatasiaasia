@@ -42,7 +42,7 @@ const page = async () => {
         </div>
 
         <Suspense
-          fallback={<div className="text-center py-20">Loading tours...</div>}
+          fallback={<div className="text-center py-20">Loading tours....</div>}
         >
           <ToursClient tours={tour} tourDetails={tourDetails} />
         </Suspense>
