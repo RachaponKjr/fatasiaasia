@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     domains: ["tour-space-bucket.sgp1.digitaloceanspaces.com"],
     unoptimized: true,
   },
+  // Hide the bottom-left dev tools "Rendering / Building" indicator pill.
+  // Dev-only; has no effect on production builds.
+  devIndicators: false,
   async headers() {
     // Prevent mobile browsers (and any intermediary) from serving a stale
     // HTML document for dynamic pages after a deploy or data change.
