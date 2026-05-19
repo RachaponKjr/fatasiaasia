@@ -1,14 +1,13 @@
 import LocationIcon from "@/assets/icons/location";
 import Phone2Icon from "@/assets/icons/phone2";
 import JoinNewSletter from "@/components/join-newsletter";
-import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import React from "react";
 import whatapp from "@/assets/images/whatapp.png";
 import Mail2Icon from "@/assets/icons/mail2";
-import { Button } from "@/components/ui/button";
 import HeroLayout from "../about/_components/hero-about";
 import contactUs from "@/assets/images/banner/contactUs.webp";
+import ContactForm from "./_components/contact-form";
 
 const page = () => {
   return (
@@ -68,21 +67,7 @@ const page = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white px-4 xl:px-12 py-10 xl:py-20 shadow-[0px_0px_25px_0px_#000000]/10  border border-[#BDBDBD] rounded-[8px] flex flex-col gap-[50px]">
-            <div className="w-full [&>input]:rounded-xl [&>input]:h-[50px] h-max [&>input]:border [&>input]:border-[#828282] [&>input]:bg-[#F9F9F9] grid grid-cols-2 gap-6">
-              <Input placeholder="First Name*" size={30} />
-              <Input placeholder="Last Name*" />
-              <Input placeholder="Email*" className="col-span-2" />
-              <Input placeholder="Phone Number*" className="col-span-2" />
-              <textarea
-                placeholder="Your message..."
-                className="w-full p-4 border border-[#828282] bg-[#F9F9F9] col-span-2 h-[176px] rounded-xl"
-              />
-            </div>
-            <Button className="cursor-pointer bg-gradient-to-r from-[#FFBA0A] to-[#DF6951] text-xl text-white col-span-2 h-[50px] rounded-full">
-              Send Message
-            </Button>
-          </div>
+          <ContactForm />
         </div>
         <JoinNewSletter />
       </div>
