@@ -36,16 +36,18 @@ const STATUS_LABEL: Record<
       "Great news — your booking is confirmed! Please complete payment using the button below to secure your spot.",
   },
   paid: {
-    label: "Paid",
+    label: "Paid — ready to travel",
     tone: "bg-emerald-50 text-emerald-800 ring-emerald-200",
     dot: "bg-emerald-500",
-    description: "Payment received. We can't wait to host you!",
+    description:
+      "Payment received — thank you! Watch this chat for your booking voucher, full itinerary, pickup details, and any trip documents. The team will share everything you need right here.",
   },
   completed: {
     label: "Completed",
     tone: "bg-slate-100 text-slate-700 ring-slate-200",
     dot: "bg-slate-400",
-    description: "This tour has been completed. We hope you enjoyed it!",
+    description:
+      "This trip is complete — we hope you had an amazing time! This conversation stays open so you can ask follow-up questions, request receipts, or book your next adventure.",
   },
   declined: {
     label: "Declined",
@@ -58,7 +60,8 @@ const STATUS_LABEL: Record<
     label: "Cancelled",
     tone: "bg-red-50 text-red-800 ring-red-200",
     dot: "bg-red-500",
-    description: "This booking has been cancelled.",
+    description:
+      "This booking has been cancelled. The chat remains open if you'd like to rebook or have any questions.",
   },
 };
 
@@ -185,6 +188,60 @@ export default function BookingDetailClient({
     style: "currency",
     currency: booking.currency || "USD",
   });
+
+  // Collect every file the team has sent across all messages so the customer
+  // has a one-click "my documents" view (vouchers, itineraries, etc).
+  const documents = useMemo(() => {
+    const out: Array<{
+      url: string;
+      name: string;
+      type: string;
+      size: number;
+      createdAt: string;
+    }> = [];
+    for (const m of messages) {
+      if (m.senderType !== "admin") continue;
+      const atts = Array.isArray(m.attachments) ? m.attachments : [];
+      for (const a of atts) {
+        out.push({
+          url: a.url,
+          name: a.name || "Attachment",
+          type: a.type || "",
+          size: a.size || 0,
+          createdAt: m.createdAt,
+        });
+      }
+    }
+    // Newest first.
+    out.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    return out;
+  }, [messages]);
+
+  // Steps shown in the "What's next" timeline. Visual completion is keyed off
+  // the booking status so the customer can see exactly where they are.
+  const timeline = useMemo(() => {
+    const order: BookingDetail["bookingStatus"][] = [
+      "pending",
+      "confirmed",
+      "paid",
+      "completed",
+    ];
+    const currentIdx = order.indexOf(booking.bookingStatus);
+    const steps = [
+      { key: "pending", label: "Request received" },
+      { key: "confirmed", label: "Confirmed by team" },
+      { key: "paid", label: "Payment received" },
+      { key: "completed", label: "Trip completed" },
+    ];
+    return steps.map((s, i) => ({
+      ...s,
+      done: currentIdx >= 0 && i <= currentIdx,
+      active: currentIdx >= 0 && i === currentIdx,
+    }));
+  }, [booking.bookingStatus]);
 
   // Sidebar list: active booking on top, then upcoming (pending/confirmed/paid)
   // by start date, then everything else by createdAt desc.
@@ -437,11 +494,18 @@ export default function BookingDetailClient({
                   💬
                 </div>
                 <div className="text-sm font-semibold text-[#2F2F2F]">
-                  Start the conversation
+                  {booking.bookingStatus === "paid"
+                    ? "Your trip documents will appear here"
+                    : booking.bookingStatus === "completed"
+                      ? "Anything we can help with?"
+                      : "Start the conversation"}
                 </div>
                 <div className="text-xs text-gray-500 mt-1">
-                  Ask about anything — pickup times, dietary needs,
-                  customisations. We usually reply within a few hours.
+                  {booking.bookingStatus === "paid"
+                    ? "Vouchers, the full itinerary, pickup time and meeting points will be sent to you in this chat. Feel free to ask any questions."
+                    : booking.bookingStatus === "completed"
+                      ? "This conversation stays open. Ask for receipts, leave feedback, or plan your next trip with us."
+                      : "Ask about anything — pickup times, dietary needs, customisations. We usually reply within a few hours."}
                 </div>
               </div>
             )}
@@ -520,9 +584,22 @@ export default function BookingDetailClient({
                   Pay {total} now →
                 </Link>
               )}
-              {booking.bookingStatus === "paid" && (
-                <div className="mt-4 inline-flex items-center gap-2 text-emerald-700 font-semibold text-sm">
-                  ✓ Payment received
+              {(booking.bookingStatus === "paid" ||
+                booking.bookingStatus === "completed") && (
+                <div className="mt-4 rounded-xl bg-emerald-50 border border-emerald-200 p-3 text-emerald-800">
+                  <div className="flex items-center gap-2 font-semibold text-sm">
+                    <span className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs">
+                      ✓
+                    </span>
+                    {booking.bookingStatus === "paid"
+                      ? "Payment confirmed"
+                      : "Trip completed"}
+                  </div>
+                  <div className="text-xs text-emerald-700 mt-1.5 leading-relaxed">
+                    {booking.bookingStatus === "paid"
+                      ? "Your vouchers and trip details will be delivered through the chat. You can return here anytime."
+                      : "Thanks for travelling with us! This page stays available so you can review documents or ask questions."}
+                  </div>
                 </div>
               )}
             </div>
@@ -539,6 +616,101 @@ export default function BookingDetailClient({
               </div>
             </div>
           )}
+
+          {/* Documents from the team */}
+          {documents.length > 0 && (
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  Documents & files
+                </div>
+                <span className="text-[10px] font-semibold text-[#BD3E2B] bg-[#BD3E2B]/10 px-1.5 py-0.5 rounded">
+                  {documents.length}
+                </span>
+              </div>
+              <div className="flex flex-col gap-2">
+                {documents.map((d) => {
+                  const isImage = d.type.startsWith("image/");
+                  return (
+                    <a
+                      key={`${d.url}-${d.createdAt}`}
+                      href={d.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      download
+                      className="flex items-center gap-3 px-3 py-2 rounded-xl border border-gray-100 hover:border-[#BD3E2B]/40 hover:bg-[#BD3E2B]/5 transition"
+                      title={d.name}
+                    >
+                      <span className="w-9 h-9 rounded-lg bg-[#BD3E2B]/10 text-[#BD3E2B] flex items-center justify-center text-base flex-shrink-0">
+                        {isImage ? "🖼️" : "📄"}
+                      </span>
+                      <span className="flex flex-col min-w-0 flex-1">
+                        <span className="truncate font-medium text-sm text-[#2F2F2F]">
+                          {d.name}
+                        </span>
+                        <span className="text-[11px] text-gray-500">
+                          {dayMonth(d.createdAt)}
+                          {d.size ? ` · ${formatBytes(d.size)}` : ""}
+                        </span>
+                      </span>
+                      <span className="text-gray-400">↓</span>
+                    </a>
+                  );
+                })}
+              </div>
+              <p className="mt-3 text-[11px] text-gray-500 leading-relaxed">
+                Every file the team shares in chat appears here for quick
+                access.
+              </p>
+            </div>
+          )}
+
+          {/* What's next timeline */}
+          {booking.bookingStatus !== "declined" &&
+            booking.bookingStatus !== "cancelled" && (
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+                <div className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-4">
+                  What's next
+                </div>
+                <ol className="flex flex-col gap-3">
+                  {timeline.map((s, i) => (
+                    <li key={s.key} className="flex gap-3 items-start">
+                      <div className="flex flex-col items-center">
+                        <span
+                          className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0 ${
+                            s.done
+                              ? "bg-[#BD3E2B] text-white"
+                              : "bg-gray-100 text-gray-400"
+                          } ${s.active ? "ring-4 ring-[#BD3E2B]/20" : ""}`}
+                        >
+                          {s.done ? "✓" : i + 1}
+                        </span>
+                        {i < timeline.length - 1 && (
+                          <span
+                            className={`w-0.5 flex-1 min-h-[20px] mt-1 ${
+                              s.done ? "bg-[#BD3E2B]/40" : "bg-gray-200"
+                            }`}
+                          />
+                        )}
+                      </div>
+                      <div className="pb-2">
+                        <div
+                          className={`text-sm ${
+                            s.active
+                              ? "font-semibold text-[#2F2F2F]"
+                              : s.done
+                                ? "text-[#2F2F2F]"
+                                : "text-gray-500"
+                          }`}
+                        >
+                          {s.label}
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
 
           {/* Trip summary */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
