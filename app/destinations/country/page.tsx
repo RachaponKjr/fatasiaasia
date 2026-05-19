@@ -233,7 +233,34 @@ world's most dynamic financial and cultural hubs.`,
     });
   }, [countryItem, tourDetails, selectedRegion]);
 
-  const regions = country ? countryRegions[country] || [] : [];
+  const regions = useMemo(() => {
+    if (!country) return [];
+    const base = countryRegions[country] || [
+      { name: "All Regions", slug: "" },
+    ];
+    // Collect every META_REGION value present on tours actually returned for
+    // this country so custom locations added by admin (e.g. "Pai") show up as
+    // filter pills automatically without needing a code change here.
+    const dynamic = new Set<string>();
+    tourDetails.forEach((detail) => {
+      const item = detail?.tourDetails?.included?.find(
+        (i: { text: string }) => i.text?.startsWith("META_REGION:")
+      );
+      if (!item) return;
+      item.text
+        .replace("META_REGION:", "")
+        .split(",")
+        .map((s: string) => s.trim())
+        .filter(Boolean)
+        .forEach((r: string) => dynamic.add(r));
+    });
+    const baseSlugs = new Set(base.map((r) => r.slug).filter(Boolean));
+    const extras = Array.from(dynamic)
+      .filter((r) => !baseSlugs.has(r))
+      .sort((a, b) => a.localeCompare(b))
+      .map((r) => ({ name: r, slug: r }));
+    return [...base, ...extras];
+  }, [country, tourDetails]);
   const data = country ? content[country] : null;
 
   return (
