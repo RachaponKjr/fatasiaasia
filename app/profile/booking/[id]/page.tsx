@@ -13,15 +13,27 @@ export default async function Page({
   const id = Number(idStr);
   if (!Number.isFinite(id) || id <= 0) notFound();
 
-  const res = await api.booking.getBookingDetail(id);
-  if (res.code !== 2000 || !res.data) {
+  // Fetch the focused booking + the customer's full booking list in parallel
+  // so the chat sidebar can render immediately without a client-side fetch.
+  const [detailRes, listRes] = await Promise.all([
+    api.booking.getBookingDetail(id),
+    api.booking.getMyBooking(),
+  ]);
+  if (detailRes.code !== 2000 || !detailRes.data) {
     notFound();
   }
 
+  const allBookings =
+    listRes.code === 2000 && Array.isArray(listRes.data) ? listRes.data : [];
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto max-w-5xl py-8 md:py-12 px-4">
-        <BookingDetailClient initialBooking={res.data} bookingId={id} />
+      <div className="container mx-auto max-w-[1400px] py-6 md:py-10 px-4">
+        <BookingDetailClient
+          initialBooking={detailRes.data}
+          bookingId={id}
+          allBookings={allBookings}
+        />
       </div>
     </div>
   );
