@@ -8,6 +8,19 @@ import TourCard from "@/components/tour-card";
 import { Tour } from "@/types/tour.type";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import {
+  getDestinationBySlug,
+  type Destination,
+} from "@/lib/destinations-api";
+
+// Slug helper kept in sync with the backend slugify so admin-created
+// destination names resolve correctly when clicked from the index.
+const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
 // Region configuration for each country
 const countryRegions: Record<string, { name: string; slug: string }[]> = {
@@ -103,6 +116,24 @@ const page = () => {
   const [tourDetails, setTourDetails] = useState<any[]>([]);
   const [selectedRegion, setSelectedRegion] = useState(regionParam);
   const [loading, setLoading] = useState(true);
+  // Destination record fetched from the admin API. Used to populate the hero
+  // title/description for admin-created destinations that aren't in the
+  // hardcoded `content` map below.
+  const [destination, setDestination] = useState<Destination | null>(null);
+
+  useEffect(() => {
+    if (!country) {
+      setDestination(null);
+      return;
+    }
+    let cancelled = false;
+    getDestinationBySlug(slugify(country)).then((d) => {
+      if (!cancelled) setDestination(d);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [country]);
 
   const content: Record<string, { title: string; description: string }> = {
     Thailand: {
@@ -261,11 +292,19 @@ world's most dynamic financial and cultural hubs.`,
       .map((r) => ({ name: r, slug: r }));
     return [...base, ...extras];
   }, [country, tourDetails]);
-  const data = country ? content[country] : null;
+  const data = country
+    ? content[country] ||
+      (destination
+        ? { title: destination.title || country, description: destination.description || "" }
+        : null)
+    : null;
 
   return (
     <div>
-      <HeroLayout className="!bg-[left_0px_top_-130px]" />
+      <HeroLayout
+        className="!bg-[left_0px_top_-130px]"
+        image={destination?.coverImageUrl || undefined}
+      />
       <div className="container mx-auto px-4 py-8 md:px-0 md:pt-24 md:pb-32 flex h-max flex-col items-center gap-16">
         {data ? (
           <>
