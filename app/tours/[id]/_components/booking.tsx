@@ -81,30 +81,39 @@ const Booking = ({
 
   const meta = parseTourMeta(tourdetail?.tourDetails?.included);
   const basePrice = Number(tourdetail?.estimateCostPerPerson) || 0;
-  const priceTiers = isAgency && Array.isArray(tourdetail?.priceTiers)
+  const priceTiers = Array.isArray(tourdetail?.priceTiers)
     ? (tourdetail.priceTiers || []).slice().sort((a, b) => a.minPax - b.minPax)
     : [];
   const totalPax =
     (booking.adultTickets || 0) +
     (booking.childTickets || 0) +
     (booking.infantTickets || 0);
-  // Pick the tier whose [minPax, maxPax] contains total pax (agency only).
+  // Resolve effective per-person price for a tier: fixed price wins, else % off base.
+  const tierEffective = (t: { pricePerPerson?: string; discountPercent?: string }) => {
+    const fixed = Number(t.pricePerPerson) || 0;
+    if (fixed > 0) return fixed;
+    const pct = Number(t.discountPercent) || 0;
+    if (pct > 0) return basePrice * (1 - pct / 100);
+    return 0;
+  };
+  // Pick the tier whose [minPax, maxPax] contains total pax.
   const matchedTier = priceTiers.find(
     (t) => totalPax >= t.minPax && totalPax <= t.maxPax,
   );
-  const tierPrice = matchedTier ? Number(matchedTier.pricePerPerson) || 0 : 0;
+  const tierPrice = matchedTier ? tierEffective(matchedTier) : 0;
   const perPersonPrice = matchedTier ? tierPrice : basePrice;
   // Lowest tier price (for "from {X}/person" headline).
   const fromTierPrice = priceTiers.length
-    ? Math.min(...priceTiers.map((t) => Number(t.pricePerPerson) || 0))
+    ? Math.min(...priceTiers.map((t) => tierEffective(t)).filter((n) => n > 0))
     : 0;
-  const headlinePrice =
-    isAgency && priceTiers.length
-      ? matchedTier
-        ? tierPrice
-        : fromTierPrice
-      : basePrice;
-  const total = isAgency
+  const headlinePrice = priceTiers.length
+    ? matchedTier
+      ? tierPrice
+      : (fromTierPrice || basePrice)
+    : basePrice;
+  const total = matchedTier
+    ? perPersonPrice * Math.max(totalPax, 1)
+    : isAgency
     ? perPersonPrice * Math.max(totalPax, 1)
     : computeBookingTotal({
         adultTickets: booking.adultTickets || 0,
@@ -116,7 +125,7 @@ const Booking = ({
   return (
     <div className="p-7 border shrink-0 sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] h-max shadow-[0px_10px_40px_0px_#000000]/5">
       <h6 className="text-sm">
-        {isAgency && priceTiers.length && !matchedTier ? "From " : "Estimated cost "}
+        {priceTiers.length && !matchedTier ? "From " : "Estimated cost "}
         <strong className="text-lg">
           {sym}{formatNumber(headlinePrice)}{" "}
         </strong>
@@ -127,6 +136,14 @@ const Booking = ({
           Tour-operator price ({(tourdetail?.currency || "").toUpperCase() || "THB"})
           {matchedTier && (
             <span> · {matchedTier.minPax}–{matchedTier.maxPax} pax tier</span>
+          )}
+        </div>
+      )}
+      {!isAgency && matchedTier && (
+        <div className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#0a0a0a] bg-[#DCFCE7] border border-[#BBF7D0] rounded-full px-2 py-[2px]">
+          {matchedTier.minPax}–{matchedTier.maxPax} pax group rate
+          {matchedTier.discountPercent && Number(matchedTier.discountPercent) > 0 && (
+            <span> · {matchedTier.discountPercent}% off</span>
           )}
         </div>
       )}

@@ -3,7 +3,8 @@ import z from "zod";
 export const PriceTierSchama = z.object({
   minPax: z.number(),
   maxPax: z.number(),
-  pricePerPerson: z.string(),
+  pricePerPerson: z.string().optional(),
+  discountPercent: z.string().optional(),
 });
 
 const TourSchama = z.object({

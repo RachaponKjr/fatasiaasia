@@ -167,15 +167,21 @@ const TourCard = ({ wishlist }: { wishlist: Tour }) => {
             </h2>
             <div className="text-[#7D7D7D] font-normal text-[13px] flex gap-2 mt-2">
               {(() => {
-                const tiers = isAgency && Array.isArray(wishlist.priceTiers)
-                  ? (wishlist.priceTiers || [])
-                  : [];
-                const fromPrice = tiers.length
-                  ? Math.min(...tiers.map((t) => Number(t.pricePerPerson) || 0))
-                  : Number(wishlist.estimateCostPerPerson) || 0;
+                const base = Number(wishlist.estimateCostPerPerson) || 0;
+                const rawTiers = Array.isArray(wishlist.priceTiers) ? (wishlist.priceTiers || []) : [];
+                const effective = rawTiers
+                  .map((t) => {
+                    const fixed = Number(t.pricePerPerson) || 0;
+                    if (fixed > 0) return fixed;
+                    const pct = Number(t.discountPercent) || 0;
+                    if (pct > 0 && base > 0) return base * (1 - pct / 100);
+                    return 0;
+                  })
+                  .filter((n) => n > 0);
+                const fromPrice = effective.length ? Math.min(...effective) : base;
                 return (
                   <>
-                    <h6>{tiers.length ? "from" : "estimate"}</h6>
+                    <h6>{effective.length ? "from" : "estimate"}</h6>
                     <span className="text-sm font-medium text-[#2F2F2F]">
                       {priceSym}{formatNumber(fromPrice)}
                     </span>
