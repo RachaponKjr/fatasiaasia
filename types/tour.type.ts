@@ -1,10 +1,18 @@
 import z from "zod";
 
+export const PriceTierSchama = z.object({
+  minPax: z.number(),
+  maxPax: z.number(),
+  pricePerPerson: z.string(),
+});
+
 const TourSchama = z.object({
   tourId: z.number(),
   title: z.string(),
   country: z.string(),
   estimateCostPerPerson: z.number(),
+  currency: z.string().optional(),
+  priceTiers: z.array(PriceTierSchama).optional().nullable(),
   thumbnail: z.string(),
   itinerariesDays: z.number(),
   isWishlist: z.boolean(),
@@ -34,6 +42,7 @@ export const TourDetailSchama = z.object({
   country: z.string(),
   estimateCostPerPerson: z.number(),
   currency: z.string(),
+  priceTiers: z.array(PriceTierSchama).optional().nullable(),
   overview: z.string(),
   isWishlist: z.boolean(),
   highlight: z.string(),

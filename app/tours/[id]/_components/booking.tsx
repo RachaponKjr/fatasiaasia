@@ -26,7 +26,7 @@ import { useBooking } from "@/store/booking-store";
 import { TourDetail } from "@/types/tour.type";
 import { useWishlist } from "@/hooks/useWishlist";
 import { useProfile } from "@/hooks/useProfile";
-import { formatNumber } from "@/utils/format";
+import { formatNumber, currencySymbol } from "@/utils/format";
 import { computeBookingTotal, parseTourMeta } from "@/utils/tour-meta";
 
 const Booking = ({
@@ -39,10 +39,10 @@ const Booking = ({
   const router = useRouter();
   const { addToWishlist, removeFromWishlist, fetchWishlist } = useWishlist();
   const { user } = useProfile();
-  // Backend pre-swaps `estimateCostPerPerson` to the THB tour-operator price
-  // when the authenticated user is a `tour_agency`. We only switch the symbol.
+  // Backend swaps `estimateCostPerPerson` (and `currency`) to the tour-operator
+  // price/currency for `tour_agency` users. Client reads `currency` to pick the symbol.
   const isAgency = user?.userType === "tour_agency";
-  const sym = isAgency ? "\u0e3f" : "$";
+  const sym = currencySymbol(tourdetail?.currency);
   const [dialogBooking, setDialogBooking] = useState<boolean>(false);
   const { setBooking, booking, resetBooking } = useBooking();
   const [isWishlisted, setIsWishlisted] = useState(tourdetail?.isWishlist);
@@ -80,26 +80,54 @@ const Booking = ({
   }
 
   const meta = parseTourMeta(tourdetail?.tourDetails?.included);
-  const adultPrice = Number(tourdetail?.estimateCostPerPerson) || 0;
-  const total = computeBookingTotal({
-    adultTickets: booking.adultTickets || 0,
-    childTickets: booking.childTickets || 0,
-    adultPrice,
-    childPrice: isAgency ? undefined : meta.childPrice,
-  });
+  const basePrice = Number(tourdetail?.estimateCostPerPerson) || 0;
+  const priceTiers = isAgency && Array.isArray(tourdetail?.priceTiers)
+    ? (tourdetail.priceTiers || []).slice().sort((a, b) => a.minPax - b.minPax)
+    : [];
+  const totalPax =
+    (booking.adultTickets || 0) +
+    (booking.childTickets || 0) +
+    (booking.infantTickets || 0);
+  // Pick the tier whose [minPax, maxPax] contains total pax (agency only).
+  const matchedTier = priceTiers.find(
+    (t) => totalPax >= t.minPax && totalPax <= t.maxPax,
+  );
+  const tierPrice = matchedTier ? Number(matchedTier.pricePerPerson) || 0 : 0;
+  const perPersonPrice = matchedTier ? tierPrice : basePrice;
+  // Lowest tier price (for "from {X}/person" headline).
+  const fromTierPrice = priceTiers.length
+    ? Math.min(...priceTiers.map((t) => Number(t.pricePerPerson) || 0))
+    : 0;
+  const headlinePrice =
+    isAgency && priceTiers.length
+      ? matchedTier
+        ? tierPrice
+        : fromTierPrice
+      : basePrice;
+  const total = isAgency
+    ? perPersonPrice * Math.max(totalPax, 1)
+    : computeBookingTotal({
+        adultTickets: booking.adultTickets || 0,
+        childTickets: booking.childTickets || 0,
+        adultPrice: basePrice,
+        childPrice: meta.childPrice,
+      });
 
   return (
     <div className="p-7 border shrink-0 sticky top-10 border-[#E7E6E6] rounded-[12px] text-[#333333] h-max shadow-[0px_10px_40px_0px_#000000]/5">
       <h6 className="text-sm">
-        Estimated cost{" "}
+        {isAgency && priceTiers.length && !matchedTier ? "From " : "Estimated cost "}
         <strong className="text-lg">
-          {sym}{formatNumber(adultPrice)}{" "}
+          {sym}{formatNumber(headlinePrice)}{" "}
         </strong>
         /per person
       </h6>
       {isAgency && (
         <div className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#0a0a0a] bg-[#FEF3C7] border border-[#FDE68A] rounded-full px-2 py-[2px]">
-          Tour-operator price (THB)
+          Tour-operator price ({(tourdetail?.currency || "").toUpperCase() || "THB"})
+          {matchedTier && (
+            <span> · {matchedTier.minPax}–{matchedTier.maxPax} pax tier</span>
+          )}
         </div>
       )}
       <span className="text-xs block mt-1">

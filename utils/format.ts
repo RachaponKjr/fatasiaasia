@@ -80,4 +80,18 @@ function formatNumber(amount: number | string | null | undefined) {
   });
 }
 
-export { formatDate, formatTime, formatTourDateRange, formatNumber };
+function currencySymbol(code: string | undefined | null): string {
+  const c = (code || "").toUpperCase();
+  if (c === "THB") return "\u0e3f";
+  if (c === "EUR") return "\u20ac";
+  if (c === "USD") return "$";
+  return c || "$";
+}
+
+export {
+  formatDate,
+  formatTime,
+  formatTourDateRange,
+  formatNumber,
+  currencySymbol,
+};
