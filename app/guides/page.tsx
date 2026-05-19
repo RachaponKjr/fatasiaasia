@@ -21,7 +21,7 @@ const GuidesIndex = async () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <HeroLayout image={destinationhero.src} title="Travel Guides" />
-      <div className="container mx-auto xl:pt-[120px] xl:pb-[160px] py-10 px-4 xl:px-0">
+      <div className="w-full xl:pt-[120px] xl:pb-[160px] py-10 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
         <div className="flex flex-col items-center mb-12">
           <h3 className="font-bold text-xl md:text-4xl mb-6 text-center">
             Free Destination Guides

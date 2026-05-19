@@ -28,14 +28,19 @@ export const getAllTestimonials = async (): Promise<Testimonial[]> => {
         });
 
         if (!response.ok) {
-            console.error("Failed to fetch testimonials:", response.statusText);
+            if (process.env.NODE_ENV !== "production") {
+                console.warn("Testimonials fetch returned non-OK:", response.status, response.statusText);
+            }
             return [];
         }
 
         const data = await response.json();
         return data.record?.testimonials || [];
     } catch (error) {
-        console.error("Error fetching testimonials:", error);
+        // Network errors (offline, CORS, blocked by extension, etc.) — fall back silently
+        if (process.env.NODE_ENV !== "production") {
+            console.warn("Testimonials fetch failed (network):", error instanceof Error ? error.message : error);
+        }
         return [];
     }
 };

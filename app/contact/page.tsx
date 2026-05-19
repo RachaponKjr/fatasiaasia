@@ -15,7 +15,7 @@ const page = () => {
     <>
       <HeroLayout image={contactUs.src} title="Contact Us" />
       <div className="overflow-hidden">
-        <div className="py-10 xl:py-28 container mx-auto grid grid-cols-1 xl:grid-cols-2 px-4 xl:px-0 max-w-7xl gap-14 w-full h-max">
+        <div className="py-10 xl:py-28 w-full grid grid-cols-1 xl:grid-cols-2 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24 gap-14 h-max">
           <div className="text-[#333333] flex">
             <div className="flex flex-col justify-between gap-4 relative">
               <h2 className="text-2xl xl:text-4xl font-bold">

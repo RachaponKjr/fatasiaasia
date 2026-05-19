@@ -1,6 +1,10 @@
 // Destinations fetched from the admin API. Reads are public; writes happen
 // only in the admin SPA. New destinations created in the admin show up here
 // after the next ISR revalidation (1h).
+//
+// Marked "use server" so calls from client components proxy through Next's
+// server action layer — avoids browser CORS against the admin API.
+"use server";
 
 const ADMIN_BASE_URL =
   process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL ||

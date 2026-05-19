@@ -48,7 +48,7 @@ const FormSignUp = () => {
     try {
       const base =
         process.env.NEXT_PUBLIC_API_BASE_URL ||
-        "https://tour-user-api-9wbcs.ondigitalocean.app";
+        "https://tour-user-api-27tvf.ondigitalocean.app";
       const res = await fetch(`${base}/agency-code/validate/${encodeURIComponent(code)}`);
       const json = await res.json();
       if (json?.code === 2000 && json?.data?.code) {

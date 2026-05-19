@@ -46,7 +46,7 @@ const page = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <HeroLayout image={heroabout.src} title="About us" />
-      <div className="container mx-auto py-10 xl:py-20 px-4 flex flex-col gap-8 xl:gap-32 2xl:px-20">
+      <div className="w-full py-10 xl:py-20 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24 flex flex-col gap-8 xl:gap-32">
         <p className="text-center text-base xl:text-2xl text-[#333333] font-normal">
           Traveling is more than simply visiting attractions; it is a profound, life-changing experience. This
           <br /> core belief drives everything we offer at Fantasia Asia. As avid travelers ourselves, we bring over 20

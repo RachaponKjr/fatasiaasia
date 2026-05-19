@@ -31,7 +31,7 @@ const BlogIndex = async () => {
     <Suspense fallback={<div>Loading...</div>}>
       <HeroLayout image={destinationhero.src} title="Travel Blog" />
 
-      <div className="container mx-auto xl:pt-[100px] xl:pb-[140px] py-10 px-4 xl:px-0">
+      <div className="w-full xl:pt-[100px] xl:pb-[140px] py-10 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
         <div className="flex flex-col items-center mb-12 text-center">
           <span className="text-xs uppercase tracking-[0.3em] text-[#BD3E2B] font-semibold mb-3">
             The Journal

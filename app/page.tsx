@@ -10,6 +10,7 @@ import FollowFantasiaasia from "./_components/follow-fantasiaasia";
 import BeachPackages from "./_components/beach-packages";
 import FeaturedBlogs from "./_components/featured-blogs";
 import api from "@/server";
+import { listDestinations } from "@/lib/destinations-api";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -31,7 +32,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const { data: tour } = await api.tour.getTour();
+  const [{ data: tour }, destinations] = await Promise.all([
+    api.tour.getTour(),
+    listDestinations().catch(() => []),
+  ]);
 
   // Fetch beach tours server-side (no CORS issues)
   let beachTours: typeof tour = [];
@@ -65,8 +69,8 @@ export default async function Home() {
   return (
     <div className="overflow-hidden" suppressHydrationWarning>
       <HeroSection />
-      <div className="container mx-auto py-10 xl:py-20 flex flex-col gap-10 xl:gap-32 2xl:px-20">
-        <Trending />
+      <div className="w-full py-10 xl:py-20 flex flex-col gap-10 xl:gap-32 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
+        <Trending destinations={destinations} />
         <Adventure />
         <Packages tours={tour} />
         <WhyChoose />

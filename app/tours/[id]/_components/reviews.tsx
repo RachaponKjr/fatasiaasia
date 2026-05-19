@@ -31,7 +31,7 @@ type Review = {
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
-  "https://tour-user-api-9wbcs.ondigitalocean.app";
+  "https://tour-user-api-27tvf.ondigitalocean.app";
 
 function StarRow({
   value,

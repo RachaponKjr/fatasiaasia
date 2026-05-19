@@ -305,7 +305,7 @@ world's most dynamic financial and cultural hubs.`,
         className="!bg-[left_0px_top_-130px]"
         image={destination?.coverImageUrl || undefined}
       />
-      <div className="container mx-auto px-4 py-8 md:px-0 md:pt-24 md:pb-32 flex h-max flex-col items-center gap-16">
+      <div className="w-full px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24 py-8 md:pt-24 md:pb-32 flex h-max flex-col items-center gap-16">
         {data ? (
           <>
             <div className="flex flex-col items-center text-center">

@@ -42,7 +42,7 @@ const BeachToursPage = async () => {
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <HeroLayout image={destinationhero.src} title="Beach Tours" />
-            <div className="container mx-auto xl:pt-[150px] xl:pb-[200px] py-10 px-4 xl:px-0">
+            <div className="w-full xl:pt-[150px] xl:pb-[200px] py-10 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
                 {/* Title and Description Section */}
                 <div className="flex flex-col items-center mb-16">
                     <h3 className="font-bold text-xl md:text-4xl mb-9 text-center">
