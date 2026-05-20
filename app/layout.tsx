@@ -21,7 +21,14 @@ export const metadata: Metadata = {
   title: "Fantasia Asia: Tailor-Made Tours & Curated Journeys across Asia",
   description: "Discover the best of Asia, from Southeast to India and beyond. Book unique, tailor-made itineraries with 24/7 support and guaranteed best value.",
   icons: {
-    icon: "/logo.png",
+    icon: [
+      { url: "/favicon-16.png", type: "image/png", sizes: "16x16" },
+      { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: "/apple-touch-icon.png",
+    shortcut: "/favicon-32.png",
   },
 };
 
