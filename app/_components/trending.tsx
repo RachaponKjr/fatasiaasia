@@ -22,8 +22,16 @@ type TrendingItem = {
 };
 
 const FALLBACK_ITEMS: TrendingItem[] = [
-  { name: "Thailand", detail: "Railway Market & Damnoensaduak Floating Market", image: thai.src },
-  { name: "Vietnam", detail: "Hill Tribes of Northern Vietnam", image: vietnam.src },
+  {
+    name: "Thailand",
+    detail: "Railway Market & Damnoensaduak Floating Market",
+    image: thai.src,
+  },
+  {
+    name: "Vietnam",
+    detail: "Hill Tribes of Northern Vietnam",
+    image: vietnam.src,
+  },
   { name: "Laos", detail: "The New & The Ancient Capital", image: laos.src },
   { name: "India", detail: "Golden Triangle", image: india.src },
 ];
@@ -80,7 +88,7 @@ const Trending = ({ destinations }: TrendingProps) => {
     if (!s || s.destroyed) return;
     try {
       const t = s.getTranslate();
-      s.setTransition(0);
+      (s as any).setTransition(0);
       s.setTranslate(t);
       s.autoplay?.stop();
     } catch {
@@ -117,7 +125,7 @@ const Trending = ({ destinations }: TrendingProps) => {
 
   const handleCardClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    item: TrendingItem
+    item: TrendingItem,
   ) => {
     // Allow modifier clicks / middle click to behave normally.
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
@@ -127,7 +135,11 @@ const Trending = ({ destinations }: TrendingProps) => {
     const r = target.getBoundingClientRect();
     const href = `/destinations/country?country=${encodeURIComponent(item.name)}`;
     // Prefetch so router.push is instantaneous when the zoom finishes.
-    try { router.prefetch(href); } catch { /* ignore */ }
+    try {
+      router.prefetch(href);
+    } catch {
+      /* ignore */
+    }
     setPhase("start");
     setTransition({
       item,
@@ -136,9 +148,7 @@ const Trending = ({ destinations }: TrendingProps) => {
     });
     pauseMarquee();
     // Trigger expand on next frame so initial styles paint first.
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => setPhase("full"))
-    );
+    requestAnimationFrame(() => requestAnimationFrame(() => setPhase("full")));
     // Navigate after the zoom completes.
     window.setTimeout(() => {
       router.push(href);
@@ -185,12 +195,13 @@ const Trending = ({ destinations }: TrendingProps) => {
                   onMouseEnter={() => setHoveredIndex(i)}
                   onMouseLeave={() => setHoveredIndex(null)}
                   className={`bg-gray-200 aspect-[12/16] w-full relative overflow-hidden rounded-2xl p-8 flex bg-cover bg-center items-end transition-all duration-500 ease-out cursor-pointer shadow-lg
-                  ${hoveredIndex === i
+                  ${
+                    hoveredIndex === i
                       ? "scale-105 shadow-2xl z-10 ring-2 ring-white/50"
                       : hoveredIndex !== null
                         ? "scale-95 blur-[2px] opacity-50 grayscale-[0.3]"
                         : "hover:scale-105 hover:shadow-xl"
-                    }
+                  }
                 `}
                   style={{ backgroundImage: `url(${item.image})` }}
                 >
@@ -198,7 +209,9 @@ const Trending = ({ destinations }: TrendingProps) => {
                   <div className="text-white flex flex-col gap-1 z-10">
                     <h6 className="font-medium text-lg">{item.name}</h6>
                     {item.detail && (
-                      <span className="font-light text-xs line-clamp-2">{item.detail}</span>
+                      <span className="font-light text-xs line-clamp-2">
+                        {item.detail}
+                      </span>
                     )}
                   </div>
                 </div>
@@ -245,7 +258,8 @@ const Trending = ({ destinations }: TrendingProps) => {
             className="absolute left-8 md:left-16 right-8 md:right-16 bottom-16 md:bottom-24 text-white"
             style={{
               opacity: phase === "full" ? 1 : 0,
-              transform: phase === "full" ? "translateY(0)" : "translateY(24px)",
+              transform:
+                phase === "full" ? "translateY(0)" : "translateY(24px)",
               transition:
                 "opacity 500ms ease-out 350ms, transform 500ms ease-out 350ms",
             }}
