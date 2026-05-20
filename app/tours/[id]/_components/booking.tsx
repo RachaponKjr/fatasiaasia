@@ -249,7 +249,7 @@ const Booking = ({
       </div>
       {meta.childPrice !== undefined && !isAgency && (
         <p className="text-xs text-[#585858] -mt-3 mb-3">
-          Child price: ${formatNumber(meta.childPrice)} per child
+          Child price: {sym}{formatNumber(meta.childPrice)} per child
         </p>
       )}
 

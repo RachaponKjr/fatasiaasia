@@ -30,6 +30,7 @@ export const MyBookingSchema = z.object({
   infantTickets: z.number().optional(),
   totalTravellers: z.number(),
   totalPrice: z.number(),
+  currency: z.string().optional(),
   bookingStatus: z.string(),
   paymentURL: z.string().nullable(),
   createdAt: z.string(),

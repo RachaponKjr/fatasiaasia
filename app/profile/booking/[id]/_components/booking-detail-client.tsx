@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import api from "@/server";
+import { currencySymbol, formatNumber } from "@/utils/format";
 import type {
   BookingDetail,
   BookingMessage,
@@ -217,10 +218,11 @@ export default function BookingDetailClient({
   };
 
   const status = STATUS_LABEL[booking.bookingStatus] ?? STATUS_LABEL.pending;
-  const total = (booking.totalPrice ?? 0).toLocaleString("en-US", {
-    style: "currency",
-    currency: booking.currency || "USD",
-  });
+  // Render with our own symbol map so THB shows as ฿ (not "THB 1,234.00"
+  // which Intl produces with en-US locale + currency:THB).
+  const total = `${currencySymbol(booking.currency)}${formatNumber(
+    booking.totalPrice ?? 0
+  )}`;
 
   // Collect every file the team has sent across all messages so the customer
   // has a one-click "my documents" view (vouchers, itineraries, etc).

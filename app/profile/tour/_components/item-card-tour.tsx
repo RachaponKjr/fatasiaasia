@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import Image from "next/image";
 import { MyBooking } from "@/types/booking.type";
-import { formatTourDateRange, formatNumber } from "@/utils/format";
+import { formatTourDateRange, formatNumber, currencySymbol } from "@/utils/format";
 import api from "@/server";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -112,7 +112,7 @@ const ItemCardTour = ({ active = false, tour }: { active?: boolean; tour: MyBook
 
             <div className="font-bold text-2xl text-black flex justify-between">
               <h5>Total price</h5>
-              <h5>${formatNumber(tour.totalPrice || 0)}</h5>
+              <h5>{currencySymbol(tour.currency)}{formatNumber(tour.totalPrice || 0)}</h5>
             </div>
 
             <div className="flex gap-4 justify-end items-center mt-4">
