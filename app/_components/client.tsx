@@ -87,7 +87,14 @@ const defaultTestimonials = [
   }
 ];
 
-const Client = () => {
+type ClientProps = {
+  /** Optional admin override for the HereHelp banner rendered at the bottom
+   *  of this testimonials block (slot key `home.here_help.image`). */
+  hereHelpImageUrl?: string;
+  hereHelpImageAlt?: string;
+};
+
+const Client = ({ hereHelpImageUrl, hereHelpImageAlt }: ClientProps = {}) => {
   const [userTestimonials, setUserTestimonials] = useState<Testimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -228,7 +235,7 @@ const Client = () => {
 
       {/* Help Section */}
       <div className="w-full mt-8 sm:mt-12 lg:mt-14">
-        <HereHelp />
+        <HereHelp imageUrl={hereHelpImageUrl} imageAlt={hereHelpImageAlt} />
       </div>
     </div>
   );

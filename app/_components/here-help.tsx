@@ -4,7 +4,15 @@ import Link from "next/link";
 import React, { useState, useRef } from "react";
 import { Mail } from "lucide-react";
 
-const HereHelp = () => {
+type Props = {
+  /** Optional admin override URL for the section background image
+   *  (slot key `home.here_help.image`). Falls back to the bundled
+   *  /NewATT2.png when not provided. */
+  imageUrl?: string;
+  imageAlt?: string;
+};
+
+const HereHelp = ({ imageUrl, imageAlt }: Props = {}) => {
   const [isHovered, setIsHovered] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -25,11 +33,12 @@ const HereHelp = () => {
     <div className="container mx-auto px-4 xl:px-0">
       <div className="w-full overflow-hidden rounded-2xl relative">
         <Image
-          src="/NewATT2.png"
-          alt="Transportation Services"
+          src={imageUrl || "/NewATT2.png"}
+          alt={imageAlt || "Transportation Services"}
           width={1600}
           height={500}
           className="w-full h-auto object-cover"
+          unoptimized={Boolean(imageUrl)}
         />
         <div
           className="absolute bottom-6 right-6 xl:bottom-10 xl:right-10"

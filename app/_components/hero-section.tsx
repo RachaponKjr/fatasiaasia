@@ -1,13 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import banner from "@/assets/images/banner/herobanner.webp";
 import halong2 from "@/assets/images/banner/halong2.webp";
 import tajmahal from "@/assets/images/banner/tajmahal.webp";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Plus, Users } from "lucide-react";
 
-const images = [banner, halong2, tajmahal];
+// Default bundled images. Admin overrides (from /site-images slot keys
+// home.hero.slide1 … slide3) replace these one-for-one when provided.
+const defaultImages: StaticImageData[] = [banner, halong2, tajmahal];
+
+export type HeroSlideOverride = { url: string; alt?: string } | null;
 
 const quotes = [
   "Explore hidden gems and iconic landmarks.",
@@ -22,17 +26,31 @@ const quotes = [
   "Create Your Unforgettable Asian Memory.",
 ];
 
-const HeroSection = () => {
+type Props = {
+  /** Optional admin overrides — one entry per default slide, same length. */
+  slideOverrides?: HeroSlideOverride[];
+};
+
+const HeroSection = ({ slideOverrides }: Props = {}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quoteIndex, setQuoteIndex] = useState(0);
 
+  // Build the effective slide list: each entry is either an admin override
+  // URL or the bundled StaticImageData default.
+  const slides = defaultImages.map((def, i) => {
+    const override = slideOverrides?.[i];
+    return override?.url
+      ? { kind: "remote" as const, src: override.url, alt: override.alt || `Hero Banner ${i + 1}` }
+      : { kind: "static" as const, src: def, alt: `Hero Banner ${i + 1}` };
+  });
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
+      setCurrentIndex((prev) => (prev + 1) % slides.length);
     }, 5000); // Change image every 5 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [slides.length]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,20 +63,32 @@ const HeroSection = () => {
   return (
     <section className="w-full min-h-[876px] px-4 xl:px-0 flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        {images.map((img, index) => (
+        {slides.map((slide, index) => (
           <div
             key={index}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentIndex ? "opacity-100" : "opacity-0"
               }`}
           >
-            <Image
-              src={img}
-              alt={`Hero Banner ${index + 1}`}
-              fill
-              priority={index === 0}
-              className="object-cover object-center"
-              placeholder="blur"
-            />
+            {slide.kind === "static" ? (
+              <Image
+                src={slide.src}
+                alt={slide.alt}
+                fill
+                priority={index === 0}
+                className="object-cover object-center"
+                placeholder="blur"
+              />
+            ) : (
+              // Remote (admin-uploaded) image: no static blur placeholder available.
+              <Image
+                src={slide.src}
+                alt={slide.alt}
+                fill
+                priority={index === 0}
+                className="object-cover object-center"
+                unoptimized
+              />
+            )}
             <div className="absolute inset-0 bg-black/20" />
           </div>
         ))}

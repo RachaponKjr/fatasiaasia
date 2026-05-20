@@ -11,6 +11,7 @@ import BeachPackages from "./_components/beach-packages";
 import FeaturedBlogs from "./_components/featured-blogs";
 import api from "@/server";
 import { listDestinations } from "@/lib/destinations-api";
+import { getSiteImages } from "@/lib/site-images";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -32,10 +33,20 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [{ data: tour }, destinations] = await Promise.all([
+  const [{ data: tour }, destinations, siteImages] = await Promise.all([
     api.tour.getTour(),
     listDestinations().catch(() => []),
+    getSiteImages(),
   ]);
+
+  // Resolve admin-managed slot overrides once at the top so we don't refetch
+  // for each consumer further down the tree.
+  const heroSlideOverrides = [
+    siteImages["home.hero.slide1"] ?? null,
+    siteImages["home.hero.slide2"] ?? null,
+    siteImages["home.hero.slide3"] ?? null,
+  ];
+  const hereHelpImage = siteImages["home.here_help.image"];
 
   // Fetch beach tours server-side (no CORS issues)
   let beachTours: typeof tour = [];
@@ -68,7 +79,7 @@ export default async function Home() {
 
   return (
     <div className="overflow-hidden" suppressHydrationWarning>
-      <HeroSection />
+      <HeroSection slideOverrides={heroSlideOverrides} />
       <div className="w-full py-10 xl:py-20 flex flex-col gap-10 xl:gap-32 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
         <Trending destinations={destinations} />
         <Adventure />
@@ -78,7 +89,7 @@ export default async function Home() {
         <BeachPackages tours={beachTours} />
         <FollowFantasiaasia />
         <FeaturedBlogs />
-        <Client />
+        <Client hereHelpImageUrl={hereHelpImage?.url} hereHelpImageAlt={hereHelpImage?.alt} />
       </div>
       <JoinNewSletter />
     </div>
