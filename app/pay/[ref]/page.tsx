@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import PayForm from "./_components/pay-form";
+import PaymentTabs from "./_components/payment-tabs";
 
 // We intentionally keep this page server-rendered + uncached so the customer
 // always sees the latest booking status (e.g. "paid" after their card went
@@ -120,13 +121,23 @@ export default async function PayPage({
             </div>
           ) : isAwaitingPayment ? (
             <div className="border-t border-[#EFE9DF] px-6 py-6">
-              <PayForm
-                bookingRef={data.bookingRef}
-                amount={data.amount}
-                currency={data.currency}
-                omisePublicKey={data.omisePublicKey}
-                adminApi={ADMIN_API}
-              />
+              {data.currency?.toUpperCase() === "THB" ? (
+                <PaymentTabs
+                  bookingRef={data.bookingRef}
+                  amount={data.amount}
+                  currency={data.currency}
+                  omisePublicKey={data.omisePublicKey}
+                  adminApi={ADMIN_API}
+                />
+              ) : (
+                <PayForm
+                  bookingRef={data.bookingRef}
+                  amount={data.amount}
+                  currency={data.currency}
+                  omisePublicKey={data.omisePublicKey}
+                  adminApi={ADMIN_API}
+                />
+              )}
             </div>
           ) : (
             <div className="border-t border-[#EFE9DF] bg-[#FDF4F2] px-6 py-8 text-center">
