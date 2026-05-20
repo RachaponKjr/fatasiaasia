@@ -15,7 +15,11 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const FormSignUp = () => {
+interface FormSignUpProps {
+  onSuccess?: () => void;
+}
+
+const FormSignUp = ({ onSuccess }: FormSignUpProps = {}) => {
   const router = useRouter();
   const [step, setStep] = useState<number>(0); // เริ่มที่ 0
   const [valueOtp, setValueOtp] = React.useState("");
@@ -120,8 +124,12 @@ const FormSignUp = () => {
       });
       if (otpRes.code === 2000) {
         toast.success("Verification successful!", { className: "!text-green-500" });
-        // Redirect to homepage after successful signup verification
-        router.push("/");
+        if (onSuccess) {
+          onSuccess();
+        } else {
+          // Redirect to homepage after successful signup verification
+          router.push("/");
+        }
       }
     } catch (err) {
       console.error(err);

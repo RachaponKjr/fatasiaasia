@@ -7,6 +7,7 @@ import api from "@/server";
 import { useBooking } from "@/store/booking-store";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import AuthDialog from "@/components/auth-dialog";
 
 type Props = {
   setStep?: Dispatch<SetStateAction<number>>;
@@ -17,6 +18,10 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
   const { booking } = useBooking();
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
+  // Auth dialog state — opened when the booking API returns an auth error.
+  // After a successful login or signup we auto-retry the booking so the
+  // customer doesn't have to re-fill the form.
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
 
   const validateBooking = () => {
     const errors: string[] = [];
@@ -60,6 +65,50 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
     return errors;
   };
 
+  // performBookingRequest fires the actual API call. Split out so the
+  // post-auth retry path can call it without re-running validation.
+  const performBookingRequest = async (): Promise<"ok" | "auth" | "error"> => {
+    const bookingPayload = {
+      ...booking,
+      visitTime: booking.visitTime || Date.now(),
+    };
+    try {
+      const bookingRes = await api.booking.booking({
+        tourId: tourDetail.tourId,
+        payload: bookingPayload,
+      });
+
+      if (bookingRes.code === 2000) {
+        toast.success("Booking submitted! Awaiting confirmation.");
+        const newId = bookingRes.data?.bookingId;
+        if (newId) {
+          router.push(`/profile/booking/${newId}`);
+        } else {
+          setStep?.(4);
+        }
+        return "ok";
+      }
+      if (
+        bookingRes.code === 401 ||
+        bookingRes.code === 4001 ||
+        bookingRes.code === 4010
+      ) {
+        return "auth";
+      }
+      toast.error(
+        bookingRes.message || "Failed to submit booking. Please try again.",
+        { className: "!text-red-500" }
+      );
+      return "error";
+    } catch (err) {
+      console.error("Booking error:", err);
+      toast.error("An error occurred. Please try again.", {
+        className: "!text-red-500",
+      });
+      return "error";
+    }
+  };
+
   const submitBooking = async () => {
     if (submitting) return;
     // Validate first
@@ -72,53 +121,33 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
     }
 
     setSubmitting(true);
-    try {
-      // Ensure visitTime has a default if not set
-      const bookingPayload = {
-        ...booking,
-        visitTime: booking.visitTime || Date.now(), // Default to current time if not set
-      };
+    const result = await performBookingRequest();
+    if (result === "auth") {
+      // Not logged in — open the in-page auth dialog instead of redirecting
+      // away so the booking form stays filled.
+      setAuthDialogOpen(true);
+    }
+    setSubmitting(false);
+  };
 
-      const bookingRes = await api.booking.booking({
-        tourId: tourDetail.tourId,
-        payload: bookingPayload,
-      });
-
-      if (bookingRes.code === 2000) {
-        toast.success("Booking submitted! Awaiting confirmation.");
-        const newId = bookingRes.data?.bookingId;
-        if (newId) {
-          router.push(`/profile/booking/${newId}`);
-        } else {
-          // Fallback if backend didn't return id (older deploy)
-          setStep?.(4);
-        }
-      } else if (bookingRes.code === 401 || bookingRes.code === 4001 || bookingRes.code === 4010) {
-        // Only redirect to login for authentication errors
-        toast.error("Please log in to complete your booking", {
-          className: "!text-red-500",
-        });
-        router.push("/login");
-      } else {
-        // Show the actual error message for other errors
-        toast.error(
-          bookingRes.message || "Failed to submit booking. Please try again.",
-          {
-            className: "!text-red-500",
-          }
-        );
-      }
-    } catch (err) {
-      console.error("Booking error:", err);
-      toast.error("An error occurred. Please try again.", {
+  // Called once the customer finishes login or signup inside the dialog —
+  // immediately retry the booking submit so they don't have to re-click.
+  const handleAuthenticated = async () => {
+    setSubmitting(true);
+    const result = await performBookingRequest();
+    if (result === "auth") {
+      // Still unauthorised somehow (token didn't take). Surface the prompt
+      // again rather than silently failing.
+      toast.error("Still not authenticated — please try logging in again.", {
         className: "!text-red-500",
       });
-    } finally {
-      setSubmitting(false);
+      setAuthDialogOpen(true);
     }
+    setSubmitting(false);
   };
 
   return (
+    <>
     <div className="w-full bg-white col-span-2 p-4 lg:p-8 rounded-xl border border-[#E7E6E6] flex flex-col gap-4 lg:gap-9 shadow-[0px_10px_40px_0px_#000000]/5">
       <span className="font-bold text-2xl text-[#333333]">
         Your Tickets Overview
@@ -204,6 +233,13 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
         </Button>
       </div>
     </div>
+    <AuthDialog
+      open={authDialogOpen}
+      onOpenChange={setAuthDialogOpen}
+      onAuthenticated={handleAuthenticated}
+      reason="to complete your booking"
+    />
+    </>
   );
 };
 

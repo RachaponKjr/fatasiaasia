@@ -299,6 +299,19 @@ export default function BookingDetailClient({
   // Renders one chat message row.
   const renderMessage = (m: BookingMessage) => {
     if (m.senderType === "system") {
+      // Multi-line system messages (e.g. the booking greeting) render as a
+      // soft notice card so the text stays readable. Short single-line ones
+      // keep the original pill look.
+      const isLong = (m.body || "").includes("\n") || (m.body || "").length > 80;
+      if (isLong) {
+        return (
+          <div key={m.messageId} className="self-center w-full max-w-[92%]">
+            <div className="px-4 py-3 rounded-2xl bg-emerald-50 border border-emerald-100 text-slate-700 text-[13px] leading-relaxed whitespace-pre-line">
+              {m.body}
+            </div>
+          </div>
+        );
+      }
       return (
         <div key={m.messageId} className="self-center max-w-[80%]">
           <div className="px-3 py-1.5 rounded-full bg-slate-200/70 text-slate-600 text-[11px] text-center">
