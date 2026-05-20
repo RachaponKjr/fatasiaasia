@@ -5,6 +5,7 @@ import HeroLayout from "../about/_components/hero-about";
 import JoinNewSletter from "@/components/join-newsletter";
 import destinationhero from "@/assets/images/destination/destination-hero.webp";
 import { listBlogPosts, estimateReadTime } from "@/lib/articles-api";
+import { getSiteImage } from "@/lib/site-images";
 
 export const metadata = {
   title: "Travel Blog | Fantasia Asia",
@@ -24,12 +25,15 @@ const formatDate = (d: string) =>
   });
 
 const BlogIndex = async () => {
-  const posts = await listBlogPosts();
+  const [posts, heroOverride] = await Promise.all([
+    listBlogPosts(),
+    getSiteImage("blog.hero.image"),
+  ]);
   const [featured, ...rest] = posts;
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <HeroLayout image={destinationhero.src} title="Travel Blog" />
+      <HeroLayout image={heroOverride?.url || destinationhero.src} title="Travel Blog" />
 
       <div className="w-full xl:pt-[100px] xl:pb-[140px] py-10 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
         <div className="flex flex-col items-center mb-12 text-center">

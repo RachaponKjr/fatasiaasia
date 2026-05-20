@@ -19,6 +19,7 @@ import brunei from "@/assets/images/destination/brunei.webp";
 import Uzbekistan from "@/assets/images/destination/Uzbekistan.jpg";
 
 import { listDestinations } from "@/lib/destinations-api";
+import { getSiteImage } from "@/lib/site-images";
 
 const FALLBACK_IMAGES: Record<string, string> = {
   thailand: thai.src,
@@ -39,10 +40,13 @@ const PLACEHOLDER_IMAGE =
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='500'><rect width='400' height='500' fill='%23e5e7eb'/><text x='50%25' y='50%25' fill='%236b7280' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle'>No image</text></svg>";
 
 const page = async () => {
-  const destinations = await listDestinations();
+  const [destinations, heroOverride] = await Promise.all([
+    listDestinations(),
+    getSiteImage("destinations.hero.image"),
+  ]);
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <HeroLayout image={destinationhero.src} title="Destinations" />
+      <HeroLayout image={heroOverride?.url || destinationhero.src} title="Destinations" />
       <div className="container mx-auto xl:pt-[150px] xl:pb-[200px] py-10 px-4 xl:px-0">
         {/* Title and Description Section */}
         <div className="flex flex-col items-center mb-16">

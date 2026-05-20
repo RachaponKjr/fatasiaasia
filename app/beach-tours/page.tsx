@@ -6,8 +6,10 @@ import destinationhero from "@/assets/images/destination/destination-hero.webp";
 import JoinNewSletter from "@/components/join-newsletter";
 import TourCard from "@/components/tour-card";
 import api from "@/server";
+import { getSiteImage } from "@/lib/site-images";
 
 const BeachToursPage = async () => {
+    const heroOverride = await getSiteImage("beach_tours.hero.image");
     let beachTours: any[] = [];
 
     try {
@@ -41,7 +43,7 @@ const BeachToursPage = async () => {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <HeroLayout image={destinationhero.src} title="Beach Tours" />
+            <HeroLayout image={heroOverride?.url || destinationhero.src} title="Beach Tours" />
             <div className="w-full xl:pt-[150px] xl:pb-[200px] py-10 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
                 {/* Title and Description Section */}
                 <div className="flex flex-col items-center mb-16">

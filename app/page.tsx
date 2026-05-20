@@ -47,6 +47,7 @@ export default async function Home() {
     siteImages["home.hero.slide3"] ?? null,
   ];
   const hereHelpImage = siteImages["home.here_help.image"];
+  const whyChooseImage = siteImages["home.why_choose.image"];
 
   // Fetch beach tours server-side (no CORS issues)
   let beachTours: typeof tour = [];
@@ -84,7 +85,7 @@ export default async function Home() {
         <Trending destinations={destinations} />
         <Adventure />
         <Packages tours={tour} />
-        <WhyChoose />
+        <WhyChoose imageUrl={whyChooseImage?.url} />
         <BaseService />
         <BeachPackages tours={beachTours} />
         <FollowFantasiaasia />

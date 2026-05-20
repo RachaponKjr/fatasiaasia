@@ -8,11 +8,13 @@ import Mail2Icon from "@/assets/icons/mail2";
 import HeroLayout from "../about/_components/hero-about";
 import contactUs from "@/assets/images/banner/contactUs.webp";
 import ContactForm from "./_components/contact-form";
+import { getSiteImage } from "@/lib/site-images";
 
-const page = () => {
+const page = async () => {
+  const heroOverride = await getSiteImage("contact.hero.image");
   return (
     <>
-      <HeroLayout image={contactUs.src} title="Contact Us" />
+      <HeroLayout image={heroOverride?.url || contactUs.src} title="Contact Us" />
       <div className="overflow-hidden">
         <div className="py-10 xl:py-28 w-full grid grid-cols-1 xl:grid-cols-2 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24 gap-14 h-max">
           <div className="text-[#333333] flex">

@@ -7,9 +7,13 @@ import api from "@/server";
 import HeroLayout from "../about/_components/hero-about";
 import tourImage from "@/assets/images/banner/tour.webp";
 import ToursClient from "./_components/tours-client";
+import { getSiteImage } from "@/lib/site-images";
 
 const page = async () => {
-  const response = await api.tour.getTour();
+  const [response, heroOverride] = await Promise.all([
+    api.tour.getTour(),
+    getSiteImage("tours.hero.image"),
+  ]);
   const tour = response.data ?? [];
   // Fetch tour details for category filtering
   let tourDetails: any[] = [];
@@ -27,7 +31,7 @@ const page = async () => {
   return (
     <>
       <HeroLayout
-        image={tourImage.src}
+        image={heroOverride?.url || tourImage.src}
         title="Discover Our Handpicked Tours in Asia"
       />
       <div className="container mx-auto py-10 xl:py-20 px-4 xl:px-0 flex flex-col items-center gap-6 xl:gap-[60px] 2xl:px-20">

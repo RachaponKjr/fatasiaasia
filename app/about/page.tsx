@@ -15,8 +15,10 @@ import showimage4 from "@/assets/images/about/showimage4.jpg";
 import HeroLayout from "./_components/hero-about";
 import heroabout from "@/assets/images/banner/about.webp";
 import PolaroidGallery from "@/components/polaroidgallery";
+import { getSiteImage } from "@/lib/site-images";
 
-const page = () => {
+const page = async () => {
+  const heroOverride = await getSiteImage("about.hero.image");
   const samplePhotos: any = [
     {
       id: 1,
@@ -45,7 +47,7 @@ const page = () => {
   ];
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <HeroLayout image={heroabout.src} title="About us" />
+      <HeroLayout image={heroOverride?.url || heroabout.src} title="About us" />
       <div className="w-full py-10 xl:py-20 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24 flex flex-col gap-8 xl:gap-32">
         <p className="text-center text-base xl:text-2xl text-[#333333] font-normal">
           Traveling is more than simply visiting attractions; it is a profound, life-changing experience. This
