@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import imagetest from "@/assets/imagetest.webp";
 import Image from "next/image";
 import { TourDetail } from "@/types/tour.type";
@@ -16,6 +16,7 @@ type Props = {
 const ConBooking = ({ setStep, tourDetail }: Props) => {
   const { booking } = useBooking();
   const router = useRouter();
+  const [submitting, setSubmitting] = useState(false);
 
   const validateBooking = () => {
     const errors: string[] = [];
@@ -60,6 +61,7 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
   };
 
   const submitBooking = async () => {
+    if (submitting) return;
     // Validate first
     const validationErrors = validateBooking();
     if (validationErrors.length > 0) {
@@ -69,6 +71,7 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
       return;
     }
 
+    setSubmitting(true);
     try {
       // Ensure visitTime has a default if not set
       const bookingPayload = {
@@ -110,6 +113,8 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
       toast.error("An error occurred. Please try again.", {
         className: "!text-red-500",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -175,15 +180,27 @@ const ConBooking = ({ setStep, tourDetail }: Props) => {
       <div className="flex justify-between gap-4 mt-4 lg:mt-14">
         <Button
           onClick={() => setStep?.(2)}
-          className="bg-[#EFEFEF] flex-1 hover:bg-[#EFEFEF] text-xl font-bold cursor-pointer lg:w-[160px] h-[60px] rounded-full text-[#333333]"
+          disabled={submitting}
+          className="bg-[#EFEFEF] flex-1 hover:bg-[#EFEFEF] text-xl font-bold cursor-pointer lg:w-[160px] h-[60px] rounded-full text-[#333333] disabled:opacity-60 disabled:cursor-not-allowed"
         >
           Back
         </Button>
         <Button
           onClick={submitBooking}
-          className="bg-[#BD3E2B] flex-1 hover:bg-[#BD3E2B] text-xl font-bold cursor-pointer lg:w-[473px] h-[60px] rounded-full text-white"
+          disabled={submitting}
+          className="bg-[#BD3E2B] flex-1 hover:bg-[#BD3E2B] text-xl font-bold cursor-pointer lg:w-[473px] h-[60px] rounded-full text-white disabled:opacity-70 disabled:cursor-wait"
         >
-          Submit Booking
+          {submitting ? (
+            <span className="inline-flex items-center gap-2">
+              <span
+                className="inline-block w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin"
+                aria-hidden="true"
+              />
+              Submitting…
+            </span>
+          ) : (
+            "Submit Booking"
+          )}
         </Button>
       </div>
     </div>

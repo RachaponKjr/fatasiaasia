@@ -106,6 +106,7 @@ export default function BookingDetailClient({
 }: Props) {
   const [booking, setBooking] = useState<BookingDetail>(initialBooking);
   const [messages, setMessages] = useState<BookingMessage[]>([]);
+  const [loadingMessages, setLoadingMessages] = useState(true);
   const [draft, setDraft] = useState("");
   const [sending, startSend] = useTransition();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -141,23 +142,55 @@ export default function BookingDetailClient({
         }
       } catch {
         /* swallow polling errors */
+      } finally {
+        setLoadingMessages(false);
       }
     };
   }, [bookingId]);
 
-  // Initial chat load + status/chat polling every 5s.
+  // Initial chat load + status/chat polling. Polls every 3s while the tab
+  // is focused, pauses while hidden, and refetches immediately on focus so
+  // the customer never waits for the next tick after coming back.
   useEffect(() => {
     let cancelled = false;
+    let timer: ReturnType<typeof setInterval> | null = null;
     setMessages([]);
+    setLoadingMessages(true);
+
     const run = async () => {
-      if (cancelled) return;
+      if (cancelled || document.hidden) return;
       await fetchTick.current();
     };
+    const start = () => {
+      if (timer) return;
+      timer = setInterval(run, 3000);
+    };
+    const stop = () => {
+      if (!timer) return;
+      clearInterval(timer);
+      timer = null;
+    };
+    const onVisibility = () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        run();
+        start();
+      }
+    };
+    const onFocus = () => {
+      run();
+    };
+
     run();
-    const t = setInterval(run, 5000);
+    start();
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("focus", onFocus);
     return () => {
       cancelled = true;
-      clearInterval(t);
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("focus", onFocus);
     };
   }, [bookingId]);
 
@@ -488,7 +521,14 @@ export default function BookingDetailClient({
             ref={chatRef}
             className="px-5 py-6 flex flex-col gap-3 flex-1 overflow-y-auto bg-gradient-to-b from-gray-50 to-white"
           >
-            {messages.length === 0 && (
+            {messages.length === 0 && loadingMessages && (
+              <div className="m-auto flex flex-col gap-3 w-full max-w-md" aria-label="Loading messages">
+                <div className="self-start h-10 w-2/3 rounded-2xl bg-gray-200 animate-pulse" />
+                <div className="self-end h-10 w-1/2 rounded-2xl bg-gray-200 animate-pulse" />
+                <div className="self-start h-10 w-3/5 rounded-2xl bg-gray-200 animate-pulse" />
+              </div>
+            )}
+            {messages.length === 0 && !loadingMessages && (
               <div className="m-auto text-center max-w-sm">
                 <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-[#BD3E2B]/10 flex items-center justify-center text-2xl">
                   💬
