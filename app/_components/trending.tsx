@@ -45,7 +45,9 @@ type AdminDestination = {
 };
 
 interface TrendingProps {
+  description?: string;
   destinations?: AdminDestination[];
+  title?: string;
 }
 
 type TransitionState = {
@@ -54,7 +56,7 @@ type TransitionState = {
   href: string;
 };
 
-const Trending = ({ destinations }: TrendingProps) => {
+const Trending = ({ description, destinations, title }: TrendingProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const swiperRef = useRef<SwiperClass | null>(null);
   const router = useRouter();
@@ -156,7 +158,11 @@ const Trending = ({ destinations }: TrendingProps) => {
   };
 
   return (
-    <LayoutSection link="/destinations" title="Trending Destinations">
+    <LayoutSection
+      link="/destinations"
+      title={title || "Trending Destinations"}
+      description={description}
+    >
       <div
         className="w-full h-max relative"
         onMouseEnter={pauseMarquee}

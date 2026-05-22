@@ -7,33 +7,51 @@ import base from "@/assets/icons/baseservices/base.png";
 import religious from "@/assets/icons/baseservices/religious.png";
 import medical from "@/assets/icons/baseservices/medical.png";
 
+type TextOverride = {
+  headline?: string;
+  description?: string;
+};
+
 type Props = {
   headline?: string;
   description?: string;
   iconOverrides?: Record<string, string | undefined>;
+  itemText?: Record<string, TextOverride | undefined>;
 };
 
-const BaseService = ({ headline, description, iconOverrides = {} }: Props = {}) => {
+const BaseService = ({
+  description,
+  headline,
+  iconOverrides = {},
+  itemText = {},
+}: Props = {}) => {
   const bestservices = [
     {
-      title: "24/7 Travel Support",
+      description: itemText.support?.description || "",
       image: iconOverrides.support || guided.src,
       overrideKey: "support",
+      title: itemText.support?.headline || "24/7 Travel Support",
     },
     {
-      title: "Handpicked Accommodations",
+      description: itemText.accommodation?.description || "",
       image: iconOverrides.accommodation || base.src,
       overrideKey: "accommodation",
+      title:
+        itemText.accommodation?.headline || "Handpicked Accommodations",
     },
     {
-      title: "Stress-Free Travel Planning",
+      description: itemText.planning?.description || "",
       image: iconOverrides.planning || religious.src,
       overrideKey: "planning",
+      title:
+        itemText.planning?.headline || "Stress-Free Travel Planning",
     },
     {
-      title: "Tailor-Made Itineraries",
+      description: itemText.tailorMade?.description || "",
       image: iconOverrides.tailorMade || medical.src,
       overrideKey: "tailorMade",
+      title:
+        itemText.tailorMade?.headline || "Tailor-Made Itineraries",
     },
   ];
   return (
@@ -66,9 +84,11 @@ const BaseService = ({ headline, description, iconOverrides = {} }: Props = {}) 
             <h4 className="text-[#333333] font-semibold text-sm xl:text-base text-center">
               {item.title}
             </h4>
-            {/* <p className="text-xs xl:text-sm text-center font-medium text-[#7D7D7D]">
-              {item.detail}
-            </p> */}
+            {item.description && (
+              <p className="text-xs xl:text-sm text-center font-medium text-[#7D7D7D]">
+                {item.description}
+              </p>
+            )}
           </div>
         ))}
       </div>

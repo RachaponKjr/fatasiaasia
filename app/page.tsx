@@ -86,9 +86,18 @@ export default async function Home() {
         slideOverrides={heroSlideOverrides}
         headline={text("home.hero")?.headline}
         description={text("home.hero")?.description}
+        socialProof={text("home.hero.social_proof")}
+        quotesOverride={Array.from(
+          { length: 10 },
+          (_, i) => text(`home.hero.quote${i + 1}`)?.headline || ""
+        )}
       />
       <div className="w-full py-10 xl:py-20 flex flex-col gap-10 xl:gap-32 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
-        <Trending destinations={destinations} />
+        <Trending
+          destinations={destinations}
+          title={text("home.trending")?.headline}
+          description={text("home.trending")?.description}
+        />
         <Adventure
           headline={text("home.adventure")?.headline}
           description={text("home.adventure")?.description}
@@ -99,6 +108,14 @@ export default async function Home() {
             local: siteImages["home.adventure.icon.local"]?.url,
             cities: siteImages["home.adventure.icon.cities"]?.url,
             wellness: siteImages["home.adventure.icon.wellness"]?.url,
+          }}
+          itemText={{
+            beach: text("home.adventure.item.beach"),
+            culture: text("home.adventure.item.culture"),
+            nature: text("home.adventure.item.nature"),
+            local: text("home.adventure.item.local"),
+            cities: text("home.adventure.item.cities"),
+            wellness: text("home.adventure.item.wellness"),
           }}
         />
         <Packages
@@ -116,6 +133,12 @@ export default async function Home() {
             value: siteImages["home.why_choose.icon.value"]?.url,
             booking: siteImages["home.why_choose.icon.booking"]?.url,
           }}
+          itemText={{
+            attractions: text("home.why_choose.item.attractions"),
+            support: text("home.why_choose.item.support"),
+            value: text("home.why_choose.item.value"),
+            booking: text("home.why_choose.item.booking"),
+          }}
         />
         <BaseService
           headline={text("home.base_services")?.headline}
@@ -127,6 +150,12 @@ export default async function Home() {
             planning: siteImages["home.base_services.icon.planning"]?.url,
             tailorMade:
               siteImages["home.base_services.icon.tailor_made"]?.url,
+          }}
+          itemText={{
+            support: text("home.base_services.item.support"),
+            accommodation: text("home.base_services.item.accommodation"),
+            planning: text("home.base_services.item.planning"),
+            tailorMade: text("home.base_services.item.tailor_made"),
           }}
         />
         <BeachPackages

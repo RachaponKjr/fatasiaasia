@@ -31,11 +31,25 @@ type Props = {
   slideOverrides?: HeroSlideOverride[];
   headline?: string;
   description?: string;
+  quotesOverride?: string[];
+  socialProof?: {
+    headline?: string;
+    description?: string;
+  };
 };
 
-const HeroSection = ({ slideOverrides, headline, description }: Props = {}) => {
+const HeroSection = ({
+  description,
+  headline,
+  quotesOverride,
+  slideOverrides,
+  socialProof,
+}: Props = {}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quoteIndex, setQuoteIndex] = useState(0);
+  const effectiveQuotes = quotesOverride?.filter(Boolean).length
+    ? quotesOverride.filter(Boolean)
+    : quotes;
 
   // Build the effective slide list: each entry is either an admin override
   // URL or the bundled StaticImageData default.
@@ -56,11 +70,11 @@ const HeroSection = ({ slideOverrides, headline, description }: Props = {}) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setQuoteIndex((prev) => (prev + 1) % quotes.length);
+      setQuoteIndex((prev) => (prev + 1) % effectiveQuotes.length);
     }, 4000); // Change quote every 4 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [effectiveQuotes.length]);
 
   return (
     <section className="w-full min-h-[876px] px-4 xl:px-0 flex items-center justify-center relative overflow-hidden">
@@ -105,10 +119,14 @@ const HeroSection = ({ slideOverrides, headline, description }: Props = {}) => {
         <div className="bg-white/10 backdrop-blur-sm rounded-full px-4 md:px-6 py-2 md:py-3 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
           <div className="flex items-center">
             <Users className="w-4 h-4 md:w-5 md:h-5 text-white mr-2" />
-            <span className="text-white font-semibold text-sm md:text-base">200+ travelers</span>
+            <span className="text-white font-semibold text-sm md:text-base">
+              {socialProof?.headline || "200+ travelers"}
+            </span>
           </div>
           <span className="text-white/80 text-xs md:text-sm text-center sm:text-left">
-            {description || "booked a tour in the last 24 hours."}
+            {socialProof?.description ||
+              description ||
+              "booked a tour in the last 24 hours."}
           </span>
         </div>
 
@@ -139,7 +157,7 @@ const HeroSection = ({ slideOverrides, headline, description }: Props = {}) => {
             key={quoteIndex}
             className="animate-in fade-in slide-in-from-bottom-2 duration-500 text-center xl:text-left"
           >
-            {quotes[quoteIndex]}
+            {effectiveQuotes[quoteIndex % effectiveQuotes.length]}
           </span>
         </div>
       </div>

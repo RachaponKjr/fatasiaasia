@@ -8,12 +8,18 @@ import great from "@/assets/icons/chooseus/great.png";
 import best from "@/assets/icons/chooseus/best.png";
 import super1 from "@/assets/icons/chooseus/super.png";
 
+type TextOverride = {
+  headline?: string;
+  description?: string;
+};
+
 type Props = {
   /** Admin override URL for slot `home.why_choose.image`. */
   imageUrl?: string;
   headline?: string;
   description?: string;
   iconOverrides?: Record<string, string | undefined>;
+  itemText?: Record<string, TextOverride | undefined>;
 };
 
 const WhyChoose = ({
@@ -21,6 +27,7 @@ const WhyChoose = ({
   headline,
   description,
   iconOverrides = {},
+  itemText = {},
 }: Props = {}) => {
   const src = imageUrl || defaultWhyChoose;
   const isRemote = Boolean(imageUrl);
@@ -37,26 +44,40 @@ const WhyChoose = ({
           <BoxWhyChoose
             icon={iconOverrides.attractions || attractions.src}
             isRemote={Boolean(iconOverrides.attractions)}
-            title="Wide Range of Attractions"
-            description="Discover unique experiences and iconic destinations across the whole of Asia with our curated tours."
+            title={itemText.attractions?.headline || "Wide Range of Attractions"}
+            description={
+              itemText.attractions?.description ||
+              "Discover unique experiences and iconic destinations across the whole of Asia with our curated tours."
+            }
           />
           <BoxWhyChoose
             icon={iconOverrides.support || great.src}
             isRemote={Boolean(iconOverrides.support)}
-            title="Exceptional Customer Support"
-            description="Questions or doubts? Our dedicated support team is available 24/7 and always ready to help you!"
+            title={
+              itemText.support?.headline || "Exceptional Customer Support"
+            }
+            description={
+              itemText.support?.description ||
+              "Questions or doubts? Our dedicated support team is available 24/7 and always ready to help you!"
+            }
           />
           <BoxWhyChoose
             icon={iconOverrides.value || best.src}
             isRemote={Boolean(iconOverrides.value)}
-            title="Best Value for Money"
-            description="Get the most out of your budget with our tours. We guarantee the best quality and value for your money."
+            title={itemText.value?.headline || "Best Value for Money"}
+            description={
+              itemText.value?.description ||
+              "Get the most out of your budget with our tours. We guarantee the best quality and value for your money."
+            }
           />
           <BoxWhyChoose
             icon={iconOverrides.booking || super1.src}
             isRemote={Boolean(iconOverrides.booking)}
-            title="Hassle-Free Booking"
-            description="Select and secure your perfect trip easily and efficiently, letting us handle the logistics."
+            title={itemText.booking?.headline || "Hassle-Free Booking"}
+            description={
+              itemText.booking?.description ||
+              "Select and secure your perfect trip easily and efficiently, letting us handle the logistics."
+            }
           />
         </div>
       </div>
