@@ -8,11 +8,11 @@ import Link from "next/link";
 
 const page = () => {
   return (
-    <div className="w-full h-screen bg-[#FFF3E1] flex items-center  relative">
-      <div className="max-w-lg bg-white h-max w-full z-20 mx-auto p-16 rounded-2xl flex flex-col items-center gap-12">
-        <Image src={keyforgot} alt="" width={170} height={170} />
+    <div className="w-full min-h-screen bg-[#FFF3E1] flex items-center relative px-4 py-8">
+      <div className="max-w-lg bg-white h-max w-full z-20 mx-auto p-5 sm:p-10 lg:p-16 rounded-2xl flex flex-col items-center gap-8 lg:gap-12">
+        <Image src={keyforgot} alt="" width={170} height={170} className="w-32 sm:w-[170px] h-auto" />
         <div className="text-center flex flex-col gap-4 leading-none">
-          <h5 className="font-bold text-[40px]">Forgot Password</h5>
+          <h5 className="font-bold text-3xl sm:text-[40px]">Forgot Password</h5>
           <span className="text-xs">
             No worries, we'll send you reset instructions.
           </span>

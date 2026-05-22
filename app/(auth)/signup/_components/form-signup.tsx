@@ -174,7 +174,7 @@ const FormSignUp = ({ onSuccess }: FormSignUpProps = {}) => {
   return (
     <>
       {step === 0 && (
-        <div className="flex flex-col gap-4 max-w-md mx-auto">
+        <div className="flex flex-col gap-4 max-w-md w-full mx-auto">
           <span className="font-semibold text-[28px] text-center">Sign up</span>
           <form
             onSubmit={handleSubmit}
@@ -267,11 +267,13 @@ const FormSignUp = ({ onSuccess }: FormSignUpProps = {}) => {
       )}
 
       {step === 1 && (
-        <div className="flex flex-col items-center space-y-4 bg-white p-6 rounded-xl mx-auto ">
+        <div className="flex flex-col items-center space-y-4 bg-white p-0 sm:p-6 rounded-xl mx-auto w-full max-w-sm min-w-0">
           <p className="text-gray-700 font-semibold text-xl text-center">
             กรุณายืนยัน OTP
           </p>
-          <p className="text-sm text-gray-500">OTP ส่งไปยัง {sign.email}</p>
+          <p className="text-sm text-gray-500 text-center max-w-full break-words">
+            OTP ส่งไปยัง {sign.email}
+          </p>
           <p className="text-sm text-gray-500">
             หมดเวลาใน <span className="font-mono">{formatTime(timeLeft)}</span>
           </p>
@@ -281,31 +283,32 @@ const FormSignUp = ({ onSuccess }: FormSignUpProps = {}) => {
             pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
             value={valueOtp}
             onChange={(value) => setValueOtp(value)}
+            containerClassName="w-full justify-center"
           >
-            <InputOTPGroup className="flex justify-center gap-3">
+            <InputOTPGroup className="grid w-full max-w-[304px] grid-cols-6 gap-2 sm:gap-3">
               <InputOTPSlot
                 index={0}
-                className="w-12 h-12 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-lg"
+                className="h-11 w-full min-w-0 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base sm:h-12 sm:text-lg"
               />
               <InputOTPSlot
                 index={1}
-                className="w-12 h-12 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-lg"
+                className="h-11 w-full min-w-0 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base sm:h-12 sm:text-lg"
               />
               <InputOTPSlot
                 index={2}
-                className="w-12 h-12 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-lg"
+                className="h-11 w-full min-w-0 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base sm:h-12 sm:text-lg"
               />
               <InputOTPSlot
                 index={3}
-                className="w-12 h-12 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-lg"
+                className="h-11 w-full min-w-0 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base sm:h-12 sm:text-lg"
               />
               <InputOTPSlot
                 index={4}
-                className="w-12 h-12 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-lg"
+                className="h-11 w-full min-w-0 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base sm:h-12 sm:text-lg"
               />
               <InputOTPSlot
                 index={5}
-                className="w-12 h-12 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-lg"
+                className="h-11 w-full min-w-0 text-center rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base sm:h-12 sm:text-lg"
               />
             </InputOTPGroup>
           </InputOTP>
