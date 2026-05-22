@@ -11,7 +11,7 @@ import BeachPackages from "./_components/beach-packages";
 import FeaturedBlogs from "./_components/featured-blogs";
 import api from "@/server";
 import { listDestinations } from "@/lib/destinations-api";
-import { getSiteImages } from "@/lib/site-images";
+import { getSiteCms } from "@/lib/site-images";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -33,11 +33,12 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [{ data: tour }, destinations, siteImages] = await Promise.all([
+  const [{ data: tour }, destinations, siteCms] = await Promise.all([
     api.tour.getTour(),
     listDestinations().catch(() => []),
-    getSiteImages(),
+    getSiteCms(),
   ]);
+  const { content: siteContent, images: siteImages } = siteCms;
 
   // Resolve admin-managed slot overrides once at the top so we don't refetch
   // for each consumer further down the tree.
@@ -48,6 +49,7 @@ export default async function Home() {
   ];
   const hereHelpImage = siteImages["home.here_help.image"];
   const whyChooseImage = siteImages["home.why_choose.image"];
+  const text = (key: string) => siteContent[key];
 
   // Fetch beach tours server-side (no CORS issues)
   let beachTours: typeof tour = [];
@@ -80,19 +82,79 @@ export default async function Home() {
 
   return (
     <div className="overflow-hidden" suppressHydrationWarning>
-      <HeroSection slideOverrides={heroSlideOverrides} />
+      <HeroSection
+        slideOverrides={heroSlideOverrides}
+        headline={text("home.hero")?.headline}
+        description={text("home.hero")?.description}
+      />
       <div className="w-full py-10 xl:py-20 flex flex-col gap-10 xl:gap-32 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
         <Trending destinations={destinations} />
-        <Adventure />
-        <Packages tours={tour} />
-        <WhyChoose imageUrl={whyChooseImage?.url} />
-        <BaseService />
-        <BeachPackages tours={beachTours} />
-        <FollowFantasiaasia />
-        <FeaturedBlogs />
-        <Client hereHelpImageUrl={hereHelpImage?.url} hereHelpImageAlt={hereHelpImage?.alt} />
+        <Adventure
+          headline={text("home.adventure")?.headline}
+          description={text("home.adventure")?.description}
+          iconOverrides={{
+            beach: siteImages["home.adventure.icon.beach"]?.url,
+            culture: siteImages["home.adventure.icon.culture"]?.url,
+            nature: siteImages["home.adventure.icon.nature"]?.url,
+            local: siteImages["home.adventure.icon.local"]?.url,
+            cities: siteImages["home.adventure.icon.cities"]?.url,
+            wellness: siteImages["home.adventure.icon.wellness"]?.url,
+          }}
+        />
+        <Packages
+          tours={tour}
+          title={text("home.popular_packages")?.headline}
+          description={text("home.popular_packages")?.description}
+        />
+        <WhyChoose
+          imageUrl={whyChooseImage?.url}
+          headline={text("home.why_choose")?.headline}
+          description={text("home.why_choose")?.description}
+          iconOverrides={{
+            attractions: siteImages["home.why_choose.icon.attractions"]?.url,
+            support: siteImages["home.why_choose.icon.support"]?.url,
+            value: siteImages["home.why_choose.icon.value"]?.url,
+            booking: siteImages["home.why_choose.icon.booking"]?.url,
+          }}
+        />
+        <BaseService
+          headline={text("home.base_services")?.headline}
+          description={text("home.base_services")?.description}
+          iconOverrides={{
+            support: siteImages["home.base_services.icon.support"]?.url,
+            accommodation:
+              siteImages["home.base_services.icon.accommodation"]?.url,
+            planning: siteImages["home.base_services.icon.planning"]?.url,
+            tailorMade:
+              siteImages["home.base_services.icon.tailor_made"]?.url,
+          }}
+        />
+        <BeachPackages
+          tours={beachTours}
+          title={text("home.beach_packages")?.headline}
+          description={text("home.beach_packages")?.description}
+        />
+        <FollowFantasiaasia
+          iconUrl={siteImages["home.follow_youtube.icon"]?.url}
+          headline={text("home.follow_youtube")?.headline}
+          description={text("home.follow_youtube")?.description}
+        />
+        <FeaturedBlogs
+          headline={text("home.featured_blogs")?.headline}
+          description={text("home.featured_blogs")?.description}
+        />
+        <Client
+          hereHelpImageUrl={hereHelpImage?.url}
+          hereHelpImageAlt={hereHelpImage?.alt}
+          headline={text("home.testimonials")?.headline}
+          description={text("home.testimonials")?.description}
+        />
       </div>
-      <JoinNewSletter />
+      <JoinNewSletter
+        imageUrl={siteImages["site.newsletter.background"]?.url}
+        headline={text("site.newsletter")?.headline}
+        description={text("site.newsletter")?.description}
+      />
     </div>
   );
 }

@@ -29,10 +29,12 @@ const countryImages: Record<string, string> = {
 };
 
 const HeroLayout = ({
+  aspectRatio,
   image,
   title,
   className,
 }: {
+  aspectRatio?: string;
   image?: string;
   title?: string;
   className?: string;
@@ -46,12 +48,16 @@ const HeroLayout = ({
 
   return (
     <div className={cn("w-full relative", className)}>
-      {/* Image container - full width, natural aspect ratio */}
-      <div className="w-full relative">
+      {/* Image container - fixed aspect when provided so CMS uploads cannot
+          change the page layout. */}
+      <div
+        className="w-full relative overflow-hidden"
+        style={aspectRatio ? { aspectRatio } : undefined}
+      >
         <img
           src={banner}
           alt={title || country || "Hero banner"}
-          className="w-full h-auto block"
+          className={aspectRatio ? "w-full h-full object-cover block" : "w-full h-auto block"}
         />
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-white from-5% to-transparent" />
@@ -67,4 +73,3 @@ const HeroLayout = ({
 };
 
 export default HeroLayout;
-

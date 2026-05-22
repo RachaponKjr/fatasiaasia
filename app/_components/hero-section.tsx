@@ -29,9 +29,11 @@ const quotes = [
 type Props = {
   /** Optional admin overrides — one entry per default slide, same length. */
   slideOverrides?: HeroSlideOverride[];
+  headline?: string;
+  description?: string;
 };
 
-const HeroSection = ({ slideOverrides }: Props = {}) => {
+const HeroSection = ({ slideOverrides, headline, description }: Props = {}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quoteIndex, setQuoteIndex] = useState(0);
 
@@ -96,7 +98,7 @@ const HeroSection = ({ slideOverrides }: Props = {}) => {
       <div className="max-w-6xl flex flex-col items-center gap-6 md:gap-9 z-10 px-4">
         {/* Main Slogan - H1 for SEO */}
         <h1 className="text-white text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-center leading-tight">
-          No matter where you're going, we'll take you there.
+          {headline || "No matter where you're going, we'll take you there."}
         </h1>
 
         {/* Social Proof */}
@@ -106,7 +108,7 @@ const HeroSection = ({ slideOverrides }: Props = {}) => {
             <span className="text-white font-semibold text-sm md:text-base">200+ travelers</span>
           </div>
           <span className="text-white/80 text-xs md:text-sm text-center sm:text-left">
-            booked a tour in the last 24 hours.
+            {description || "booked a tour in the last 24 hours."}
           </span>
         </div>
 

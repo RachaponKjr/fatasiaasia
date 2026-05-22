@@ -10,6 +10,7 @@ import {
   listBlogPosts,
   estimateReadTime,
 } from "@/lib/articles-api";
+import { getSiteCms } from "@/lib/site-images";
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -46,8 +47,12 @@ const BlogPostPage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const post = await getBlogPostBySlug(slug);
+  const [post, siteCms] = await Promise.all([
+    getBlogPostBySlug(slug),
+    getSiteCms(),
+  ]);
   if (!post) notFound();
+  const { content: siteContent, images: siteImages } = siteCms;
 
   const publishedAt = post.publishedAt || post.createdAt;
   const readTime = estimateReadTime(post.content);
@@ -188,7 +193,11 @@ const BlogPostPage = async ({
         </section>
       )}
 
-      <JoinNewSletter />
+      <JoinNewSletter
+        imageUrl={siteImages["site.newsletter.background"]?.url}
+        headline={siteContent["site.newsletter"]?.headline}
+        description={siteContent["site.newsletter"]?.description}
+      />
     </>
   );
 };

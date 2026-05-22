@@ -10,42 +10,52 @@ import luxury from "@/assets/images/adventure/luxury.png";
 import wellness from "@/assets/images/adventure/wellness.png";
 import Image from "next/image";
 
-const Adventure = () => {
+type Props = {
+  headline?: string;
+  description?: string;
+  iconOverrides?: Record<string, string | undefined>;
+};
+
+const Adventure = ({ headline, description, iconOverrides = {} }: Props = {}) => {
   const adventureList = [
     {
       name: "Sea, beaches and islands",
-      icon: adventure,
+      icon: iconOverrides.beach || adventure.src,
       slug: "beach",
     },
     {
       name: "Culture, History and Traditions",
-      icon: culture,
+      icon: iconOverrides.culture || culture.src,
       slug: "culture",
     },
     {
       name: "Nature",
-      icon: beach,
+      icon: iconOverrides.nature || beach.src,
       slug: "nature",
     },
     {
       name: "Local Experiences",
-      icon: rest,
+      icon: iconOverrides.local || rest.src,
       slug: "local",
     },
     {
       name: "Cities and modernity",
-      icon: luxury,
+      icon: iconOverrides.cities || luxury.src,
       slug: "cities",
     },
     {
       name: "Wellness and spirituality",
-      icon: wellness,
+      icon: iconOverrides.wellness || wellness.src,
       slug: "wellness",
     },
   ];
 
   return (
-    <LayoutSection title="Adventure & Activity" link="/tours">
+    <LayoutSection
+      title={headline || "Adventure & Activity"}
+      description={description}
+      link="/tours"
+    >
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
         {adventureList.map((item, i) => (
           <Link
@@ -57,9 +67,10 @@ const Adventure = () => {
               <Image
                 src={item.icon}
                 alt={item.name}
-                width={item.slug === "nature" ? 150 : item.slug === "cities" ? 100 : 120}
-                height={item.slug === "nature" ? 150 : item.slug === "cities" ? 100 : 120}
-                className={item.slug === "nature" ? "scale-140" : ""}
+                fill
+                sizes="120px"
+                className="object-contain"
+                unoptimized={Boolean(iconOverrides[item.slug])}
               />
             </div>
             <span className="text-[#333333] font-semibold text-sm text-center">

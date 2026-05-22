@@ -13,17 +13,33 @@ import paypal from "@/assets/images/payment/paypal.png";
 
 import footerBg from "@/assets/images/footer-bg.webp";
 
-const Footer = () => {
+type FooterProps = {
+  footerBackgroundUrl?: string;
+  logoUrl?: string;
+  paymentIcons?: {
+    mastercard?: string;
+    omise?: string;
+    paypal?: string;
+    visa?: string;
+  };
+};
+
+const Footer = ({
+  footerBackgroundUrl,
+  logoUrl,
+  paymentIcons = {},
+}: FooterProps = {}) => {
   return (
     <div className="relative overflow-hidden">
       <div className="py-10 md:py-16 lg:py-20 px-4 md:px-6 lg:px-0 container mx-auto flex md:flex-row flex-col gap-8 md:gap-12 lg:gap-0 relative items-start z-10">
         <div className="max-w-xs flex flex-col items-start gap-4 md:gap-6">
           <Image
-            src={"/logo.png"}
+            src={logoUrl || "/logo.png"}
             alt="logo-webside"
             width={280}
             height={280}
-            className="w-[200px] md:w-[240px] lg:w-[280px]"
+            className="w-[200px] md:w-[240px] lg:w-[280px] h-auto object-contain"
+            unoptimized={Boolean(logoUrl)}
           />
           <Link href="/tours">
             <h6 className="text-2xl md:text-3xl font-semibold text-[#333333] hover:text-main transition-colors cursor-pointer">
@@ -96,21 +112,37 @@ const Footer = () => {
                 <div className="flex gap-2 items-center">
                   <div className="w-[120px] h-[50px] relative ">
                     <Image
-                      src={omise}
+                      src={paymentIcons.omise || omise.src}
                       alt="omise"
                       fill
-                      className="object-cover"
+                      className="object-contain"
+                      unoptimized={Boolean(paymentIcons.omise)}
                     />
                   </div>
-                  <Image src={visa} alt="omise" width={40} height={40} />
                   <Image
-                    src={mastercard}
-                    alt="omise"
+                    src={paymentIcons.visa || visa.src}
+                    alt="visa"
                     width={40}
                     height={40}
-                    className="rounded"
+                    className="h-10 w-10 object-contain"
+                    unoptimized={Boolean(paymentIcons.visa)}
                   />
-                  <Image src={paypal} alt="omise" width={40} height={40} />
+                  <Image
+                    src={paymentIcons.mastercard || mastercard.src}
+                    alt="mastercard"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 rounded object-contain"
+                    unoptimized={Boolean(paymentIcons.mastercard)}
+                  />
+                  <Image
+                    src={paymentIcons.paypal || paypal.src}
+                    alt="paypal"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 object-contain"
+                    unoptimized={Boolean(paymentIcons.paypal)}
+                  />
                 </div>
               </div>
             </div>
@@ -118,11 +150,12 @@ const Footer = () => {
         </div>
       </div>
       <Image
-        src={footerBg}
+        src={footerBackgroundUrl || footerBg.src}
         alt="footerbg"
         width={850}
         height={500}
-        className="absolute -top-20 -right-55 z-0 opacity-[7%]"
+        className="absolute -top-20 -right-55 z-0 opacity-[7%] object-contain"
+        unoptimized={Boolean(footerBackgroundUrl)}
       />
       <div className="w-full h-[1px] bg-[#C5C5C5]" />
       <div></div>

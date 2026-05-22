@@ -6,10 +6,11 @@ import destinationhero from "@/assets/images/destination/destination-hero.webp";
 import JoinNewSletter from "@/components/join-newsletter";
 import TourCard from "@/components/tour-card";
 import api from "@/server";
-import { getSiteImage } from "@/lib/site-images";
+import { getSiteCms } from "@/lib/site-images";
 
 const BeachToursPage = async () => {
-    const heroOverride = await getSiteImage("beach_tours.hero.image");
+    const { content: siteContent, images: siteImages } = await getSiteCms();
+    const intro = siteContent["beach_tours.intro"];
     let beachTours: any[] = [];
 
     try {
@@ -43,18 +44,20 @@ const BeachToursPage = async () => {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <HeroLayout image={heroOverride?.url || destinationhero.src} title="Beach Tours" />
+            <HeroLayout
+                image={siteImages["beach_tours.hero.image"]?.url || destinationhero.src}
+                title="Beach Tours"
+                aspectRatio="1920 / 823"
+            />
             <div className="w-full xl:pt-[150px] xl:pb-[200px] py-10 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
                 {/* Title and Description Section */}
                 <div className="flex flex-col items-center mb-16">
                     <h3 className="font-bold text-xl md:text-4xl mb-9 text-center">
-                        Discover Our Beach Tour Packages
+                        {intro?.headline || "Discover Our Beach Tour Packages"}
                     </h3>
                     <p className="font-light text-lg md:text-2xl text-[#585858] leading-relaxed text-center max-w-5xl">
-                        Escape to paradise with our exclusive beach tour packages. From the pristine shores of
-                        Thailand to the tropical islands of Indonesia, experience the most beautiful beaches
-                        Asia has to offer. Crystal clear waters, white sandy beaches, and unforgettable
-                        sunsets await you on these handpicked beach adventures.
+                        {intro?.description ||
+                            "Escape to paradise with our exclusive beach tour packages. From the pristine shores of Thailand to the tropical islands of Indonesia, experience the most beautiful beaches Asia has to offer. Crystal clear waters, white sandy beaches, and unforgettable sunsets await you on these handpicked beach adventures."}
                     </p>
                 </div>
 
@@ -72,7 +75,11 @@ const BeachToursPage = async () => {
                     </div>
                 )}
             </div>
-            <JoinNewSletter />
+            <JoinNewSletter
+                imageUrl={siteImages["site.newsletter.background"]?.url}
+                headline={siteContent["site.newsletter"]?.headline}
+                description={siteContent["site.newsletter"]?.description}
+            />
         </Suspense>
     );
 };

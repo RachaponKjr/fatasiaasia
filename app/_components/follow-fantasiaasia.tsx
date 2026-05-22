@@ -14,7 +14,13 @@ interface VideoItem {
   url: string;
 }
 
-const FollowFantasiaasia = () => {
+type Props = {
+  description?: string;
+  headline?: string;
+  iconUrl?: string;
+};
+
+const FollowFantasiaasia = ({ description, headline, iconUrl }: Props = {}) => {
   const [videos, setVideos] = useState<VideoItem[]>([]);
   const [mainVideo, setMainVideo] = useState<string>("AhneBfQjRg4");
   const [loading, setLoading] = useState(true);
@@ -124,15 +130,23 @@ const FollowFantasiaasia = () => {
         <div className="bg-white !px-4 xl:px-14 py-10 xl:py-20 md:rounded-3xl flex flex-col gap-4 xl:gap-14">
           <div className="flex items-center justify-center gap-4">
             <Image
-              src={youtube}
+              src={iconUrl || youtube.src}
               alt=""
               width={70}
               height={70}
-              className="w-[50px] h-[50px] md:w-[70px] md:h-[70px]"
+              className="w-[50px] h-[50px] md:w-[70px] md:h-[70px] object-contain"
+              unoptimized={Boolean(iconUrl)}
             />
-            <h3 className="text-[#333333] font-bold text-nowrap text-xl xl:text-[42px]">
-              Follow Fantasiaasia on Youtube
-            </h3>
+            <div className="flex flex-col gap-2 text-center xl:text-left">
+              <h3 className="text-[#333333] font-bold text-xl xl:text-[42px]">
+                {headline || "Follow Fantasiaasia on Youtube"}
+              </h3>
+              {description && (
+                <p className="text-sm xl:text-lg text-[#585858]">
+                  {description}
+                </p>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col-reverse xl:flex-row gap-4 ">

@@ -10,7 +10,15 @@ import ArrowRight from "@/assets/icons/arrow-right";
 import { Tour } from "@/types/tour.type";
 import TourCard from "@/components/tour-card";
 
-const BeachPackages = ({ tours }: { tours: Tour[] }) => {
+const BeachPackages = ({
+  description,
+  title,
+  tours,
+}: {
+  description?: string;
+  title?: string;
+  tours: Tour[];
+}) => {
   // If no beach tours, don't show the section
   if (!tours || tours.length === 0) return null;
 
@@ -18,7 +26,11 @@ const BeachPackages = ({ tours }: { tours: Tour[] }) => {
   const displayTours = [...tours, ...tours];
 
   return (
-    <LayoutSection link="/beach-tours" title="Beach Tour Packages">
+    <LayoutSection
+      link="/beach-tours"
+      title={title || "Beach Tour Packages"}
+      description={description}
+    >
       <div className="w-full h-auto relative group">
         <Swiper
           modules={[Autoplay, Navigation]}

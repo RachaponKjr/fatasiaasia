@@ -8,12 +8,24 @@ import ArrowRight from "@/assets/icons/arrow-right";
 import TourCard from "@/components/tour-card";
 import { Tour } from "@/types/tour.type";
 
-const Packages = ({ tours }: { tours: Tour[] }) => {
+const Packages = ({
+  description,
+  title,
+  tours,
+}: {
+  description?: string;
+  title?: string;
+  tours: Tour[];
+}) => {
   // Duplicate tours to ensure enough items for looping and "add more" feel
   const displayTours = tours ? [...tours, ...tours] : [];
 
   return (
-    <LayoutSection link="/tours?category=popular" title="Popular Tour Packages">
+    <LayoutSection
+      link="/tours?category=popular"
+      title={title || "Popular Tour Packages"}
+      description={description}
+    >
       <div className="w-full h-auto relative group">
         <Swiper
           modules={[Autoplay, Navigation]}

@@ -22,6 +22,15 @@ type RawSlot = {
   defaultUrl?: string;
 };
 
+type RawContentSlot = {
+  key: string;
+  headline: string;
+  description: string;
+  customHeadline?: string;
+  customDescription?: string;
+  isCustom?: boolean;
+};
+
 type ApiEnvelope<T> = { code: number; message: string; data: T };
 
 export type SiteImage = {
@@ -31,34 +40,70 @@ export type SiteImage = {
 
 export type SiteImagesMap = Record<string, SiteImage>;
 
+export type SiteContent = {
+  headline: string;
+  description: string;
+};
+
+export type SiteContentMap = Record<string, SiteContent>;
+
+export type SiteCms = {
+  images: SiteImagesMap;
+  content: SiteContentMap;
+};
+
 /**
- * Fetches the full slot map. Revalidates every 60s on the Next.js side so
- * admin uploads propagate within a minute without a redeploy.
+ * Fetches the full CMS slot map. Revalidates every 60s on the Next.js side so
+ * admin uploads/content edits propagate within a minute without a redeploy.
  *
- * Returns an empty map on failure — callers fall back to bundled defaults.
+ * Returns empty maps on failure — callers fall back to bundled defaults.
  */
-export async function getSiteImages(): Promise<SiteImagesMap> {
+export async function getSiteCms(): Promise<SiteCms> {
   try {
     const res = await fetch(`${ADMIN_BASE_URL}/site-images`, {
       next: { revalidate: 60, tags: ["site-images"] },
     });
-    if (!res.ok) return {};
-    const body = (await res.json()) as ApiEnvelope<{ slots: RawSlot[] }>;
-    if (body.code !== 2000 || !body.data?.slots) return {};
+    if (!res.ok) return { images: {}, content: {} };
+    const body = (await res.json()) as ApiEnvelope<{
+      slots: RawSlot[];
+      contentSlots?: RawContentSlot[];
+    }>;
+    if (body.code !== 2000 || !body.data?.slots) {
+      return { images: {}, content: {} };
+    }
 
-    const out: SiteImagesMap = {};
+    const images: SiteImagesMap = {};
     for (const s of body.data.slots) {
       // Only surface admin overrides — if no override is set, leave the slot
       // empty so the component uses its bundled default import (which keeps
       // Next.js static optimization + blur placeholders working).
       if (s.isCustom && s.customUrl) {
-        out[s.key] = { url: s.customUrl, alt: s.alt || "" };
+        images[s.key] = { url: s.customUrl, alt: s.alt || "" };
       }
     }
-    return out;
+
+    const content: SiteContentMap = {};
+    for (const s of body.data.contentSlots ?? []) {
+      if (s.isCustom) {
+        content[s.key] = {
+          headline: s.customHeadline ?? s.headline ?? "",
+          description: s.customDescription ?? s.description ?? "",
+        };
+      }
+    }
+
+    return { images, content };
   } catch {
-    return {};
+    return { images: {}, content: {} };
   }
+}
+
+export async function getSiteImages(): Promise<SiteImagesMap> {
+  return (await getSiteCms()).images;
+}
+
+export async function getSiteContent(): Promise<SiteContentMap> {
+  return (await getSiteCms()).content;
 }
 
 /**
@@ -66,5 +111,12 @@ export async function getSiteImages(): Promise<SiteImagesMap> {
  */
 export async function getSiteImage(key: string): Promise<SiteImage | undefined> {
   const all = await getSiteImages();
+  return all[key];
+}
+
+export async function getSiteContentSlot(
+  key: string
+): Promise<SiteContent | undefined> {
+  const all = await getSiteContent();
   return all[key];
 }

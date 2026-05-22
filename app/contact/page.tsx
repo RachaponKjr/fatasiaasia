@@ -8,22 +8,28 @@ import Mail2Icon from "@/assets/icons/mail2";
 import HeroLayout from "../about/_components/hero-about";
 import contactUs from "@/assets/images/banner/contactUs.webp";
 import ContactForm from "./_components/contact-form";
-import { getSiteImage } from "@/lib/site-images";
+import { getSiteCms } from "@/lib/site-images";
 
 const page = async () => {
-  const heroOverride = await getSiteImage("contact.hero.image");
+  const { content: siteContent, images: siteImages } = await getSiteCms();
+  const intro = siteContent["contact.intro"];
   return (
     <>
-      <HeroLayout image={heroOverride?.url || contactUs.src} title="Contact Us" />
+      <HeroLayout
+        image={siteImages["contact.hero.image"]?.url || contactUs.src}
+        title="Contact Us"
+        aspectRatio="1344 / 768"
+      />
       <div className="overflow-hidden">
         <div className="py-10 xl:py-28 w-full grid grid-cols-1 xl:grid-cols-2 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24 gap-14 h-max">
           <div className="text-[#333333] flex">
             <div className="flex flex-col justify-between gap-4 relative">
               <h2 className="text-2xl xl:text-4xl font-bold">
-                Get in Touch With Us
+                {intro?.headline || "Get in Touch With Us"}
               </h2>
               <p className=" text-lg xl:text-xl  max-w-sm md:max-w-full font-normal">
-                Questions, comments, or suggestions? Simply fill out the form to the right, and we will be in touch shortly.
+                {intro?.description ||
+                  "Questions, comments, or suggestions? Simply fill out the form to the right, and we will be in touch shortly."}
               </p>
               <div className="flex flex-col gap-2 xl:gap-4">
                 <div className="flex flex-row gap-3">
@@ -45,7 +51,14 @@ const page = async () => {
                   </span>
                 </div>
                 <div className="flex flex-row gap-3">
-                  <Image src={whatapp} alt="" width={30} height={30} />
+                  <Image
+                    src={siteImages["contact.whatsapp.icon"]?.url || whatapp.src}
+                    alt=""
+                    width={30}
+                    height={30}
+                    className="h-[30px] w-[30px] object-contain"
+                    unoptimized={Boolean(siteImages["contact.whatsapp.icon"]?.url)}
+                  />
                   <span className="font-bold text-lg xl:text-xl">
                     +66 62 242 3997
                   </span>
@@ -71,7 +84,11 @@ const page = async () => {
           </div>
           <ContactForm />
         </div>
-        <JoinNewSletter />
+        <JoinNewSletter
+          imageUrl={siteImages["site.newsletter.background"]?.url}
+          headline={siteContent["site.newsletter"]?.headline}
+          description={siteContent["site.newsletter"]?.description}
+        />
       </div>
     </>
   );

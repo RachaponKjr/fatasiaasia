@@ -7,30 +7,47 @@ import base from "@/assets/icons/baseservices/base.png";
 import religious from "@/assets/icons/baseservices/religious.png";
 import medical from "@/assets/icons/baseservices/medical.png";
 
-const BaseService = () => {
+type Props = {
+  headline?: string;
+  description?: string;
+  iconOverrides?: Record<string, string | undefined>;
+};
+
+const BaseService = ({ headline, description, iconOverrides = {} }: Props = {}) => {
   const bestservices = [
     {
       title: "24/7 Travel Support",
-      image: guided.src,
+      image: iconOverrides.support || guided.src,
+      overrideKey: "support",
     },
     {
       title: "Handpicked Accommodations",
-      image: base.src,
+      image: iconOverrides.accommodation || base.src,
+      overrideKey: "accommodation",
     },
     {
       title: "Stress-Free Travel Planning",
-      image: religious.src,
+      image: iconOverrides.planning || religious.src,
+      overrideKey: "planning",
     },
     {
       title: "Tailor-Made Itineraries",
-      image: medical.src,
+      image: iconOverrides.tailorMade || medical.src,
+      overrideKey: "tailorMade",
     },
   ];
   return (
     <div className="flex flex-col items-center justify-center gap-8 xl:gap-10">
-      <h4 className="font-bold text-3xl xl:text-4xl text-[#333333]">
-        We Offer Best Services
-      </h4>
+      <div className="flex flex-col items-center gap-2 text-center">
+        <h4 className="font-bold text-3xl xl:text-4xl text-[#333333]">
+          {headline || "We Offer Best Services"}
+        </h4>
+        {description && (
+          <p className="text-sm xl:text-lg text-[#585858] max-w-3xl">
+            {description}
+          </p>
+        )}
+      </div>
       <div className="grid grid-cols-2 xl:grid-cols-4 justify-between w-full min-h-[324px]">
         {bestservices.map((item, i) => (
           <div
@@ -42,8 +59,8 @@ const BaseService = () => {
                 src={item.image}
                 alt={item.title}
                 fill
-                objectFit="cover"
-                objectPosition="center"
+                className="object-contain object-center"
+                unoptimized={Boolean(iconOverrides[item.overrideKey])}
               />
             </div>
             <h4 className="text-[#333333] font-semibold text-sm xl:text-base text-center">

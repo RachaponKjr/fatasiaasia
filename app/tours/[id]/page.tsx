@@ -6,14 +6,16 @@ import HereHelp from "@/app/_components/here-help";
 import AlsoLike from "./_components/also-like";
 import InfomationTour from "./_components/infomation-tour";
 import api from "@/server";
-import { getSiteImage } from "@/lib/site-images";
+import { getSiteCms } from "@/lib/site-images";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
-  const [{ data: tour }, hereHelpImage] = await Promise.all([
+  const [{ data: tour }, siteCms] = await Promise.all([
     api.tour.getTourDetail({ tourId: Number(id) }),
-    getSiteImage("home.here_help.image"),
+    getSiteCms(),
   ]);
+  const { content: siteContent, images: siteImages } = siteCms;
+  const hereHelpImage = siteImages["home.here_help.image"];
   return (
     <>
       <div className="container mx-auto px-4 xl:px-0 py-10 xl:py-20 flex gap-4 xl:gap-8 flex-col 2xl:px-20">
@@ -26,7 +28,11 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           <AlsoLike currentTour={tour} />
         </div>
       </div>
-      <JoinNewSletter />
+      <JoinNewSletter
+        imageUrl={siteImages["site.newsletter.background"]?.url}
+        headline={siteContent["site.newsletter"]?.headline}
+        description={siteContent["site.newsletter"]?.description}
+      />
     </>
   );
 };

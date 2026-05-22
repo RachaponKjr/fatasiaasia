@@ -92,9 +92,16 @@ type ClientProps = {
    *  of this testimonials block (slot key `home.here_help.image`). */
   hereHelpImageUrl?: string;
   hereHelpImageAlt?: string;
+  headline?: string;
+  description?: string;
 };
 
-const Client = ({ hereHelpImageUrl, hereHelpImageAlt }: ClientProps = {}) => {
+const Client = ({
+  description,
+  headline,
+  hereHelpImageAlt,
+  hereHelpImageUrl,
+}: ClientProps = {}) => {
   const [userTestimonials, setUserTestimonials] = useState<Testimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -145,8 +152,13 @@ const Client = ({ hereHelpImageUrl, hereHelpImageAlt }: ClientProps = {}) => {
       <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 w-full">
         <div className="flex flex-col gap-4 lg:min-w-md">
           <h3 className="font-bold text-2xl sm:text-3xl lg:text-[40px] text-[#333333] leading-tight">
-            What our clients are saying about us?
+            {headline || "What our clients are saying about us?"}
           </h3>
+          {description && (
+            <p className="text-sm xl:text-lg text-[#585858]">
+              {description}
+            </p>
+          )}
         </div>
 
         {/* Testimonials Swiper */}

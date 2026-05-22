@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import SmoothScroll from "@/components/smooth-scroll";
 import CookieConsent from "@/components/cookie-consent";
+import { getSiteImages } from "@/lib/site-images";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,20 +33,32 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteImages = await getSiteImages();
+  const logoUrl = siteImages["site.logo"]?.url;
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SmoothScroll />
-        <Navbar />
+        <Navbar logoUrl={logoUrl} />
         {children}
-        <Footer />
+        <Footer
+          footerBackgroundUrl={siteImages["site.footer.background"]?.url}
+          logoUrl={logoUrl}
+          paymentIcons={{
+            mastercard: siteImages["site.payment.mastercard"]?.url,
+            omise: siteImages["site.payment.omise"]?.url,
+            paypal: siteImages["site.payment.paypal"]?.url,
+            visa: siteImages["site.payment.visa"]?.url,
+          }}
+        />
         <CookieConsent />
         <Toaster />
       </body>

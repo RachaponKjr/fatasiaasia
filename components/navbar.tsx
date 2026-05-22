@@ -177,7 +177,7 @@ const HoverDropdown = ({
   );
 };
 
-const Navbar = () => {
+const Navbar = ({ logoUrl }: { logoUrl?: string } = {}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authStatus, setAuthStatus] = useState<string | null>(null);
   const [navbarAvatar, setNavbarAvatar] = useState<string | null>(null);
@@ -264,11 +264,12 @@ const Navbar = () => {
       {/* Logo */}
       <div className="flex-1">
         <Image
-          src={"/logo.png"}
+          src={logoUrl || "/logo.png"}
           alt="logo-webside"
           width={200}
           height={200}
-          className="cursor-pointer"
+          className="cursor-pointer h-auto object-contain"
+          unoptimized={Boolean(logoUrl)}
           onClick={() => router.push("/")}
         />
       </div>
@@ -525,11 +526,12 @@ const Navbar = () => {
             {/* Close button */}
             <div className="flex justify-between items-center mb-4">
               <Image
-                src={"/logo.png"}
+                src={logoUrl || "/logo.png"}
                 alt="logo"
                 width={150}
                 height={50}
-                className="cursor-pointer"
+                className="cursor-pointer h-auto object-contain"
+                unoptimized={Boolean(logoUrl)}
                 onClick={() => {
                   setMobileMenuOpen(false);
                   router.push("/");

@@ -35,11 +35,12 @@ const HereHelp = ({ imageUrl, imageAlt }: Props = {}) => {
         <Image
           src={imageUrl || "/NewATT2.png"}
           alt={imageAlt || "Transportation Services"}
-          width={1600}
-          height={500}
-          className="w-full h-auto object-cover"
+          fill
+          sizes="(max-width: 1280px) 100vw, 1280px"
+          className="object-cover"
           unoptimized={Boolean(imageUrl)}
         />
+        <div className="w-full aspect-[1920/718]" />
         <div
           className="absolute bottom-6 right-6 xl:bottom-10 xl:right-10"
           onMouseEnter={handleMouseEnter}
@@ -96,4 +97,3 @@ const HereHelp = ({ imageUrl, imageAlt }: Props = {}) => {
 };
 
 export default HereHelp;
-

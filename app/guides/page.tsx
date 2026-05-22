@@ -4,6 +4,7 @@ import HeroLayout from "../about/_components/hero-about";
 import JoinNewSletter from "@/components/join-newsletter";
 import destinationhero from "@/assets/images/destination/destination-hero.webp";
 import { listTravelGuides } from "@/lib/articles-api";
+import { getSiteCms } from "@/lib/site-images";
 
 export const metadata = {
   title: "Travel Guides | Fantasia Asia",
@@ -16,19 +17,28 @@ export const revalidate = 3600;
 const FALLBACK_COVER = "/assets/images/destination/Thai.webp";
 
 const GuidesIndex = async () => {
-  const guides = await listTravelGuides();
+  const [guides, siteCms] = await Promise.all([
+    listTravelGuides(),
+    getSiteCms(),
+  ]);
+  const { content: siteContent, images: siteImages } = siteCms;
+  const intro = siteContent["guides.intro"];
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <HeroLayout image={destinationhero.src} title="Travel Guides" />
+      <HeroLayout
+        image={siteImages["guides.hero.image"]?.url || destinationhero.src}
+        title="Travel Guides"
+        aspectRatio="1920 / 823"
+      />
       <div className="w-full xl:pt-[120px] xl:pb-[160px] py-10 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
         <div className="flex flex-col items-center mb-12">
           <h3 className="font-bold text-xl md:text-4xl mb-6 text-center">
-            Free Destination Guides
+            {intro?.headline || "Free Destination Guides"}
           </h3>
           <p className="font-light text-lg md:text-xl text-[#585858] leading-relaxed text-center max-w-3xl">
-            Practical PDF guides written by our team — beaches, food, transport
-            and what not to miss.
+            {intro?.description ||
+              "Practical PDF guides written by our team — beaches, food, transport and what not to miss."}
           </p>
         </div>
 
@@ -99,7 +109,11 @@ const GuidesIndex = async () => {
           </div>
         )}
       </div>
-      <JoinNewSletter />
+      <JoinNewSletter
+        imageUrl={siteImages["site.newsletter.background"]?.url}
+        headline={siteContent["site.newsletter"]?.headline}
+        description={siteContent["site.newsletter"]?.description}
+      />
     </Suspense>
   );
 };

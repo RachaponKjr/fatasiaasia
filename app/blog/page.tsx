@@ -5,7 +5,7 @@ import HeroLayout from "../about/_components/hero-about";
 import JoinNewSletter from "@/components/join-newsletter";
 import destinationhero from "@/assets/images/destination/destination-hero.webp";
 import { listBlogPosts, estimateReadTime } from "@/lib/articles-api";
-import { getSiteImage } from "@/lib/site-images";
+import { getSiteCms } from "@/lib/site-images";
 
 export const metadata = {
   title: "Travel Blog | Fantasia Asia",
@@ -25,15 +25,21 @@ const formatDate = (d: string) =>
   });
 
 const BlogIndex = async () => {
-  const [posts, heroOverride] = await Promise.all([
+  const [posts, siteCms] = await Promise.all([
     listBlogPosts(),
-    getSiteImage("blog.hero.image"),
+    getSiteCms(),
   ]);
+  const { content: siteContent, images: siteImages } = siteCms;
+  const intro = siteContent["blog.intro"];
   const [featured, ...rest] = posts;
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <HeroLayout image={heroOverride?.url || destinationhero.src} title="Travel Blog" />
+      <HeroLayout
+        image={siteImages["blog.hero.image"]?.url || destinationhero.src}
+        title="Travel Blog"
+        aspectRatio="1920 / 823"
+      />
 
       <div className="w-full xl:pt-[100px] xl:pb-[140px] py-10 px-4 sm:px-6 lg:px-10 xl:px-16 2xl:px-24">
         <div className="flex flex-col items-center mb-12 text-center">
@@ -41,11 +47,11 @@ const BlogIndex = async () => {
             The Journal
           </span>
           <h3 className="font-bold text-2xl md:text-4xl mb-4">
-            Stories &amp; Inspiration
+            {intro?.headline || "Stories & Inspiration"}
           </h3>
           <p className="font-light text-base md:text-xl text-[#585858] leading-relaxed max-w-3xl">
-            Insider tips, cultural deep-dives and travel stories from across
-            Asia — written by the Fantasia Asia team.
+            {intro?.description ||
+              "Insider tips, cultural deep-dives and travel stories from across Asia — written by the Fantasia Asia team."}
           </p>
         </div>
 
@@ -149,7 +155,11 @@ const BlogIndex = async () => {
           </>
         )}
       </div>
-      <JoinNewSletter />
+      <JoinNewSletter
+        imageUrl={siteImages["site.newsletter.background"]?.url}
+        headline={siteContent["site.newsletter"]?.headline}
+        description={siteContent["site.newsletter"]?.description}
+      />
     </Suspense>
   );
 };

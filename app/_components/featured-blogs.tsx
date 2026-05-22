@@ -5,7 +5,13 @@ import { listBlogPosts, estimateReadTime } from "@/lib/articles-api";
 
 const FALLBACK_COVER = "/blog/thailand.webp";
 
-const FeaturedBlogs = async () => {
+const FeaturedBlogs = async ({
+  description,
+  headline,
+}: {
+  description?: string;
+  headline?: string;
+} = {}) => {
   const posts = (await listBlogPosts()).slice(0, 3);
 
   if (posts.length === 0) return null;
@@ -17,10 +23,11 @@ const FeaturedBlogs = async () => {
           From the journal
         </span>
         <h3 className="font-bold text-2xl md:text-4xl">
-          Stories &amp; Inspiration
+          {headline || "Stories & Inspiration"}
         </h3>
         <p className="font-light text-base md:text-lg text-[#585858] max-w-2xl">
-          Insider tips, cultural deep-dives and travel stories from across Asia.
+          {description ||
+            "Insider tips, cultural deep-dives and travel stories from across Asia."}
         </p>
       </div>
 

@@ -25,8 +25,8 @@ const BoxDetail = ({
           src={image}
           alt=""
           fill
-          objectFit="cover"
-          objectPosition="bottom"
+          className="object-cover object-bottom"
+          unoptimized={image.startsWith("http")}
         />
       </div>
       <div className="max-w-xl flex flex-col gap-4 xl:gap-6">

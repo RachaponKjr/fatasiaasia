@@ -19,7 +19,7 @@ import brunei from "@/assets/images/destination/brunei.webp";
 import Uzbekistan from "@/assets/images/destination/Uzbekistan.jpg";
 
 import { listDestinations } from "@/lib/destinations-api";
-import { getSiteImage } from "@/lib/site-images";
+import { getSiteCms } from "@/lib/site-images";
 
 const FALLBACK_IMAGES: Record<string, string> = {
   thailand: thai.src,
@@ -40,23 +40,28 @@ const PLACEHOLDER_IMAGE =
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='500'><rect width='400' height='500' fill='%23e5e7eb'/><text x='50%25' y='50%25' fill='%236b7280' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle'>No image</text></svg>";
 
 const page = async () => {
-  const [destinations, heroOverride] = await Promise.all([
+  const [destinations, siteCms] = await Promise.all([
     listDestinations(),
-    getSiteImage("destinations.hero.image"),
+    getSiteCms(),
   ]);
+  const { content: siteContent, images: siteImages } = siteCms;
+  const intro = siteContent["destinations.intro"];
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <HeroLayout image={heroOverride?.url || destinationhero.src} title="Destinations" />
+      <HeroLayout
+        image={siteImages["destinations.hero.image"]?.url || destinationhero.src}
+        title="Destinations"
+        aspectRatio="1920 / 823"
+      />
       <div className="container mx-auto xl:pt-[150px] xl:pb-[200px] py-10 px-4 xl:px-0">
         {/* Title and Description Section */}
         <div className="flex flex-col items-center mb-16">
           <h3 className="font-bold text-xl md:text-4xl mb-9 text-center">
-            Explore Asia: Unforgettable Journeys Await
+            {intro?.headline || "Explore Asia: Unforgettable Journeys Await"}
           </h3>
           <p className="font-light text-lg md:text-2xl text-[#585858] leading-relaxed text-center max-w-5xl">
-            From the spiritual peaks of the Himalayas to the ancient wonders of Southeast Asia, your next
-            incredible journey begins here. Discover our handpicked destinations and start planning your
-            perfect, tailor-made adventure today.
+            {intro?.description ||
+              "From the spiritual peaks of the Himalayas to the ancient wonders of Southeast Asia, your next incredible journey begins here. Discover our handpicked destinations and start planning your perfect, tailor-made adventure today."}
           </p>
         </div>
 
@@ -76,7 +81,11 @@ const page = async () => {
           })}
         </div>
       </div>
-      <JoinNewSletter />
+      <JoinNewSletter
+        imageUrl={siteImages["site.newsletter.background"]?.url}
+        headline={siteContent["site.newsletter"]?.headline}
+        description={siteContent["site.newsletter"]?.description}
+      />
     </Suspense>
   );
 };
