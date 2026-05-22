@@ -53,15 +53,15 @@ export type SiteCms = {
 };
 
 /**
- * Fetches the full CMS slot map. Revalidates every 60s on the Next.js side so
- * admin uploads/content edits propagate within a minute without a redeploy.
+ * Fetches the full CMS slot map. This is intentionally uncached so admin
+ * image and text edits are visible on the public website immediately.
  *
  * Returns empty maps on failure — callers fall back to bundled defaults.
  */
 export async function getSiteCms(): Promise<SiteCms> {
   try {
     const res = await fetch(`${ADMIN_BASE_URL}/site-images`, {
-      next: { revalidate: 60, tags: ["site-images"] },
+      cache: "no-store",
     });
     if (!res.ok) return { images: {}, content: {} };
     const body = (await res.json()) as ApiEnvelope<{
