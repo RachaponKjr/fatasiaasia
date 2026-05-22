@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import PayForm from "./_components/pay-form";
 import PaymentTabs from "./_components/payment-tabs";
@@ -17,12 +17,14 @@ const ADMIN_API =
 
 type PayData = {
   bookingRef: string;
+  bookingId: number;
   tourTitle: string;
   customerName: string;
   amount: number;
   currency: string;
   bookingStatus: string;
   omisePublicKey: string;
+  redirectUrl?: string;
 };
 
 function symbolFor(code: string): string {
@@ -67,6 +69,15 @@ export default async function PayPage({
 
   const isPaid = data.bookingStatus === "paid";
   const isAwaitingPayment = data.bookingStatus === "confirmed";
+  const bookingChatUrl =
+    data.redirectUrl ||
+    (data.bookingId
+      ? `/profile/booking/${data.bookingId}?payment=success#booking-chat`
+      : "/profile");
+
+  if (isPaid) {
+    redirect(bookingChatUrl);
+  }
 
   return (
     <div className="min-h-screen bg-[#F8F4EE] text-[#333333]">
@@ -128,6 +139,7 @@ export default async function PayPage({
                   currency={data.currency}
                   omisePublicKey={data.omisePublicKey}
                   adminApi={ADMIN_API}
+                  successRedirectUrl={bookingChatUrl}
                 />
               ) : (
                 <PayForm
@@ -136,6 +148,7 @@ export default async function PayPage({
                   currency={data.currency}
                   omisePublicKey={data.omisePublicKey}
                   adminApi={ADMIN_API}
+                  successRedirectUrl={bookingChatUrl}
                 />
               )}
             </div>

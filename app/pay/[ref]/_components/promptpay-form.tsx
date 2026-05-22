@@ -6,6 +6,7 @@ type Props = {
   bookingRef: string;
   amount: number;
   adminApi: string;
+  successRedirectUrl: string;
 };
 
 type GenerateResp = {
@@ -16,14 +17,20 @@ type GenerateResp = {
     qrImageUri?: string;
     expiresAt?: string; // RFC3339 — Omise charge expiry
     reused?: boolean;   // true if backend handed back an existing pending charge
+    redirectUrl?: string;
   };
 };
 
 type StatusResp = {
-  data?: { bookingStatus?: string };
+  data?: { bookingStatus?: string; redirectUrl?: string };
 };
 
-export default function PromptPayForm({ bookingRef, amount, adminApi }: Props) {
+export default function PromptPayForm({
+  bookingRef,
+  amount,
+  adminApi,
+  successRedirectUrl,
+}: Props) {
   const [qr, setQr] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -53,7 +60,9 @@ export default function PromptPayForm({ bookingRef, amount, adminApi }: Props) {
         if (body.data?.bookingStatus === "paid") {
           setDone(true);
           setWaitingPayment(false);
-          setTimeout(() => window.location.reload(), 1200);
+          setTimeout(() => {
+            window.location.assign(body.data?.redirectUrl || successRedirectUrl);
+          }, 700);
         }
       } catch {
         // transient — keep polling
@@ -65,7 +74,7 @@ export default function PromptPayForm({ bookingRef, amount, adminApi }: Props) {
       cancelled = true;
       if (pollRef.current) window.clearInterval(pollRef.current);
     };
-  }, [waitingPayment, adminApi, bookingRef]);
+  }, [waitingPayment, adminApi, bookingRef, successRedirectUrl]);
 
   // Tick once a second while a QR is showing so the countdown re-renders.
   // Stops on success, expiry, or unmount.
@@ -99,6 +108,11 @@ export default function PromptPayForm({ bookingRef, amount, adminApi }: Props) {
         { method: "POST", headers: { "Content-Type": "application/json" } }
       );
       const body = (await res.json().catch(() => ({}))) as GenerateResp;
+      if (body.data?.status === "successful") {
+        setDone(true);
+        window.location.assign(body.data.redirectUrl || successRedirectUrl);
+        return;
+      }
       if (!res.ok || !body.data?.qrImageUri) {
         setError(body.message || "Could not generate PromptPay QR. Please try again.");
         setGenerating(false);
@@ -128,7 +142,7 @@ export default function PromptPayForm({ bookingRef, amount, adminApi }: Props) {
           ✓
         </div>
         <p className="font-semibold text-green-800">Payment received</p>
-        <p className="text-xs text-green-700">Refreshing…</p>
+        <p className="text-xs text-green-700">Opening your booking chat...</p>
       </div>
     );
   }

@@ -11,6 +11,7 @@ type Props = {
   currency: string;
   omisePublicKey: string;
   adminApi: string;
+  successRedirectUrl: string;
 };
 
 // Tabs only render when PromptPay is offered (THB). For other currencies
@@ -21,6 +22,7 @@ export default function PaymentTabs({
   currency,
   omisePublicKey,
   adminApi,
+  successRedirectUrl,
 }: Props) {
   const [tab, setTab] = useState<"card" | "promptpay">("card");
 
@@ -66,12 +68,14 @@ export default function PaymentTabs({
           currency={currency}
           omisePublicKey={omisePublicKey}
           adminApi={adminApi}
+          successRedirectUrl={successRedirectUrl}
         />
       ) : (
         <PromptPayForm
           bookingRef={bookingRef}
           amount={amount}
           adminApi={adminApi}
+          successRedirectUrl={successRedirectUrl}
         />
       )}
     </div>

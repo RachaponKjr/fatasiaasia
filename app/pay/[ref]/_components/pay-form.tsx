@@ -29,6 +29,7 @@ type Props = {
   currency: string;
   omisePublicKey: string;
   adminApi: string;
+  successRedirectUrl: string;
 };
 
 function symbolFor(code: string): string {
@@ -54,6 +55,7 @@ export default function PayForm({
   currency,
   omisePublicKey,
   adminApi,
+  successRedirectUrl,
 }: Props) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -177,6 +179,7 @@ export default function PayForm({
         data?: {
           status?: "successful" | "pending" | "failed";
           authorizeUri?: string;
+          redirectUrl?: string;
           failureMessage?: string;
         };
       };
@@ -188,10 +191,11 @@ export default function PayForm({
       const result = body.data;
       if (result?.status === "successful") {
         setDone("successful");
-        // Reload so the page server-renders the "Payment received" view.
+        // Move the customer straight back into their booking chat once the
+        // charge is confirmed, so they are not stranded on the payment form.
         setTimeout(() => {
-          window.location.reload();
-        }, 1200);
+          window.location.assign(result.redirectUrl || successRedirectUrl);
+        }, 700);
         return;
       }
       if (result?.status === "pending" && result.authorizeUri) {
@@ -322,7 +326,7 @@ export default function PayForm({
           className="w-full rounded-lg bg-[#BD3E2B] px-4 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-[#A1331E] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {done === "successful"
-            ? "Payment received ✓"
+            ? "Payment received. Opening chat..."
             : submitting
               ? "Processing…"
               : `Pay ${symbolFor(currency)}${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}

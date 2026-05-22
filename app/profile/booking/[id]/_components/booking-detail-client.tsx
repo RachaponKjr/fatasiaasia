@@ -507,7 +507,10 @@ export default function BookingDetailClient({
         </aside>
 
         {/* CENTER — chat (the star) */}
-        <section className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[calc(100vh-180px)] min-h-[560px]">
+        <section
+          id="booking-chat"
+          className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[calc(100vh-180px)] min-h-[560px]"
+        >
           <header className="px-5 py-4 border-b border-gray-100 flex items-center gap-3">
             <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[#BD3E2B] to-[#8c2c1e] text-white flex items-center justify-center font-bold shadow-sm">
               FA
