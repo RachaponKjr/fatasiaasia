@@ -1,6 +1,5 @@
 "use client";
 
-import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 
 // Minimal type shim for the omise.js global so we don't pull in any extra
@@ -31,6 +30,8 @@ type Props = {
   adminApi: string;
   successRedirectUrl: string;
 };
+
+const OMISE_SCRIPT_SRC = "https://cdn.omise.co/omise.js";
 
 function symbolFor(code: string): string {
   switch ((code || "").toUpperCase()) {
@@ -71,15 +72,64 @@ export default function PayForm({
   // navigation back to the page) — re-check on mount.
   const keyAppliedRef = useRef(false);
   useEffect(() => {
-    if (window.Omise && !keyAppliedRef.current) {
+    let cancelled = false;
+    let timeoutId: number | undefined;
+
+    const applyPublicKey = () => {
+      if (cancelled || !window.Omise) return;
       try {
         window.Omise.setPublicKey(omisePublicKey);
         keyAppliedRef.current = true;
         setOmiseReady(true);
       } catch {
-        // ignore — onLoad handler will retry
+        if (!cancelled) {
+          setError("Could not initialize payment library.");
+        }
       }
+    };
+
+    setOmiseReady(false);
+    keyAppliedRef.current = false;
+
+    if (window.Omise) {
+      applyPublicKey();
+      return () => {
+        cancelled = true;
+      };
     }
+
+    let script = document.querySelector<HTMLScriptElement>(
+      `script[src="${OMISE_SCRIPT_SRC}"]`
+    );
+    if (!script) {
+      script = document.createElement("script");
+      script.src = OMISE_SCRIPT_SRC;
+      script.async = true;
+      script.dataset.omiseJs = "true";
+      document.head.appendChild(script);
+    }
+
+    const handleError = () => {
+      if (!cancelled) {
+        setError("Could not initialize payment library.");
+      }
+    };
+
+    script.addEventListener("load", applyPublicKey);
+    script.addEventListener("error", handleError);
+
+    timeoutId = window.setTimeout(() => {
+      if (!cancelled && !window.Omise) {
+        handleError();
+      }
+    }, 10000);
+
+    return () => {
+      cancelled = true;
+      if (timeoutId) window.clearTimeout(timeoutId);
+      script.removeEventListener("load", applyPublicKey);
+      script.removeEventListener("error", handleError);
+    };
   }, [omisePublicKey]);
 
   function handleNumberChange(v: string) {
@@ -218,20 +268,6 @@ export default function PayForm({
 
   return (
     <>
-      <Script
-        src="https://cdn.omise.co/omise.js"
-        strategy="afterInteractive"
-        onLoad={() => {
-          try {
-            window.Omise?.setPublicKey(omisePublicKey);
-            keyAppliedRef.current = true;
-            setOmiseReady(true);
-          } catch {
-            setError("Could not initialize payment library.");
-          }
-        }}
-      />
-
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
